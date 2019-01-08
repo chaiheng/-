@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">MVPDemo</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_phone">手机号码</string>
+    <string name="prompt_authcode">输入验证码</string>
+    <string name="prompt_pa">输入密码</string>
+    <string name="prompt_affirm_pass">确认密码</string>
+    <string name="prompt_Invitation_code">邀请码(必填)</string>
+    <string name="send_authcode">发送验证码</string>
+    <string name="forget_pa">忘记密码</string>
+    <string name="nickname_hint">昵称</string>
+    <string name="error_gif">不能加载GIF</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="digits">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+</resources>

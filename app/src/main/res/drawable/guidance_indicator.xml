@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- pressed -->
+    <item android:state_selected="true">
+        <shape android:shape="oval">
+            <size
+                    android:width="7dp"
+                    android:height="7dp"/>
+            <solid android:color="@color/colorGray8">
+            </solid>
+        </shape>
+
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <size
+                    android:height="7dp"
+                    android:width="7dp"/>
+            <solid android:color="@color/colorGray7">
+            </solid>
+        </shape>
+
+    </item>
+</selector>

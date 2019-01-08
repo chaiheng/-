@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00000000</color>
+    <color name="colorPrimaryDark">#00000000</color>
+    <color name="colorAccent">#D7AB6C</color>
+    <!--文字白色-->
+    <color name="colorGray7">#D8D8D8</color>
+    <color name="colorGray8">#464336</color>
+    <color name="lgandreg_bg">#242A34</color>
+    <color name="titlecolor">#222222</color>
+    <color name="colorfff">#ffffff</color>
+    <color name="edit_underline">#f2f2f2</color>
+</resources>

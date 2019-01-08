@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <paths>
+            <root-path
+                name="camera_photos"
+                path="" />
+            <external-path
+                name="my_images"
+                path="Android/data/com.example.administrator.chain100.fileprovider/files/Pictures" />
+
+            <external-path name="gdt_sdk_download_path" path="GDTDOWNLOAD" />
+        </paths>
+    </paths>
+</resources>
