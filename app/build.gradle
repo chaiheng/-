@@ -59,7 +59,7 @@ dependencies {0
     //    barnner
     api 'com.youth.banner:banner:1.4.10'
     api 'org.greenrobot:eventbus:3.0.0'
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     //圆形图片
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     //指示器
