@@ -67,7 +67,7 @@ dependencies {0
 
     //内存泄漏检测
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 
     //刷新控件
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-7'
