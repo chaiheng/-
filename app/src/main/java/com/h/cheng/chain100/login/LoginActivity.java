@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView,TextWatcher {
+public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView, TextWatcher {
 
     @BindView(R.id.header_back)
     ImageView headerBack;
@@ -187,18 +187,18 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         if (!CheckUtils.validatePhone(et_phone.getText().toString())) {
             showtoast("请输入正确的手机号码");
             return false;
-        } else if (!CheckUtils.validatePhonePass(password.getText().toString())) {
-            showtoast("密码必须是6-18位字母加数字组合");
-            return false;
         } else if (authcode.getText().toString().trim().length() < 6) {
             showtoast("请输入6位验证码");
+            return false;
+        } else if (!CheckUtils.validatePhonePass(password.getText().toString())) {
+            showtoast("密码必须是6-18位字母加数字组合");
             return false;
         }
         return true;
     }
 
     public void CheckBtn() {
-        if (CheckUtils.validatePhone(et_phone.getText().toString()) && CheckUtils.validatePhonePass(password.getText().toString()) && authcode.getText().toString().trim().length() == 6) {
+        if (et_phone.getText().toString().length() > 0 && password.getText().toString().length() > 0 && authcode.getText().toString().trim().length() > 0) {
             tvLogin.getBackground().setAlpha(Alpha_255);
             tvLogin.setEnabled(true);
         } else {

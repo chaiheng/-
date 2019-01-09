@@ -12,6 +12,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -77,4 +78,5 @@ dependencies {0
     //    二维码 扫一扫
     api 'cn.yipianfengye.android:zxing-library:2.2'
     implementation 'com.roughike:bottom-bar:2.3.1'
+    implementation 'com.airbnb.android:lottie:2.7.0'
 }

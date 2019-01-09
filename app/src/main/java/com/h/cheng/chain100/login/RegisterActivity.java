@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterView,TextWatcher {
+public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterView, TextWatcher {
 
     @BindView(R.id.header_back)
     ImageView headerBack;
@@ -114,11 +114,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         if (!CheckUtils.validatePhone(etPhone.getText().toString())) {
             showtoast("请输入正确的手机号码");
             return false;
-        } else if (!CheckUtils.validatePhonePass(password.getText().toString())) {
-            showtoast("密码必须是6-18位字母加数字组合");
-            return false;
         } else if (authcode.getText().toString().trim().length() < 6) {
             showtoast("请输入6位验证码");
+            return false;
+        } else if (!CheckUtils.validatePhonePass(password.getText().toString())) {
+            showtoast("密码必须是6-18位字母加数字组合");
             return false;
         } else if (!CheckUtils.validatePhonePass(affirmPassword.getText().toString())) {
             showtoast("密码必须是6-18位字母加数字组合");
@@ -134,7 +134,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     }
 
     public void CheckBtn() {
-        if (CheckUtils.validatePhone(etPhone.getText().toString()) && CheckUtils.validatePhonePass(password.getText().toString()) && CheckUtils.validatePhonePass(affirmPassword.getText().toString()) && authcode.getText().toString().trim().length() == 6 && InvitationCode.getText().toString().length() > 0) {
+        if (etPhone.getText().toString().length() > 0 && password.getText().toString().length() > 0 && affirmPassword.getText().toString().length() > 0 && authcode.getText().toString().trim().length() > 0 && InvitationCode.getText().toString().length() > 0) {
             tvRegister.getBackground().setAlpha(LoginActivity.Alpha_255);
             tvRegister.setEnabled(true);
         } else {

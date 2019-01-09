@@ -120,7 +120,7 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
     }
 
     public void CheckBtn() {
-        if (CheckUtils.validatePhone(etPhone.getText().toString()) && CheckUtils.validatePhonePass(password.getText().toString()) && CheckUtils.validatePhonePass(affirmPassword.getText().toString()) && authcode.getText().toString().trim().length() == 6) {
+        if (etPhone.getText().toString().length()>0 && password.getText().toString().length()>0 && affirmPassword.getText().toString().length()>0 && authcode.getText().toString().trim().length()>0) {
             tvFindpass.getBackground().setAlpha(LoginActivity.Alpha_255);
             tvFindpass.setEnabled(true);
         } else {
