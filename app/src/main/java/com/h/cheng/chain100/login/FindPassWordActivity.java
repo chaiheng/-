@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implements FindPassView {
+public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implements FindPassView, TextWatcher {
 
     @BindView(R.id.header_back)
     ImageView headerBack;
@@ -72,70 +72,10 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
         affirmPassword.setFilters(new InputFilter[]{new EmojiInputFilter(), new InputFilter.LengthFilter(18)});
         tvFindpass.getBackground().setAlpha(LoginActivity.Alpha_120);
         tvFindpass.setEnabled(false);
-        etPhone.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        authcode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        affirmPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        etPhone.addTextChangedListener(this);
+        password.addTextChangedListener(this);
+        authcode.addTextChangedListener(this);
+        affirmPassword.addTextChangedListener(this);
     }
 
 
@@ -242,5 +182,19 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
         }
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        CheckBtn();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 }
 

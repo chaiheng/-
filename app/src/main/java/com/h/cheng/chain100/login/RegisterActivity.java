@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterView {
+public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterView,TextWatcher {
 
     @BindView(R.id.header_back)
     ImageView headerBack;
@@ -81,86 +81,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         tvLogin.setText(Html.fromHtml(str));
         tvRegister.getBackground().setAlpha(LoginActivity.Alpha_120);
         tvRegister.setEnabled(false);
-        etPhone.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        authcode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        affirmPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        InvitationCode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        etPhone.addTextChangedListener(this);
+        password.addTextChangedListener(this);
+        authcode.addTextChangedListener(this);
+        affirmPassword.addTextChangedListener(this);
+        InvitationCode.addTextChangedListener(this);
     }
 
 
@@ -269,6 +194,21 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        CheckBtn();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
 

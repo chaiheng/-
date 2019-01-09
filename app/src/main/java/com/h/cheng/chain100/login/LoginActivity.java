@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView {
+public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView,TextWatcher {
 
     @BindView(R.id.header_back)
     ImageView headerBack;
@@ -105,38 +105,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
             }
         });
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        authcode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CheckBtn();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        password.addTextChangedListener(this);
+        authcode.addTextChangedListener(this);
     }
 
 
@@ -237,5 +207,19 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        CheckBtn();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 }
 
