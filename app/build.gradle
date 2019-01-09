@@ -30,18 +30,18 @@ dependencies {0
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    compile 'com.google.code.gson:gson:2.8.2'
-    compile 'com.squareup.okhttp3:okhttp:3.11.0'
-    compile 'com.yanzhenjie:permission:1.0.5'
-    compile 'com.squareup.retrofit2:retrofit:2.4.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.16'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.yanzhenjie:permission:1.0.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
     //ConverterFactory的String依赖包
-    compile 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
     //ConverterFactory的Gson依赖包
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     //CallAdapterFactory的Rx依赖包
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -76,5 +76,5 @@ dependencies {0
     api 'com.zhihu.android:matisse:0.5.1-beta1'
     //    二维码 扫一扫
     api 'cn.yipianfengye.android:zxing-library:2.2'
-    compile 'com.roughike:bottom-bar:2.3.1'
+    implementation 'com.roughike:bottom-bar:2.3.1'
 }
