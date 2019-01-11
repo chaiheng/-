@@ -1,28 +1,22 @@
 package com.h.cheng.chain100.start;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.h.cheng.chain100.Constant;
 import com.h.cheng.chain100.R;
-import com.h.cheng.chain100.base.BaseFragmentV2;
-import com.h.cheng.chain100.login.LoginActivity;
+import com.h.cheng.chain100.base.BaseFragment;
 import com.h.cheng.chain100.login.LoginAndRegsterActivity;
 import com.h.cheng.chain100.utils.SharedPreferencesUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * 引导页
  */
 
-public class GuidanceFragment extends BaseFragmentV2 {
+public class GuidanceFragment extends BaseFragment {
     @BindView(R.id.iv_guidance)
     ImageView ivGuidance;
     private int page;

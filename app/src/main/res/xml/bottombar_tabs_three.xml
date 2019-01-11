@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
-        icon="@mipmap/ic_favorites"
-        id="@+id/tab_favorites"
-        title="Favorites" />
+        icon="@drawable/hot_tab"
+        id="@+id/tab_hot"
+        title="热点"
+        />
     <tab
-        icon="@mipmap/ic_nearby"
-        id="@+id/tab_nearby"
-        title="Nearby" />
+        icon="@drawable/dynamic_tab"
+        id="@+id/tab_dynamic"
+        title="动态" />
     <tab
-        icon="@mipmap/ic_friends"
-        id="@+id/tab_friends"
-        title="Friends" />
+        icon="@drawable/task_tab"
+        id="@+id/tab_task"
+        title="任务" />
+    <tab
+        icon="@drawable/my_tab"
+        id="@+id/tab_my"
+        title="我的" />
 </tabs>

@@ -3,19 +3,28 @@ package com.h.cheng.chain100.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 
 import com.h.cheng.chain100.Constant;
 import com.h.cheng.chain100.MyApplication;
 import com.h.cheng.chain100.R;
+import com.h.cheng.chain100.adapter.ViewPagerAdapter;
 import com.h.cheng.chain100.base.BaseActivity;
 import com.h.cheng.chain100.downfile.FilePresenter;
+import com.h.cheng.chain100.home.DynamicFragment;
+import com.h.cheng.chain100.home.HotIssueFragment;
+import com.h.cheng.chain100.home.MyFragment;
+import com.h.cheng.chain100.home.TaskFragment;
 import com.h.cheng.chain100.login.LoginActivity;
 import com.h.cheng.chain100.utils.SharedPreferencesUtil;
+import com.h.cheng.chain100.view.NoScrollViewPager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,11 +32,13 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.messageView)
-    TextView messageView;
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
+    @BindView(R.id.main_viewpager)
+    NoScrollViewPager mainViewpager;
 
+    private ViewPagerAdapter mViewPagerAdapter;
+    private ArrayList<Fragment> mFragments = new ArrayList<>();
 
     @Override
     protected FilePresenter createPresenter() {
@@ -42,20 +53,77 @@ public class MainActivity extends BaseActivity {
 
     public void initView() {
         MyApplication.getInstance().exit();
+        mFragments.add(HotIssueFragment.newInstance());
+        mFragments.add(DynamicFragment.newInstance());
+        mFragments.add(TaskFragment.newInstance());
+        mFragments.add(MyFragment.newInstance());
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments, null);
+        mainViewpager.setAdapter(mViewPagerAdapter);
+        mainViewpager.setOffscreenPageLimit(mFragments.size());
+        mainViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                switch (i) {
+                    case 0:
+                        bottomBar.selectTabWithId(R.id.tab_hot);
+                        break;
+                    case 1:
+                        bottomBar.selectTabWithId(R.id.tab_dynamic);
+                        break;
+                    case 2:
+                        bottomBar.selectTabWithId(R.id.tab_task);
+                        break;
+                    case 3:
+                        bottomBar.selectTabWithId(R.id.tab_my);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
+                selectTab(tabId);
             }
         });
 
         bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
+                selectTab(tabId);
             }
         });
 
-        BottomBarTab nearby = bottomBar.getTabWithId(R.id.tab_nearby);
-        nearby.setBadgeCount(5);
+//        BottomBarTab nearby = bottomBar.getTabWithId(R.id.tab_nearby);
+//        nearby.setBadgeCount(5);
+    }
+
+    private void selectTab(@IdRes int tabId) {
+        switch (tabId) {
+            case R.id.tab_hot:
+                mainViewpager.setCurrentItem(0, false);
+                break;
+            case R.id.tab_dynamic:
+                mainViewpager.setCurrentItem(1, false);
+                break;
+
+            case R.id.tab_task:
+                mainViewpager.setCurrentItem(2, false);
+                break;
+
+            case R.id.tab_my:
+                mainViewpager.setCurrentItem(3, false);
+                break;
+        }
     }
 
 
@@ -66,13 +134,4 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.messageView)
-    public void onViewClicked() {
-        //退出登录
-        startActivity(new Intent(this, LoginActivity.class));
-        SharedPreferencesUtil.getInstance().saveInfo(Constant.IS_SETUSER, false);
-        SharedPreferencesUtil.getInstance().saveInfo(Constant.IS_LOGIN, false);
-        SharedPreferencesUtil.getInstance().saveInfo(Constant.API_TOKEN, "");
-        finish();
-    }
 }

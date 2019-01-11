@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorfff"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_header" />
+
+    <RelativeLayout
+        android:id="@+id/rl_feedback"
+        style="@style/setting_rl">
+
+        <TextView
+            style="@style/setting_tab_text"
+            android:text="意见反馈" />
+
+        <ImageView
+            style="@style/setting_img"
+            android:src="@mipmap/ic_right" />
+
+    </RelativeLayout>
+
+    <View style="@style/setting_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_clear"
+        style="@style/setting_rl">
+
+        <TextView
+            style="@style/setting_tab_text"
+            android:text="清除缓存" />
+
+        <TextView
+            style="@style/setting_tab_text"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/iv_r"
+            android:text="15kb"
+            android:textColor="#999999" />
+
+        <ImageView
+            android:id="@+id/iv_r"
+            style="@style/setting_img"
+            android:src="@mipmap/ic_right" />
+
+    </RelativeLayout>
+
+    <View style="@style/setting_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_about"
+        style="@style/setting_rl">
+
+        <TextView
+            style="@style/setting_tab_text"
+            android:text="关于CHAIN" />
+
+        <ImageView
+            style="@style/setting_img"
+            android:src="@mipmap/ic_right" />
+
+    </RelativeLayout>
+
+    <View style="@style/setting_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_exit"
+        style="@style/setting_rl">
+
+        <TextView
+            style="@style/setting_tab_text"
+            android:text="退出登录" />
+
+        <ImageView
+            style="@style/setting_img"
+            android:src="@mipmap/ic_right" />
+
+    </RelativeLayout>
+
+    <View style="@style/setting_line" />
+</LinearLayout>

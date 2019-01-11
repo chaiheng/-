@@ -8,4 +8,5 @@
     <dimen name="edit_text_size">16dp</dimen>
     <dimen name="grid_expected_size">120dp</dimen>
     <dimen name="underline_mg_top">5dp</dimen>
+    <dimen name="my_tab_size">15dp</dimen>
 </resources>
