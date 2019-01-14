@@ -22,4 +22,9 @@
         completions."
     </string>
     <string name="digits">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="please_pay_passwd">请输入支付密码</string>
+    <string name="pay_sure">确认支付</string>
 </resources>

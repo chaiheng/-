@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.h.cheng.chain100.statusbar.UtilsStatusBar;
@@ -28,6 +29,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         super.onCreate(savedInstanceState);
         UtilsStatusBar.setStatusBar(this, false, true);
         UtilsStyle.setStatusBarMode(this, true);
+        Log.e("activity","activity----"+getClass().getName());
         context = this;
         setContentView(getLayoutId());
         presenter = createPresenter();
