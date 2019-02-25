@@ -249,7 +249,7 @@ public class SeparatedEditText extends androidx.appcompat.widget.AppCompatEditTe
                 postInvalidate();
             }
         };*/
-        executorService = new ScheduledThreadPoolExecutor(01);
+        executorService = new ScheduledThreadPoolExecutor(1);
 //        timer = new Timer();
 
     }
