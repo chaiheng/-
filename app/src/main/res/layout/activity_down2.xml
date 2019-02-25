@@ -9,7 +9,8 @@
     <SeekBar
         android:id="@+id/sb_down"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
 
 
     <TextView
@@ -18,14 +19,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="0%"
-        app:layout_constraintTop_toBottomOf="@id/sb_down" />
+        app:layout_constraintTop_toBottomOf="@id/sb_down"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/btn_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="start"
-        app:layout_constraintTop_toBottomOf="@id/tv_down" />
+        app:layout_constraintTop_toBottomOf="@id/tv_down"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/btn_cancl"
