@@ -3,7 +3,7 @@ package com.h.cheng.chain100.base;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,7 +12,6 @@ import com.h.cheng.chain100.statusbar.UtilsStyle;
 import com.h.cheng.chain100.utils.ToastUtil;
 
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements BaseView {
     public Context context;

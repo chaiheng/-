@@ -25,7 +25,7 @@
             android:paddingLeft="35dp"
             android:paddingRight="35dp">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp">
@@ -42,7 +42,7 @@
                     android:textColorHint="#999999"
                     android:textSize="@dimen/edit_text_size" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7">
@@ -73,7 +73,7 @@
                         android:textColorHint="#999999"
                         android:textSize="@dimen/edit_text_size" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:id="@+id/tv_sendauth"
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -116,7 +116,7 @@
                         android:singleLine="true"
                         android:textSize="@dimen/edit_text_size" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
                     android:id="@+id/iv_eye"

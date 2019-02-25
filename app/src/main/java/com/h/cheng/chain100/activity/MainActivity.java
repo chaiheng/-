@@ -1,12 +1,10 @@
 package com.h.cheng.chain100.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.IdRes;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
-import com.h.cheng.chain100.Constant;
 import com.h.cheng.chain100.MyApplication;
 import com.h.cheng.chain100.R;
 import com.h.cheng.chain100.adapter.ViewPagerAdapter;
@@ -16,11 +14,8 @@ import com.h.cheng.chain100.home.DynamicFragment;
 import com.h.cheng.chain100.home.HotIssueFragment;
 import com.h.cheng.chain100.home.MyFragment;
 import com.h.cheng.chain100.home.TaskFragment;
-import com.h.cheng.chain100.login.LoginActivity;
-import com.h.cheng.chain100.utils.SharedPreferencesUtil;
 import com.h.cheng.chain100.view.NoScrollViewPager;
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -28,7 +23,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 

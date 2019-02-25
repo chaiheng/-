@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.text.InputFilter;
 import android.util.AttributeSet;
 import android.view.ActionMode;
@@ -22,7 +22,7 @@ import java.util.TimerTask;
  * Desc：
  */
 
-public class SeparatedEditText extends android.support.v7.widget.AppCompatEditText {
+public class SeparatedEditText extends androidx.appcompat.widget.AppCompatEditText {
 
     private static final int TYPE_HOLLOW = 1;//空心
     private static final int TYPE_SOLID = 2;//实心
