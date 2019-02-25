@@ -6,7 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Handler;
+
 import androidx.core.content.ContextCompat;
+
 import android.text.InputFilter;
 import android.util.AttributeSet;
 import android.view.ActionMode;
@@ -16,6 +18,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Kenny on 2017/5/8 16:01.
@@ -63,8 +68,9 @@ public class SeparatedEditText extends androidx.appcompat.widget.AppCompatEditTe
 
     private TextChangedListener textChangedListener;
 
-    private Timer timer;
-    private TimerTask timerTask;
+//    private Timer timer;
+//    private TimerTask timerTask;
+    private ScheduledExecutorService executorService;
 
     public SeparatedEditText(Context context) {
         this(context, null);
@@ -198,6 +204,7 @@ public class SeparatedEditText extends androidx.appcompat.widget.AppCompatEditTe
         this.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
 
         new Handler().postDelayed(new Runnable() {
+            @Override
             public void run() {
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
@@ -231,17 +238,20 @@ public class SeparatedEditText extends androidx.appcompat.widget.AppCompatEditTe
         borderRectF = new RectF();
         boxRectF = new RectF();
 
-        if (type == TYPE_HOLLOW)
+        if (type == TYPE_HOLLOW) {
             spacing = 0;
+        }
 
-        timerTask = new TimerTask() {
+     /*   timerTask = new TimerTask() {
             @Override
             public void run() {
                 isCursorShowing = !isCursorShowing;
                 postInvalidate();
             }
-        };
-        timer = new Timer();
+        };*/
+        executorService = new ScheduledThreadPoolExecutor(01);
+//        timer = new Timer();
+
     }
 
     @Override
@@ -296,14 +306,16 @@ public class SeparatedEditText extends androidx.appcompat.widget.AppCompatEditTe
             } else if (type == TYPE_UNDERLINE) {
                 canvas.drawLine(boxRectF.left, boxRectF.bottom, boxRectF.right, boxRectF.bottom, borderPaint);
             } else if (type == TYPE_HOLLOW) {
-                if (i == 0 || i == maxLength)
+                if (i == 0 || i == maxLength) {
                     continue;
+                }
                 canvas.drawLine(boxRectF.left, boxRectF.top, boxRectF.left, boxRectF.bottom, borderPaint);
             }
         }
 
-        if (type == TYPE_HOLLOW)
+        if (type == TYPE_HOLLOW) {
             canvas.drawRoundRect(borderRectF, corner, corner, borderPaint);
+        }
     }
 
     @Override
@@ -312,23 +324,34 @@ public class SeparatedEditText extends androidx.appcompat.widget.AppCompatEditTe
         contentText = text;
         invalidate();
 
-        if (textChangedListener != null)
-            if (text.length() == maxLength)
+        if (textChangedListener != null) {
+            if (text.length() == maxLength) {
                 textChangedListener.textCompleted(text);
-            else textChangedListener.textChanged(text);
+            } else {
+                textChangedListener.textChanged(text);
+            }
+        }
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         //cursorFlashTime为光标闪动的间隔时间
-        timer.scheduleAtFixedRate(timerTask, 0, cursorDuration);
+        executorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                isCursorShowing = !isCursorShowing;
+                postInvalidate();
+            }
+        }, 0,500 ,TimeUnit.SECONDS);
+//       timer.scheduleAtFixedRate(timerTask, 0, cursorDuration);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        timer.cancel();
+//        timer.cancel();
+        executorService.shutdown();
     }
 
     @Override
@@ -357,10 +380,11 @@ public class SeparatedEditText extends androidx.appcompat.widget.AppCompatEditTe
             int centerX = startX + boxWidth / 2;
             int centerY = startY + boxHeight / 2;
             int radius = Math.min(boxWidth, boxHeight) / 6;
-            if (password)
+            if (password) {
                 canvas.drawCircle(centerX, centerY, radius, textPaint);
-            else
+            } else {
                 canvas.drawText(String.valueOf(charSequence.charAt(i)), baseX, baseY, textPaint);
+            }
         }
 
     }
