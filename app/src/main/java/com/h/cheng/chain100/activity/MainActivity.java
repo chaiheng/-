@@ -14,7 +14,6 @@ import com.h.cheng.chain100.downfile.FilePresenter;
 import com.h.cheng.chain100.home.DynamicFragment;
 import com.h.cheng.chain100.home.HotIssueFragment;
 import com.h.cheng.chain100.home.MyFragment;
-import com.h.cheng.chain100.home.TaskFragment;
 import com.h.cheng.chain100.view.NoScrollViewPager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
@@ -27,10 +26,11 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.bottomBar)
-    BottomBar bottomBar;
+
     @BindView(R.id.main_viewpager)
     NoScrollViewPager mainViewpager;
+    @BindView(R.id.bottomBar)
+    BottomBar bottomBar;
 
     private ViewPagerAdapter mViewPagerAdapter;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
@@ -95,8 +95,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-//        BottomBarTab nearby = bottomBar.getTabWithId(R.id.tab_nearby);
-//        nearby.setBadgeCount(5);
+
     }
 
     private void selectTab(@IdRes int tabId) {
