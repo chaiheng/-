@@ -5,16 +5,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.h.cheng.chain100.Constant;
 import com.h.cheng.chain100.R;
 import com.h.cheng.chain100.activity.MainActivity;
 import com.h.cheng.chain100.login.LoginAndRegsterActivity;
-import com.h.cheng.chain100.login.PersonalDataActivity;
 import com.h.cheng.chain100.statusbar.UtilsStyle;
 import com.h.cheng.chain100.utils.SharedPreferencesUtil;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class StartActivity extends AppCompatActivity {
@@ -24,7 +23,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UtilsStyle.setStatusBarMode(this, false);
+        UtilsStyle.setStatusBarMode(this, true);
         if (SharedPreferencesUtil.getInstance().getInfo(Constant.IS_FIRST, false)) {
             if (SharedPreferencesUtil.getInstance().getInfo(Constant.IS_LOGIN, false)) {
 //                if (SharedPreferencesUtil.getInstance().getInfo(Constant.IS_SETUSER, false)) {
