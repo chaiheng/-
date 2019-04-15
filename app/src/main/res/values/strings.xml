@@ -9,7 +9,7 @@
     <string name="prompt_affirm_pass">确认密码</string>
     <string name="prompt_Invitation_code">邀请码(必填)</string>
     <string name="send_authcode">发送验证码</string>
-    <string name="forget_pa">忘记密码</string>
+    <string name="forget_pa">忘记密码?</string>
     <string name="nickname_hint">昵称</string>
     <string name="error_gif">不能加载GIF</string>
     <string name="action_sign_in">Sign in or register</string>

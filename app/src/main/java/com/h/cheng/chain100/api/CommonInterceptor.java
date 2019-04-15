@@ -17,6 +17,9 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 公共参数
+ */
 public class CommonInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {

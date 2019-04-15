@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,11 +27,11 @@ public class StartActivity extends AppCompatActivity {
         UtilsStyle.setStatusBarMode(this, false);
         if (SharedPreferencesUtil.getInstance().getInfo(Constant.IS_FIRST, false)) {
             if (SharedPreferencesUtil.getInstance().getInfo(Constant.IS_LOGIN, false)) {
-                if (SharedPreferencesUtil.getInstance().getInfo(Constant.IS_SETUSER, false)) {
-                    mIntent = new Intent(StartActivity.this, MainActivity.class);
-                } else {
-                    mIntent = new Intent(StartActivity.this, PersonalDataActivity.class);
-                }
+//                if (SharedPreferencesUtil.getInstance().getInfo(Constant.IS_SETUSER, false)) {
+                mIntent = new Intent(StartActivity.this, MainActivity.class);
+//                } else {
+//                    mIntent = new Intent(StartActivity.this, PersonalDataActivity.class);
+//                }
             } else {
                 mIntent = new Intent(StartActivity.this, LoginAndRegsterActivity.class);
             }

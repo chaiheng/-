@@ -25,24 +25,7 @@ public class ToastUtil {
     }
 
 
-    public static void show(Context context, String content) {
-        if (content != null) {
-            if (content.contains("成功")) {
-                MyToast.successBig(content);
-            } else {
-                MyToast.errorBig(content);
-            }
-        }
 
-    }
-
-    public static void showError(Context context, String content) {
-        if (content != null) {
-                MyToast.errorBig(content);
-        }
-
-
-    }
 
 
 

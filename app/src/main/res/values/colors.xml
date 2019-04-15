@@ -15,4 +15,6 @@
     <color name="golden">#6F4F2B</color>
     <color name="black_1e">#1e1e1e</color>
     <color name="gray_9">#999999</color>
+    <color name="color_333">#333333</color>
+    <color name="hint_color">#888888</color>
 </resources>

@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        app:bb_inActiveTabColor="#222222"
-        app:bb_activeTabColor="@color/colorAccent"
+        app:bb_inActiveTabColor="@color/hint_color"
+        app:bb_activeTabColor="@color/color_333"
         app:bb_tabXmlResource="@xml/bottombar_tabs_three" />
 
 </RelativeLayout>

@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
-        icon="@drawable/hot_tab"
+        icon="@drawable/project_tab"
         id="@+id/tab_hot"
-        title="热点"
-        />
+        title="项目" />
     <tab
-        icon="@drawable/dynamic_tab"
+        icon="@drawable/rm_tab"
         id="@+id/tab_dynamic"
-        title="动态" />
-    <tab
-        icon="@drawable/task_tab"
-        id="@+id/tab_task"
-        title="任务" />
+        title="人脉" />
     <tab
         icon="@drawable/my_tab"
         id="@+id/tab_my"

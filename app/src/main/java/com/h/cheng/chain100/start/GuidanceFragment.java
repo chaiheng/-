@@ -44,7 +44,6 @@ public class GuidanceFragment extends BaseFragment {
                     @Override
                     public void onClick(View view) {
                         startActivity(new Intent(mContext, LoginAndRegsterActivity.class));
-                        SharedPreferencesUtil.getInstance().saveInfo(Constant.IS_FIRST, true);
                         if (getActivity() != null && !getActivity().isFinishing()) {
                             getActivity().finish();
                         }

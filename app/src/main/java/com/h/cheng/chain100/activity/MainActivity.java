@@ -1,6 +1,7 @@
 package com.h.cheng.chain100.activity;
 
 import android.os.Bundle;
+
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -49,7 +50,7 @@ public class MainActivity extends BaseActivity {
         MyApplication.getInstance().exit();
         mFragments.add(HotIssueFragment.newInstance());
         mFragments.add(DynamicFragment.newInstance());
-        mFragments.add(TaskFragment.newInstance());
+//        mFragments.add(TaskFragment.newInstance());
         mFragments.add(MyFragment.newInstance());
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments, null);
         mainViewpager.setAdapter(mViewPagerAdapter);
@@ -70,9 +71,6 @@ public class MainActivity extends BaseActivity {
                         bottomBar.selectTabWithId(R.id.tab_dynamic);
                         break;
                     case 2:
-                        bottomBar.selectTabWithId(R.id.tab_task);
-                        break;
-                    case 3:
                         bottomBar.selectTabWithId(R.id.tab_my);
                         break;
                 }
@@ -108,10 +106,6 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.tab_dynamic:
                 mainViewpager.setCurrentItem(1, false);
-                break;
-
-            case R.id.tab_task:
-                mainViewpager.setCurrentItem(2, false);
                 break;
 
             case R.id.tab_my:

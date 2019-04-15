@@ -8,8 +8,10 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.h.cheng.chain100.Constant;
 import com.h.cheng.chain100.R;
 import com.h.cheng.chain100.statusbar.UtilsStyle;
+import com.h.cheng.chain100.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ public class GuidanceActivity extends AppCompatActivity {
         UtilsStyle.setStatusBarMode(this, false);
         setContentView(R.layout.activity_guidance);
         initView();
+        SharedPreferencesUtil.getInstance().saveInfo(Constant.IS_FIRST, true);
     }
 
 

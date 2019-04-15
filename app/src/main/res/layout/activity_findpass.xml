@@ -9,180 +9,112 @@
 
 
     <include layout="@layout/layout_header" />
-    <ScrollView
+
+
+    <com.h.cheng.chain100.view.ClearEditText
+        android:id="@+id/et_phone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorfff"
+        android:hint="@string/prompt_phone"
+        android:inputType="number"
+        android:maxLines="1"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:singleLine="true"
+        android:textColor="@color/color_333"
+        android:textColorHint="@color/hint_color"
+        android:textSize="@dimen/text_size_15" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/underline_mg_top"
+        android:background="#f2f2f2" />
+
     <LinearLayout
-        android:id="@+id/email_login_form"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="35dp"
-        android:paddingRight="35dp">
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
 
-            <AutoCompleteTextView
-                android:id="@+id/et_phone"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="@color/colorfff"
-                android:textSize="@dimen/edit_text_size"
-                android:hint="@string/prompt_phone"
-                android:inputType="number"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColorHint="#999999" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/underline_mg_top"
-            android:background="#f2f2f2" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="7">
-
-                <EditText
-                    android:id="@+id/authcode"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:background="@color/colorfff"
-                    android:textSize="@dimen/edit_text_size"
-                    android:hint="@string/prompt_authcode"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColorHint="#999999" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/tv_sendauth"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:text="@string/send_authcode"
-                android:textColor="@color/titlecolor"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/underline_mg_top"
-            android:background="#f2f2f2" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:background="@color/colorfff"
-                    android:digits="@string/digits"
-                    android:hint="@string/prompt_pa"
-                    android:textSize="@dimen/edit_text_size"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/iv_eye"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_eye" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/underline_mg_top"
-            android:background="#f2f2f2" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/affirm_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:background="@color/colorfff"
-                    android:digits="@string/digits"
-                    android:hint="@string/prompt_affirm_pass"
-                    android:textSize="@dimen/edit_text_size"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/iv_affirm_eye"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_eye" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/underline_mg_top"
-            android:background="#f2f2f2" />
+        <EditText
+            android:id="@+id/authcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:background="@color/colorfff"
+            android:hint="@string/prompt_authcode"
+            android:inputType="number"
+            android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:singleLine="true"
+            android:textColor="@color/color_333"
+            android:textColorHint="@color/hint_color"
+            android:textSize="@dimen/text_size_15" />
 
 
         <TextView
-            android:id="@+id/tv_findpass"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="70dp"
-            android:background="@drawable/loginbtn_bg"
+            android:id="@+id/tv_sendauth"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
             android:gravity="center"
-            android:text="确认找回"
-            android:textColor="#6F4F2B"
-            android:textSize="18dp" />
-
-
+            android:text="@string/send_authcode"
+            android:textColor="@color/color_333"
+            android:textSize="@dimen/text_size_15" />
     </LinearLayout>
-    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/underline_mg_top"
+        android:background="#f2f2f2" />
+
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorfff"
+        android:digits="@string/digits"
+        android:hint="@string/prompt_pa"
+        android:imeActionId="6"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionUnspecified"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:singleLine="true"
+        android:textColor="@color/color_333"
+        android:textColorHint="@color/hint_color"
+        android:textSize="@dimen/text_size_15" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/underline_mg_top"
+        android:background="#f2f2f2" />
+
+    <TextView
+        android:id="@+id/tv_findpass"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/color_333"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_15" />
+
+
 </LinearLayout>

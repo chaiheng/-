@@ -10,9 +10,10 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.h.cheng.chain100.MyApplication;
@@ -22,32 +23,35 @@ import com.h.cheng.chain100.bean.FindPassBean;
 import com.h.cheng.chain100.utils.CheckUtils;
 import com.h.cheng.chain100.utils.CountDownTimerUtils;
 import com.h.cheng.chain100.utils.EmojiInputFilter;
+import com.h.cheng.chain100.view.ClearEditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implements FindPassView, TextWatcher {
+public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implements FindPassView {
 
     @BindView(R.id.header_back)
     ImageView headerBack;
     @BindView(R.id.header_tv_text)
     TextView headerTvText;
+    @BindView(R.id.header_right_img)
+    ImageView headerRightImg;
+    @BindView(R.id.header_right_text)
+    TextView headerRightText;
+    @BindView(R.id.rl_header_50)
+    RelativeLayout rlHeader50;
+    @BindView(R.id.fr_header)
+    FrameLayout frHeader;
     @BindView(R.id.et_phone)
-    AutoCompleteTextView etPhone;
+    ClearEditText etPhone;
     @BindView(R.id.authcode)
     EditText authcode;
     @BindView(R.id.tv_sendauth)
     TextView tvSendauth;
     @BindView(R.id.password)
     EditText password;
-    @BindView(R.id.iv_eye)
-    ImageView ivEye;
-    @BindView(R.id.affirm_password)
-    EditText affirmPassword;
-    @BindView(R.id.iv_affirm_eye)
-    ImageView ivAffirmEye;
     @BindView(R.id.tv_findpass)
     TextView tvFindpass;
     private boolean flag = false;
@@ -69,13 +73,6 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
         headerTvText.setText("找回密码");
         etPhone.setFilters(new InputFilter[]{new EmojiInputFilter(), new InputFilter.LengthFilter(11)});
         password.setFilters(new InputFilter[]{new EmojiInputFilter(), new InputFilter.LengthFilter(18)});
-        affirmPassword.setFilters(new InputFilter[]{new EmojiInputFilter(), new InputFilter.LengthFilter(18)});
-        tvFindpass.getBackground().setAlpha(LoginActivity.Alpha_120);
-        tvFindpass.setEnabled(false);
-        etPhone.addTextChangedListener(this);
-        password.addTextChangedListener(this);
-        authcode.addTextChangedListener(this);
-        affirmPassword.addTextChangedListener(this);
     }
 
 
@@ -109,28 +106,12 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
         } else if (authcode.getText().toString().trim().length() < 6) {
             showtoast("请输入6位验证码");
             return false;
-        } else if (!CheckUtils.validatePhonePass(affirmPassword.getText().toString())) {
-            showtoast("密码必须是6-18位字母加数字组合");
-            return false;
-        } else if (!affirmPassword.getText().toString().trim().equals(password.getText().toString())) {
-            showtoast("两次输入密码不一致");
-            return false;
         }
         return true;
     }
 
-    public void CheckBtn() {
-        if (etPhone.getText().toString().length()>0 && password.getText().toString().length()>0 && affirmPassword.getText().toString().length()>0 && authcode.getText().toString().trim().length()>0) {
-            tvFindpass.getBackground().setAlpha(LoginActivity.Alpha_255);
-            tvFindpass.setEnabled(true);
-        } else {
-            tvFindpass.getBackground().setAlpha(LoginActivity.Alpha_120);
-            tvFindpass.setEnabled(false);
-        }
-    }
 
-
-    @OnClick({R.id.header_back, R.id.tv_sendauth, R.id.iv_eye, R.id.iv_affirm_eye, R.id.tv_findpass})
+    @OnClick({R.id.header_back, R.id.tv_sendauth, R.id.tv_findpass})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.header_back:
@@ -144,34 +125,6 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
                     presenter.SendMsg(etPhone.getText().toString());
                 }
                 break;
-            case R.id.iv_eye:
-                if (!flag) {
-                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                } else {
-                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }
-                flag = !flag;
-                password.postInvalidate();
-                CharSequence text = password.getText();
-                if (text != null) {
-                    Spannable spanText = (Spannable) text;
-                    Selection.setSelection(spanText, text.length());
-                }
-                break;
-            case R.id.iv_affirm_eye:
-                if (!flag2) {
-                    affirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                } else {
-                    affirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }
-                flag2 = !flag2;
-                affirmPassword.postInvalidate();
-                CharSequence text2 = affirmPassword.getText();
-                if (text2 != null) {
-                    Spannable spanText = (Spannable) text2;
-                    Selection.setSelection(spanText, text2.length());
-                }
-                break;
             case R.id.tv_findpass:
                 if (Check()) {
                     showLoading();
@@ -182,19 +135,5 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
         }
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        CheckBtn();
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
 }
 
