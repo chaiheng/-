@@ -29,7 +29,7 @@ public class GuidanceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UtilsStyle.setStatusBarMode(this, false);
+        UtilsStyle.setStatusBarMode(this, true);
         setContentView(R.layout.activity_guidance);
         initView();
         SharedPreferencesUtil.getInstance().saveInfo(Constant.IS_FIRST, true);
