@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="#EBEBEB"
+    tools:context=".me.TotalPerformanceActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/go_back" />
+        <TextView
+            android:textStyle="bold"
+            android:textColor="@color/color_333"
+            android:textSize="18sp"
+            android:text="总业绩"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+    <View
+        android:background="#EBEBEB"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="110dp">
+
+        <TextView
+            android:textColor="@color/hint_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="总业绩(D值)"
+            android:textSize="16sp" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:text="0.00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <View
+        android:background="#EBEBEB"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

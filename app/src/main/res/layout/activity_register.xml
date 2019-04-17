@@ -5,13 +5,13 @@
     android:background="@color/colorfff"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.h.cheng.chain100.login.LoginActivity">
+    tools:context="com.io.east.district.login.LoginActivity">
 
 
     <include layout="@layout/layout_header" />
 
 
-    <com.h.cheng.chain100.view.ClearEditText
+    <com.io.east.district.view.ClearEditText
         android:id="@+id/et_phone"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -76,7 +76,7 @@
         android:background="#f2f2f2" />
 
 
-    <com.h.cheng.chain100.view.PasswdEditText
+    <com.io.east.district.view.PasswdEditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="55dp"

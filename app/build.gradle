@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
     defaultConfig {
-        applicationId "io.chaintop.chain"
+        applicationId "com.io.east.district"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -86,4 +86,11 @@ dependencies {
     implementation 'com.airbnb.android:lottie:2.7.0'
     implementation project(path: ':separatededittext')
     implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.4'
+    implementation 'com.zhouyou:rxeasyhttp:2.1.5'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-4'
+//    implementation project(path: ':library')
+    implementation 'com.github.ppg408331701:SemicircleProgress:v0.5.0'
+    implementation 'com.zjun:rule-view:0.0.1'
+    implementation 'com.github.1169458576:RulerView:v1.0.4'
 }

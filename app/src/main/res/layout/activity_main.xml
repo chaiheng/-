@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true">
 
 
-    <com.h.cheng.chain100.view.NoScrollViewPager
+    <com.io.east.district.view.NoScrollViewPager
         android:id="@+id/main_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

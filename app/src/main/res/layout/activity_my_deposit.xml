@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EBEBEB"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".money.MyDepositActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/go_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="我的保证金"
+            android:textColor="#1A1B1A"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:text="明细"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:ignore="ScrollViewSize">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/white">
+                <com.io.east.district.view.ProgressView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/pv_progress"
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
+                    app:pr_bg_start_color="#f5f5f5"
+
+                    app:pr_progress="80"
+                    app:pr_progress_end_color="#e3564b"
+                    app:pr_progress_start_color="#ed8743"
+                    app:pr_progress_width="19dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_amount"
+                    android:text="9000.00"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    app:layout_constraintLeft_toLeftOf="@+id/pv_progress"
+                    app:layout_constraintRight_toRightOf="@+id/pv_progress"
+                    app:layout_constraintTop_toTopOf="@+id/pv_progress"
+                    app:layout_constraintBottom_toBottomOf="@+id/pv_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="剩余保证金"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_amount"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_recharge_record"
+                    android:drawablePadding="7dp"
+                    android:drawableRight="@mipmap/right_arrow"
+                    android:textColor="@color/color_333"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="充值记录"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/hint_color"
+                android:layout_marginStart="20dp"
+                android:layout_centerVertical="true"
+                android:text="已挖金额"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="17sp"
+                    android:id="@+id/tv_consumption"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="#FA5E59"
+                    android:layout_centerVertical="true"
+                    android:text="-1000.00"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <RelativeLayout
+
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+                <TextView
+
+                    android:textSize="16sp"
+                    android:textColor="@color/hint_color"
+                    android:layout_marginStart="20dp"
+                    android:layout_centerVertical="true"
+                    android:text="总金额 "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="17sp"
+                    android:id="@+id/tv_total_money"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/color_333"
+                    android:layout_centerVertical="true"
+                    android:text="-1000.00"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="16sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/black"
+                    android:text="合伙人须知"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginTop="14dp"
+                    android:textColor="@color/color_333"
+                    android:text=" 1、成为合伙人，必须通过身份认证\n
+2、充值10000元作为保证金（充值10000元，平台将会奖励10%，计入保证金中，合计11000元）
+该保证金将会通过你的业绩（1D值=1人民币）逐步挖取提现；同时作为合伙人当你的会员任意消费，都可以拿到消费金额的10%-50%作为提成。
+                        "
+                    android:lineSpacingMultiplier="1.3"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:lineSpacingMultiplier="1.3"
+                    android:text="(注：保证金取完之后如果不继续充值，合伙人身份自动解除，届时不再享受合伙人的任何权益）"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/hint_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:text="3、剩余保证金如果少于最后一比业绩金额，计算的业绩只能是剩余保证金的额度。"
+                    android:lineSpacingMultiplier="1.3"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/color_333"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:text="（例如：剩余保证金200元，最后一笔消费金额为300元，那么只能释放200元保证金，其余部分自动作废）"
+                    android:textColor="@color/hint_color"
+                    android:lineSpacingMultiplier="1.3"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginBottom="20dp"
+                    android:textColor="@color/hint_color"
+                    android:text="（每充值1份保证金，你都将获得500D）"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_marginBottom="20dp"
+                android:id="@+id/bt_renewal_partner"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                android:text="续费合伙人"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:background="#E3C58C"
+                android:textColor="@color/color_333"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

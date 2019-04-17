@@ -1,18 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+   android:fitsSystemWindows="true"
+    android:background="#EBEBEB"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:textColor="@color/black"
+            android:text="招募合伙人"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="任务"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
+    <ScrollView
+        android:fitsSystemWindows="true"
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@mipmap/recruit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+
+            android:background="@drawable/white6"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="226dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/line"
+                    android:layout_width="3dp"
+                    android:layout_height="14dp"/>
+
+                <TextView
+                    android:layout_marginStart="11dp"
+                    android:textSize="16sp"
+                    android:text="合伙人利益"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_marginTop="15dp"
+                android:lineSpacingMultiplier="1.3"
+                android:textColor="@color/color_333"
+                android:text="
+成为合伙人意味着你可以轻松的赚取提成，当你邀请的人产生任意一笔消费，将从他的消费金额中，抽取10-50%作为奖励，所有提成都以D值的形式发放（1D值=1人民币）
+
+                        "
+                android:textSize="14sp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/line"
+                    android:layout_width="3dp"
+                    android:layout_height="14dp"/>
+
+                <TextView
+                    android:layout_marginStart="11dp"
+                    android:textSize="16sp"
+                    android:text="成为合伙人条件"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+            <TextView
+                android:lineSpacingMultiplier="1.3"
+                android:text="
+1、成为合伙人，必须通过身份认证\n
+2、充值10000元作为保证金（充值10000元，平台将会奖励10%，计入保证金中，合计11000元）
+冻结的保证金会随着业绩不断释放（1D值=1人民币），当剩余保证金少于最后一笔业绩金额时，计算的业绩只能是剩余保证金的额度
+                        "
+                android:textSize="14sp"
+                android:textColor="@color/color_333"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:lineSpacingMultiplier="1.3"
+                android:text="（例如：剩余保证金200元，最后一笔消费金额为300元，那么只能释放200元保证金，其余部分自动作废），保证金被挖取完之后如果不继续充值，合伙人身份自动解除，届时不再享受合伙人的任何权益）"
+                android:textColor="@color/hint_color"
+                android:textSize="14sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:lineSpacingMultiplier="1.3"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:textSize="14sp"
+                android:textColor="@color/color_333"
+                android:text="3.当你成为合伙人后。你直接邀请的人也成为合伙人，你将得到500D值的奖励；该奖励在你邀请的人每次充值时都会发生"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="(每充值1份保证金，你都将获得500D)"
+                android:textColor="@color/hint_color"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <Button
+            android:text="立即充值，成为合伙人"
+            android:textColor="@color/white"
+            android:background="@color/color_333"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"/>
+    </RelativeLayout>
+
+    </ScrollView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

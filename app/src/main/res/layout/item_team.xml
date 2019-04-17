@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<LinearLayout
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="66dp">
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_grade"
+        android:layout_marginStart="26dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/iv_ranking"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tv_phone"
+        android:textSize="16sp"
+        android:textColor="@color/color_333"
+        android:text="134****4333"
+        android:layout_marginStart="5dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/iv_partnership"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+<TextView
+    android:id="@+id/tv_crew"
+    android:textColor="@color/color_333"
+    android:textSize="16sp"
+    android:text="20人"
+    android:layout_gravity="center_vertical"
+    android:layout_marginStart="13sp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tv_partner_num"
+        android:layout_marginStart="23dp"
+        android:textColor="@color/color_333"
+        android:textSize="16sp"
+        android:text="20"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tv_total_sales_volume"
+        android:layout_marginStart="45dp"
+        android:textColor="#FA5E59"
+        android:textSize="16sp"
+        android:text="8800.00"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+<View
+    android:background="#EBEBEB"
+    android:id="@+id/line"
+    android:layout_width="match_parent"
+    android:layout_height="1dp"/>
+</LinearLayout>
