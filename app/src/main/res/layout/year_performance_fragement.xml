@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="170dp" />
+
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/hint_color"
+            android:text="今日收益"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:textSize="17sp"
+            android:textColor="@color/color_333"
+            android:text="0.0"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+    <View
+        android:background="#EBEBEB"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <RelativeLayout
+
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/hint_color"
+            android:text="本周收益"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:textSize="17sp"
+            android:textColor="@color/color_333"
+            android:text="0.0"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+    <View
+        android:background="#EBEBEB"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <RelativeLayout
+
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/hint_color"
+            android:text="本月收益"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:textSize="17sp"
+            android:textColor="@color/color_333"
+            android:text="0.0"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+</LinearLayout>

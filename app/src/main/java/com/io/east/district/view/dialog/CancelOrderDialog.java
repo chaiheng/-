@@ -19,17 +19,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 生成订单
+ * 取消订单
  */
-public class OrderDialog extends Dialog {
+public class CancelOrderDialog extends Dialog {
     @BindView(R.id.tv_confirm)
     TextView tvConfirm;
     @BindView(R.id.tv_cancel)
     TextView tvCancel;
 
-    private Order order;
+    private CancelOrder cancelOrder;
 
-    public OrderDialog(@NonNull Context context) {
+    public CancelOrderDialog(@NonNull Context context) {
         super(context, R.style.ActionSheetDialogStyle);
 
     }
@@ -39,7 +39,7 @@ public class OrderDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.dialog_order);
+        setContentView(R.layout.dialog_cancel_order);
         ButterKnife.bind(this);
         WindowManager.LayoutParams attributes = Objects.requireNonNull(getWindow()).getAttributes();
         attributes.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -57,8 +57,8 @@ public class OrderDialog extends Dialog {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm:
-                if (order != null) {
-                    order.onClick(view);
+                if (cancelOrder != null) {
+                    cancelOrder.onClick(view);
                 }
 
 
@@ -69,11 +69,11 @@ public class OrderDialog extends Dialog {
         }
     }
 
-    public interface Order {
+    public interface CancelOrder {
         void onClick(View view);
     }
 
-    public void setOrderLister(Order order) {
-        this.order = order;
+    public void setCancelOrderLister(CancelOrder cancelOrder) {
+        this.cancelOrder = cancelOrder;
     }
 }

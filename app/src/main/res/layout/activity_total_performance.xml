@@ -64,5 +64,30 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_quotes_detail"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/color_333"
+        app:tabIndicatorFullWidth="false"
+        app:tabSelectedTextColor="@color/color_333"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabTextColor="@color/hint_color" />
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EBEBEB" />
+
+    <com.io.east.district.view.NoTouchViewPager
+        android:id="@+id/view_pager_quotes_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

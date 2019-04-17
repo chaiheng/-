@@ -111,4 +111,8 @@
         <item name="android:progressDrawable">@drawable/shape_mine_area_progress_bar</item>
         <item name="android:max">100</item>
     </style>
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

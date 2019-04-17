@@ -93,4 +93,5 @@ dependencies {
     implementation 'com.github.ppg408331701:SemicircleProgress:v0.5.0'
     implementation 'com.zjun:rule-view:0.0.1'
     implementation 'com.github.1169458576:RulerView:v1.0.4'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

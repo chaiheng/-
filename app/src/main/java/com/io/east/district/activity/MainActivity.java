@@ -12,7 +12,7 @@ import com.io.east.district.adapter.ViewPagerAdapter;
 import com.io.east.district.base.BaseActivity;
 import com.io.east.district.downfile.FilePresenter;
 import com.io.east.district.home.ConnectionFragment;
-import com.io.east.district.home.MarginDepositFragment;
+import com.io.east.district.home.ConfirmPrepaidFragment;
 import com.io.east.district.home.ProjectFragment;
 import com.io.east.district.home.MyFragment;
 import com.io.east.district.home.PartnerFragment;
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
         MyApplication.getInstance().exit();
         mFragments.add(ProjectFragment.newInstance());
         mFragments.add(ConnectionFragment.newInstance());
-        mFragments.add(MarginDepositFragment.newInstance());
+        mFragments.add(ConfirmPrepaidFragment.newInstance());
         mFragments.add(PartnerFragment.newInstance());
         mFragments.add(MyFragment.newInstance());
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments, null);

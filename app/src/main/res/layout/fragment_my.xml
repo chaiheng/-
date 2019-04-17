@@ -5,21 +5,5 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
-        android:id="@+id/lv_setting"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="21dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_setting" />
-
-        <TextView
-            style="@style/my_tab_text"
-            android:text="系统设置" />
-    </LinearLayout>
 </LinearLayout>

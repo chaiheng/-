@@ -29,8 +29,5 @@ public class MyFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    @OnClick(R.id.lv_setting)
-    public void onViewClicked() {
-        startAct(SettingActivity.class);
-    }
+
 }
