@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import com.io.east.district.R;
 
+/**
+ *    充值保证金确认
+ */
 public class ConfirmPrepaidActivity extends AppCompatActivity {
 
     @Override

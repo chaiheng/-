@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_marginBottom="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:id="@+id/bt_time"
+            android:layout_gravity="center_horizontal"
+            android:paddingRight="18dp"
+            android:paddingLeft="18dp"
+            android:text="2019-02-01 14:30"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_time_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp" />
+
+
+        <LinearLayout
+            android:layout_marginRight="10dp"
+            android:background="@drawable/white_rounded_corners"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_title"
+                android:text="BitView关于2019年春节放假安排"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            .
+            <TextView
+
+                android:layout_marginBottom="20dp"
+                android:lineSpacingMultiplier="1.5"
+                android:id="@+id/tv_msg"
+                android:layout_marginTop="20dp"
+                android:text="
+   尊敬的BitView用户：
+      春节假期即将来临，为方便您更好的规划资金，平台春节假期相关安排如下：
+2019年2月2日（周六）至2019年2月10日（周日）放假，共9天，2月11日（周一）平台正常上班。
+如有疑问，请致电客服电话400-400-500，我们将一如既往竭诚为您服务！祝大家新春快乐，诸事大吉！
+                        "
+                android:layout_marginLeft="10dp"
+                android:textColor="#9B9B9B"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="BitView运营中心"
+                    android:id="@+id/tv_name"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#9B9B9B"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="2019-3-1"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#9B9B9B"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

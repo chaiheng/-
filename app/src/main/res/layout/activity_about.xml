@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <ImageView
+            android:padding="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_go_back"
+            android:src="@mipmap/go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textSize="18sp"
+           android:layout_centerInParent="true"
+            android:textColor="@color/color_333"
+            android:textStyle="bold"
+            android:text="关于我们"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <View
+        android:background="#EBEBEB"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <ScrollView
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/ico"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/color_333"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="70dp"
+                android:text="区东东介绍"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:lineSpacingMultiplier="1.5"
+                android:textColor="@color/hint_color"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1、区东东是基于BTA(Blockchain To Application)公链搭建的电商平台，是BTA生态首批链改项目，是全球首个区块链溯源落地商城。
+\n2、区东东定位是基于FtoC模式的区块链溯源产品直销平台，即商城严选原产地、厂家产品，经过溯源以后定期直供消费者，平台将产品利润返还给合伙人及消费者，没有中间商赚差价，消费者在享受高品质保真产品的同时又能享受返利及不高于市场的售价，这也是平台宣传语“链动生活，真品直购“的含义所在。
+\n3、区东东商城具有以下优势:"/>
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:text="●"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="13sp"
+                    android:text=" \t\t严选商品，原产地或知名厂家直供"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:text="●"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="13sp"
+                    android:text=" \t\t溯源技术保证真品"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:text="●"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="13sp"
+                    android:text=" \t\t商业模式创新，没有中间商赚差价"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:text="●"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="13sp"
+                    android:text=" \t\t合伙人全方位收益保障"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_marginTop="30dp"
+                android:background="@mipmap/backdrop"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
+
+            <TextView
+                android:lineSpacingMultiplier="1.5"
+                android:textColor="@color/color_333"
+                android:layout_marginEnd="29dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="合伙人是区东东推出的“平台+分布式合伙人经营体”的开放式生态业务模式，也就是讲这里的合伙机制不仅仅是一种激励机制，更是一种商业模式创新，是形成独特业务模式的重要组成部分。平台通过提供除具体销售以外的所有业务比如产品、技术、宣传、服务、仓储配送等为合伙人全方位赋能，支持合伙人发挥各自优势专心进行产品销售，平台本着不赚差价的原则，将大部分利润以推广奖励、产品返利、充值奖励等多种激励返还给合伙人，合伙人将是最大利益受益者。"/>
+
+        <TextView
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="合伙人参与标准"
+            android:textColor="@color/color_333"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:text="●"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="13sp"
+                    android:text=" \t\t认可区东东模式及价值"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:text="●"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="13sp"
+                    android:text=" \t\t具有广泛的客户资源"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:text="●"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="13sp"
+                    android:text=" \t\t邀请注册并充值1万元或等值BTA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+            <TextView
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="20dp"
+                android:text="合伙人利益"
+                android:textStyle="bold"
+                android:textColor="@color/color_333"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textSize="13sp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="20dp"
+                android:text="合伙人收益全方位保障，快、稳、准：
+充值得奖励：投资即回报，充10000得11000，一次可充值多份，多充多赚；
+推广得奖励：邀请1人，奖励500，一次邀请，终身有效，邀请数量达到一定程度还有额外奖励；
+消费得返利：消费即收益，邀请消费，最高返利50%，而且消费达到一定额度还有额外奖励。"
+                android:lineSpacingMultiplier="1.5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+
+</LinearLayout>

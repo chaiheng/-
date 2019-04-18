@@ -13,6 +13,7 @@
         android:layout_height="50dp"
         tools:ignore="MissingConstraints">
         <TextView
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:text="招募合伙人"
             android:layout_centerInParent="true"
@@ -26,6 +27,10 @@
         android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
     <RelativeLayout
@@ -60,6 +65,7 @@
                     android:layout_height="14dp"/>
 
                 <TextView
+                    android:textStyle="bold"
                     android:layout_marginStart="11dp"
                     android:textSize="16sp"
                     android:text="合伙人利益"
@@ -96,6 +102,7 @@
                     android:layout_height="14dp"/>
 
                 <TextView
+                    android:textStyle="bold"
                     android:layout_marginStart="11dp"
                     android:textSize="16sp"
                     android:text="成为合伙人条件"
@@ -153,18 +160,20 @@
         </LinearLayout>
 
 
-        <Button
-            android:text="立即充值，成为合伙人"
-            android:textColor="@color/white"
-            android:background="@color/color_333"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"/>
-    </RelativeLayout>
 
+    </RelativeLayout>
+            <Button
+                android:layout_marginTop="50dp"
+                android:text="立即充值，成为合伙人"
+                android:textColor="@color/white"
+                android:background="@color/color_333"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"/>
+        </LinearLayout>
     </ScrollView>
 
 

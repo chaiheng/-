@@ -38,7 +38,7 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.okhttp3:okhttp:3.13.1'
-    implementation 'com.yanzhenjie:permission:1.0.5'
+
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
@@ -55,8 +55,8 @@ dependencies {
     //toast
     implementation 'com.github.hss01248:Toasty:2.0.6'
     //图片加载
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
     //鲁班，图片压缩
     implementation 'top.zibin:Luban:1.1.8'
@@ -89,9 +89,18 @@ dependencies {
     implementation 'com.zhouyou:rxeasyhttp:2.1.5'
 
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-4'
-//    implementation project(path: ':library')
     implementation 'com.github.ppg408331701:SemicircleProgress:v0.5.0'
     implementation 'com.zjun:rule-view:0.0.1'
     implementation 'com.github.1169458576:RulerView:v1.0.4'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.hjq:toast:5.8'
+    implementation 'com.blankj:utilcodex:1.23.7'
+    implementation 'com.yanzhenjie.permission:x:2.0.1'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    implementation 'me.jessyan:autosize:1.1.2'
+    implementation 'cat.ereza:customactivityoncrash:2.2.0'
+//    implementation 'com.contrarywind:Android-PickerView:4.1.7'
+    implementation('com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.6.20181018') {
+        exclude group: 'com.android.support'
+    }
 }
