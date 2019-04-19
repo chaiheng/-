@@ -11,6 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
-        android:text="@string/text_retry" />
+        android:text="稍后重试" />
 
 </FrameLayout>

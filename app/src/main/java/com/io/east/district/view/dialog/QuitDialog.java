@@ -60,14 +60,11 @@ public class QuitDialog extends Dialog {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_quit:
-                if (mQuit != null) {
-                    mQuit.onClick(view);
-                }
-                break;
             case R.id.bt_cancel:
                 if (mQuit != null) {
                     mQuit.onClick(view);
                 }
+                dismiss();
                 break;
         }
     }

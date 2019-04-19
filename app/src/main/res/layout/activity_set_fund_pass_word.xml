@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+  >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/white" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/iv_go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/go_back" />
+
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="设置交易密码"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:text="123"
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/color_333" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp">
+
+
+        <EditText
+
+            android:id="@+id/et_security_code"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:background="@null"
+            android:hint="验证码"
+            android:inputType="number"
+            android:maxLength="6"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_get_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="获取验证码"
+            android:textColor="@color/color_333"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EBEBEB" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp">
+
+
+        <EditText
+            android:layout_marginEnd="60dp"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:background="@null"
+            android:hint="请输入8-30位密码"
+            android:inputType="textPassword"
+            android:maxLength="30"
+            android:textSize="16sp" />
+
+        <ImageView
+
+            android:id="@+id/iv_hide"
+            android:layout_width="20dp"
+            android:layout_height="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/selector_eye" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EBEBEB" />
+
+
+    <Button
+        android:id="@+id/bt_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/color_333"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

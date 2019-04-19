@@ -18,6 +18,9 @@ import android.text.TextUtils;
 
 
 import com.io.east.district.api.UrlDeploy;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
+import com.vondear.rxfeature.tool.RxQRCode;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.cache.converter.SerializableDiskConverter;
 import com.zhouyou.http.cache.model.CacheMode;
@@ -73,11 +76,17 @@ public class MyApplication extends MultiDexApplication {
         mInstance = this;
         appcontext = this.getApplicationContext();
         MyToast.init(this, true, true);
+        UMConfigure.init(this, "5c8a143d2036571202000a83"
+                , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+        UMConfigure.setLogEnabled(true);//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
+        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setWeixin("wx1b131319c64b4c0d", "775d0cbc9145ff7e801e5b8be40ea191");
         init();
     }
 
     private void init() {
         EasyHttp.init(this);//默认初始化
+
         EasyHttp.getInstance()
 
                 //可以全局统一设置全局URL

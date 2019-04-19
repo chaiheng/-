@@ -1,5 +1,6 @@
 package com.io.east.district.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 
 import com.io.east.district.R;
 
+@SuppressLint("AppCompatCustomView")
 public class ClearEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
     /**
      * 删除按钮的引用

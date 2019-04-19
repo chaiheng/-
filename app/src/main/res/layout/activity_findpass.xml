@@ -20,12 +20,12 @@
         android:hint="@string/prompt_phone"
         android:inputType="number"
         android:maxLines="1"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:singleLine="true"
         android:textColor="@color/color_333"
         android:textColorHint="@color/hint_color"
-        android:textSize="@dimen/text_size_15" />
+        android:textSize="16sp" />
 
 
     <View
@@ -50,12 +50,12 @@
             android:hint="@string/prompt_authcode"
             android:inputType="number"
             android:maxLines="1"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:singleLine="true"
             android:textColor="@color/color_333"
             android:textColorHint="@color/hint_color"
-            android:textSize="@dimen/text_size_15" />
+            android:textSize="16sp" />
 
 
         <TextView
@@ -66,7 +66,7 @@
             android:gravity="center"
             android:text="@string/send_authcode"
             android:textColor="@color/color_333"
-            android:textSize="@dimen/text_size_15" />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <View
@@ -76,25 +76,26 @@
         android:background="#f2f2f2" />
 
 
-    <EditText
+    <com.io.east.district.view.PasswdEditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:background="@color/colorfff"
         android:digits="@string/digits"
+        android:drawableEnd="@mipmap/ic_eye_close"
         android:hint="@string/prompt_pa"
         android:imeActionId="6"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionUnspecified"
         android:inputType="textPassword"
         android:maxLines="1"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:singleLine="true"
         android:textColor="@color/color_333"
         android:textColorHint="@color/hint_color"
-        android:textSize="@dimen/text_size_15" />
+        android:textSize="16sp" />
 
 
     <View
@@ -114,7 +115,7 @@
         android:gravity="center"
         android:text="确定"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_15" />
+        android:textSize="16sp" />
 
 
 </LinearLayout>

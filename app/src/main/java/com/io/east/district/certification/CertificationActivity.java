@@ -155,7 +155,7 @@ public class CertificationActivity extends BaseActivity {
                 llCredentials.setVisibility(View.GONE);
                 llUploadPictures.setVisibility(View.GONE);
                 llAuditStatus.setVisibility(View.VISIBLE);
-                ivStatus.setImageResource(R.mipmap.success);
+                ivStatus.setImageResource(R.mipmap.succ);
                 tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.black));
                 tvPrompt.setText("审核成功");
                 tvPrompt.setTextSize(18f);

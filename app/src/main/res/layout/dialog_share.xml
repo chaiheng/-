@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_marginEnd="15dp"
+    android:layout_marginStart="15dp"
+    android:background="@drawable/white6"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginTop="27dp"
+        android:layout_gravity="center_horizontal"
+        android:text="分享到"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginBottom="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ll_wechat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/ll_moments"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wechat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="微信"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_qq"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/ll_moments"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="13dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/qq" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="QQ"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_moments"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/ll_qq"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/ll_wechat"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/circle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="朋友圈"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

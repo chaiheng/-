@@ -1,5 +1,7 @@
 package com.io.east.district.home;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +14,16 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
 import com.io.east.district.base.BaseFragment;
+import com.io.east.district.certification.CertificationActivity;
+import com.io.east.district.me.AboutPartnersActivity;
+import com.io.east.district.me.MeActivity;
+import com.io.east.district.me.NoticeActivity;
+import com.io.east.district.me.SafeCenterActivity;
+import com.io.east.district.me.SettingActivity;
+import com.io.east.district.view.dialog.ServiceDialog;
+import com.umeng.socialize.editorpage.ShareActivity;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -83,15 +95,18 @@ public class MyFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_head:
-                startActivity(getActivity(),);
+            case R.id.tv_name:
+                startActivity(new Intent(getActivity(), MeActivity.class));
                 break;
             case R.id.iv_set:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
-            case R.id.tv_name:
-                break;
+
+
             case R.id.bt_notice_number:
-                break;
+
             case R.id.cl_inform:
+                startActivity(new Intent(getActivity(), NoticeActivity.class));
                 break;
             case R.id.iv_see:
                 break;
@@ -107,14 +122,20 @@ public class MyFragment extends BaseFragment {
                 ToastUtils.show("敬请期待");
                 break;
             case R.id.rl_invite_friends:
+                startActivity(new Intent(getActivity(), ShareActivity.class));
                 break;
             case R.id.rl_about_partners:
+                startActivity(new Intent(getActivity(), AboutPartnersActivity.class));
                 break;
             case R.id.rl_identity_authentication:
+                startActivity(new Intent(getActivity(), CertificationActivity.class));
                 break;
             case R.id.rl_safety_center:
+                startActivity(new Intent(getActivity(), SafeCenterActivity.class));
                 break;
             case R.id.rl_my_customer_service:
+                ServiceDialog  serviceDialog  = new ServiceDialog(Objects.requireNonNull(getContext()));
+                serviceDialog.show();
                 break;
         }
     }

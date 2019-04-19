@@ -5,6 +5,4 @@
         <attr format="reference" name="retryResource" />
         <attr format="reference" name="loadingResource" />
     </declare-styleable>
-    <string name="text_empty">No data!</string>
-    <string name="text_retry">Something went wrong!\n\nTap to retry</string>
 </resources>
