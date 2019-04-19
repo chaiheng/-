@@ -8,19 +8,26 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.provider.Settings;
-
-import androidx.multidex.MultiDex;
-import androidx.multidex.MultiDexApplication;
-import androidx.core.app.ActivityCompat;
-
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import androidx.core.app.ActivityCompat;
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 
+import com.blankj.utilcode.util.LogUtils;
+import com.hjq.toast.ToastUtils;
 import com.io.east.district.api.UrlDeploy;
+import com.io.east.district.view.MyRefreshFooter;
+import com.io.east.district.view.MyRefreshHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
-import com.vondear.rxfeature.tool.RxQRCode;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.cache.converter.SerializableDiskConverter;
 import com.zhouyou.http.cache.model.CacheMode;
@@ -34,14 +41,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-
-import cat.ereza.customactivityoncrash.activity.DefaultErrorActivity;
 import es.dmoral.toasty.MyToast;
-import me.jessyan.autosize.AutoSize;
 import me.jessyan.autosize.AutoSizeConfig;
-import me.jessyan.autosize.external.ExternalAdaptInfo;
 import me.jessyan.autosize.onAdaptListener;
-import me.jessyan.autosize.utils.LogUtils;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
@@ -82,6 +84,7 @@ public class MyApplication extends MultiDexApplication {
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         PlatformConfig.setWeixin("wx1b131319c64b4c0d", "775d0cbc9145ff7e801e5b8be40ea191");
         init();
+        ToastUtils.init(this);
     }
 
     private void init() {
@@ -138,16 +141,16 @@ public class MyApplication extends MultiDexApplication {
         //可以添加全局拦截器，不需要就不要加入，错误写法直接导致任何回调不执行
         //.addInterceptor(new GzipRequestInterceptor())//开启post数据进行gzip后发送给服务器
 //                .addInterceptor(new CustomSignInterceptor());//添加参数签名拦截器
-        AutoSize.initCompatMultiProcess(this);
-        /**
-         * 以下是 AndroidAutoSize 可以自定义的参数, {@link AutoSizeConfig} 的每个方法的注释都写的很详细
-         * 使用前请一定记得跳进源码，查看方法的注释, 下面的注释只是简单描述!!!
-         */
+//        AutoSize.initCompatMultiProcess(this);
+//        /**
+//         * 以下是 AndroidAutoSize 可以自定义的参数, {@link AutoSizeConfig} 的每个方法的注释都写的很详细
+//         * 使用前请一定记得跳进源码，查看方法的注释, 下面的注释只是简单描述!!!
+//         */
         AutoSizeConfig.getInstance()
 
                 //是否让框架支持自定义 Fragment 的适配参数, 由于这个需求是比较少见的, 所以须要使用者手动开启
                 //如果没有这个需求建议不开启
-                .setCustomFragment(true)
+//                .setCustomFragment(true)
 
                 //是否屏蔽系统字体大小对 AndroidAutoSize 的影响, 如果为 true, App 内的字体的大小将不会跟随系统设置中字体大小的改变
                 //如果为 false, 则会跟随系统设置中字体大小的改变, 默认为 false
@@ -183,12 +186,12 @@ public class MyApplication extends MultiDexApplication {
 
         //设置屏幕适配逻辑策略类, 一般不用设置, 使用框架默认的就好
 //                .setAutoAdaptStrategy(new AutoAdaptStrategy())
-
-        customAdaptForExternal();
+//
+//        customAdaptForExternal();
 
     }
 
-    private void customAdaptForExternal() {
+  /*  private void customAdaptForExternal() {
 
         AutoSizeConfig.getInstance().getExternalAdaptManager()
 
@@ -206,7 +209,7 @@ public class MyApplication extends MultiDexApplication {
                 //但前提是三方库页面的布局使用的是 dp 和 sp, 如果布局全部使用的 px, 那 AndroidAutoSize 也将无能为力
                 //经过测试 DefaultErrorActivity 的设计图宽度在 360dp - 400dp 显示效果都是比较舒服的
                 .addExternalAdaptInfoOfActivity(DefaultErrorActivity.class, new ExternalAdaptInfo(true, 400));
-    }
+    }*/
 
 
     public static synchronized MyApplication getInstance() {
@@ -416,5 +419,25 @@ public class MyApplication extends MultiDexApplication {
         return false;
     }
 
+    static {
+        //设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色
+                layout.setHeaderHeight(40);
+                return new MyRefreshHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
+            }
+        });
+        //设置全局的Footer构建器
 
+        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
+            @Override
+            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+                //指定为经典Footer，默认是 BallPulseFooter
+                layout.setFooterHeight(40);
+                return new MyRefreshFooter(context);
+            }
+        });
+    }
 }

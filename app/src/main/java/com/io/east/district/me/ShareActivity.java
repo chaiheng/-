@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hjq.toast.ToastUtils;
@@ -24,6 +23,7 @@ import com.io.east.district.base.BaseActivity;
 import com.io.east.district.base.BasePresenter;
 import com.io.east.district.view.StateView;
 import com.io.east.district.view.dialog.ShareDialog;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
@@ -50,13 +50,7 @@ public class ShareActivity extends BaseActivity {
     @BindView(R.id.bt_save)
     Button btSave;
 
-    @BindView(R.id.ll_wechat)
-    LinearLayout llWechat;
-    @BindView(R.id.ll_qq)
-    LinearLayout llQq;
-    @BindView(R.id.ll_moments)
-    LinearLayout llMoments;
-    @BindView(R.id.tv_share)
+
     TextView tvShare;
     @BindView(R.id.tv_invitation_code)
     TextView tvInvitationCode;
@@ -75,7 +69,7 @@ public class ShareActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
+            Bitmap qrBitmap = CodeUtils.createImage("", 160, 160, null);
             ivQrCode.setImageBitmap(qrBitmap);
 
         }

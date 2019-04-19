@@ -31,5 +31,10 @@
                 <attr name="border_color" format="color" />
                 <attr name="border_overlay" format="boolean" />
         </declare-styleable>
+    <declare-styleable name="StateView">
+        <attr format="reference" name="emptyResource" />
+        <attr format="reference" name="retryResource" />
+        <attr format="reference" name="loadingResource" />
+    </declare-styleable>
 
 </resources>

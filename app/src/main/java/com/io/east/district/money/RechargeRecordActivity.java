@@ -1,5 +1,6 @@
 package com.io.east.district.money;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.ImageView;
 
@@ -36,6 +37,7 @@ public class RechargeRecordActivity extends BaseActivity {
     }
 
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,7 +9,7 @@
         android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
-
+        android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
@@ -28,6 +28,7 @@
         <activity android:name=".me.SetFundPassWordActivity"/>
         <activity android:name=".me.SetPsdActivity"/>
         <activity android:name=".me.MoneyPassWordActivity"/>
+
         <activity
             android:name=".start.StartActivity"
             android:theme="@style/StartTheme">
@@ -42,7 +43,6 @@
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask" /> <!-- 建议使用包名加fileprovider，同一手机不能安装一样的authorities应用 -->
-        <activity android:name=".activity.DownActivity" />
         <activity android:name=".start.GuidanceActivity" />
         <activity android:name=".login.LoginAndRegsterActivity" /> <!-- 登录注册转账界面 -->
         <activity
@@ -52,9 +52,10 @@
             android:name=".login.RegisterActivity"
             android:launchMode="singleTask" /> <!-- 注册 -->
         <activity android:name=".login.FindPassWordActivity" /> <!-- 找回密码 -->
-        <activity android:name=".login.PersonalDataActivity" /> <!-- 设置用户信息 -->
+        <!-- 设置用户信息 -->
         <!-- 系统设置 -->
         <activity android:name=".me.MeActivity" />
+
         <activity android:name=".me.SettingActivity" />
         <activity android:name=".me.AboutActivity" />
         <activity android:name=".certification.CertificationActivity" />
@@ -71,14 +72,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-    </application>
-    <meta-data
-        android:name="design_width_in_dp"
-        android:value="360" />
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="360"/>
 
-    <meta-data
-        android:name="design_height_in_dp"
-        android:value="720" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="720"/>
+    </application>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

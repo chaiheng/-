@@ -142,82 +142,84 @@ public class CertificationActivity extends BaseActivity {
         String idCardZmImgURL = intent.getStringExtra("idCardZmImgURL");
         String idCardFmImgURL = intent.getStringExtra("idCardFmImgURL");
 
+        if (!TextUtils.isEmpty(status)){
+            switch (status) {
+                case "succeed":
+                    tvName.setText(fname);
+                    tvIDNo.setText(fcode);
 
-        switch (status) {
-            case "succeed":
-                tvName.setText(fname);
-                tvIDNo.setText(fcode);
+                    tvMsg.setVisibility(View.GONE);
+                    Glide.with(CertificationActivity.this).load(idCardZmImgURL).into(ivPositive);
+                    Glide.with(CertificationActivity.this).load(idCardFmImgURL).into(ivContrary);
+                    tvSubmit.setVisibility(View.GONE);
+                    llCredentials.setVisibility(View.GONE);
+                    llUploadPictures.setVisibility(View.GONE);
+                    llAuditStatus.setVisibility(View.VISIBLE);
+                    ivStatus.setImageResource(R.mipmap.succ);
+                    tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.black));
+                    tvPrompt.setText("审核成功");
+                    tvPrompt.setTextSize(18f);
+                    btConfirm.setText("确定");
+                    break;
 
-                tvMsg.setVisibility(View.GONE);
-                Glide.with(CertificationActivity.this).load(idCardZmImgURL).into(ivPositive);
-                Glide.with(CertificationActivity.this).load(idCardFmImgURL).into(ivContrary);
-                tvSubmit.setVisibility(View.GONE);
-                llCredentials.setVisibility(View.GONE);
-                llUploadPictures.setVisibility(View.GONE);
-                llAuditStatus.setVisibility(View.VISIBLE);
-                ivStatus.setImageResource(R.mipmap.succ);
-                tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.black));
-                tvPrompt.setText("审核成功");
-                tvPrompt.setTextSize(18f);
-                btConfirm.setText("确定");
-                break;
+                case "failure":
 
-            case "failure":
-
-                tvName.setText(fname);
-                tvIDNo.setText(fcode);
-
-
-                Glide.with(CertificationActivity.this).load(idCardZmImgURL).into(ivPositive);
-                Glide.with(CertificationActivity.this).load(idCardFmImgURL).into(ivContrary);
-                tvSubmit.setVisibility(View.GONE);
-                llCredentials.setVisibility(View.GONE);
-                llUploadPictures.setVisibility(View.GONE);
-                llAuditStatus.setVisibility(View.VISIBLE);
-
-                ivStatus.setImageResource(R.mipmap.failure);
-                tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.black));
-                tvPrompt.setText("审核失败");
-                tvPrompt.setTextSize(18f);
-                tvMsg.setVisibility(View.VISIBLE);
-                tvMsg.setText(remark);
-                btConfirm.setText("重新上传");
-                break;
-
-            case "audit":
-                tvName.setText(fname);
-                tvIDNo.setText(fcode);
-
-                Glide.with(CertificationActivity.this).load(idCardZmImgURL).into(ivPositive);
-                Glide.with(CertificationActivity.this).load(idCardFmImgURL).into(ivContrary);
-                tvSubmit.setVisibility(View.GONE);
-                llCredentials.setVisibility(View.GONE);
-                llUploadPictures.setVisibility(View.GONE);
-                llAuditStatus.setVisibility(View.VISIBLE);
-                ivStatus.setImageResource(R.mipmap.audit);
-                tvMsg.setVisibility(View.GONE);
-                tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.hint_color));
-                tvPrompt.setText("大约需要1～2个工作日，请耐心等候");
-                btConfirm.setText("确定");
-                break;
-
-            case "no":
-
-                tvSubmit.setVisibility(View.VISIBLE);
-                llCredentials.setVisibility(View.VISIBLE);
-                llUploadPictures.setVisibility(View.VISIBLE);
-                llAuditStatus.setVisibility(View.GONE);
-                break;
-            default:
-
-                tvSubmit.setVisibility(View.VISIBLE);
-                llCredentials.setVisibility(View.VISIBLE);
-                llUploadPictures.setVisibility(View.VISIBLE);
-                llAuditStatus.setVisibility(View.GONE);
-                break;
+                    tvName.setText(fname);
+                    tvIDNo.setText(fcode);
 
 
+                    Glide.with(CertificationActivity.this).load(idCardZmImgURL).into(ivPositive);
+                    Glide.with(CertificationActivity.this).load(idCardFmImgURL).into(ivContrary);
+                    tvSubmit.setVisibility(View.GONE);
+                    llCredentials.setVisibility(View.GONE);
+                    llUploadPictures.setVisibility(View.GONE);
+                    llAuditStatus.setVisibility(View.VISIBLE);
+
+                    ivStatus.setImageResource(R.mipmap.failure);
+                    tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.black));
+                    tvPrompt.setText("审核失败");
+                    tvPrompt.setTextSize(18f);
+                    tvMsg.setVisibility(View.VISIBLE);
+                    tvMsg.setText(remark);
+                    btConfirm.setText("重新上传");
+                    break;
+
+                case "audit":
+                    tvName.setText(fname);
+                    tvIDNo.setText(fcode);
+
+                    Glide.with(CertificationActivity.this).load(idCardZmImgURL).into(ivPositive);
+                    Glide.with(CertificationActivity.this).load(idCardFmImgURL).into(ivContrary);
+                    tvSubmit.setVisibility(View.GONE);
+                    llCredentials.setVisibility(View.GONE);
+                    llUploadPictures.setVisibility(View.GONE);
+                    llAuditStatus.setVisibility(View.VISIBLE);
+                    ivStatus.setImageResource(R.mipmap.audit);
+                    tvMsg.setVisibility(View.GONE);
+                    tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.hint_color));
+                    tvPrompt.setText("大约需要1～2个工作日，请耐心等候");
+                    btConfirm.setText("确定");
+                    break;
+
+                case "no":
+
+                    tvSubmit.setVisibility(View.VISIBLE);
+                    llCredentials.setVisibility(View.VISIBLE);
+                    llUploadPictures.setVisibility(View.VISIBLE);
+                    llAuditStatus.setVisibility(View.GONE);
+                    break;
+                default:
+
+                    tvSubmit.setVisibility(View.VISIBLE);
+                    llCredentials.setVisibility(View.VISIBLE);
+                    llUploadPictures.setVisibility(View.VISIBLE);
+                    llAuditStatus.setVisibility(View.GONE);
+                    break;
+
+
+            }
         }
+
 
         etName.addTextChangedListener(new TextWatcher() {
             @Override

@@ -14,6 +14,8 @@ import androidx.core.widget.ContentLoadingProgressBar;
 import com.io.east.district.R;
 import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseFragment;
+import com.io.east.district.me.MyPerformanceActivity;
+import com.io.east.district.me.TeamManagementActivity;
 import com.io.east.district.money.MyDepositActivity;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
@@ -102,8 +104,10 @@ public class ConnectionFragment extends BaseFragment {
             case R.id.bt_renew:
                 break;
             case R.id.rl_my_performance:
+                startActivity(new Intent(getActivity(), MyPerformanceActivity.class));
                 break;
             case R.id.rl_team_management:
+                startActivity(new Intent(getActivity(), TeamManagementActivity.class));
                 break;
             case  R.id.cl_my_deposit:
                 startActivity(new Intent(getActivity(), MyDepositActivity.class));

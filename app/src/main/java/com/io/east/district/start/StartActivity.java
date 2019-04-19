@@ -5,15 +5,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.io.east.district.Constant;
 import com.io.east.district.R;
 import com.io.east.district.activity.MainActivity;
 import com.io.east.district.login.LoginAndRegsterActivity;
 import com.io.east.district.statusbar.UtilsStyle;
 import com.io.east.district.utils.SharedPreferencesUtil;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 
 public class StartActivity extends AppCompatActivity {

@@ -1,6 +1,5 @@
 package com.io.east.district.home;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +19,8 @@ import com.io.east.district.me.MeActivity;
 import com.io.east.district.me.NoticeActivity;
 import com.io.east.district.me.SafeCenterActivity;
 import com.io.east.district.me.SettingActivity;
+import com.io.east.district.me.ShareActivity;
 import com.io.east.district.view.dialog.ServiceDialog;
-import com.umeng.socialize.editorpage.ShareActivity;
 
 import java.util.Objects;
 
