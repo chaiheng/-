@@ -136,54 +136,57 @@
                 android:text="(份)"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-<!--            <com.zjun.widget.MoneySelectRuleView-->
-<!--                android:layout_marginStart="60dp"-->
-<!--                android:id="@+id/horizontalScale"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                app:zjun_bgColor="@color/white"-->
-<!--                app:zjun_indicatorLineColor="@color/color_333"-->
-<!--                app:msrv_gradationHeight="40dp"-->
-<!--                app:msrv_unitGap="6dp"-->
-
-<!--                app:msrv_gradationShortLen="8dp"-->
-<!--                app:msrv_gradationValueGap="12dp"-->
-<!--                app:zjun_indicatorLineLen="20dp"-->
-<!--                app:msrv_gradationLongLen="12dp"-->
-<!--                app:msrv_gradationTextSize="16sp"-->
-<!--                app:zjun_textColor="@color/hint_color"-->
-<!--                app:msrv_balanceText=" "-->
-<!--                app:msrv_maxValue="50"-->
-<!--                app:gv_gradationUnit="1"-->
-<!--                app:msrv_valueUnit="1"-->
-<!--                app:msrv_currentValue="1"/>-->
-
-            <com.zhzh.rulerlib.RulerView
-                android:id="@+id/rulerView"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginEnd="25dp"
+            <com.zjun.widget.RuleView
                 android:layout_marginStart="60dp"
-                app:perWidth="45dp"
-                app:minValue="1"
-                app:maxValue="50"
-                app:spacingValue="1"
-                app:longSpacingValue="1"
-                app:shortHeight="10dp"
+                android:id="@+id/horizontalScale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:zjun_bgColor="@color/white"
 
-                app:longHeight="15dp"
-                app:middleHeight="24dp"
-                app:lineWidth="1dp"
-                app:middleLineWidth="1dp"
-                app:middleLineColor="@color/color_333"
-                app:lineColor="#EBEBEB"
-                app:textSize="16sp"
-                app:textMargin="14dp"
-                app:showBaseLine="false"
-                />
+                app:zjun_indicatorLineColor="@color/color_333"
+
+                app:gv_shortGradationLen="8dp"
+
+                app:gv_indicatorLineLen="30dp"
+                app:gv_longGradationLen="16dp"
+                app:zjun_textSize="16sp"
+                app:zjun_textColor="@color/hint_color"
+                app:gv_currentValue="1f"
+                app:gv_minValue="1f"
+                app:gv_maxValue="50f"
+                app:gv_gradationUnit=".1f"
+                app:gv_numberPerCount="10f"
+                app:gv_gradationGap="10dp"
+                app:gv_gradationNumberGap="16dp"
+            />
+
+            <!--<com.zhzh.rulerlib.RulerView-->
+                <!--android:id="@+id/rulerView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginEnd="25dp"-->
+                <!--android:layout_marginStart="60dp"-->
+                <!--app:perWidth="45dp"-->
+                <!--app:minValue="1"-->
+                <!--app:maxValue="50"-->
+                <!--app:spacingValue="1"-->
+                <!--app:longSpacingValue="1"-->
+                <!--app:shortHeight="10dp"-->
+
+                <!--app:longHeight="15dp"-->
+                <!--app:middleHeight="24dp"-->
+                <!--app:lineWidth="1dp"-->
+                <!--app:middleLineWidth="1dp"-->
+                <!--app:middleLineColor="@color/color_333"-->
+                <!--app:lineColor="#EBEBEB"-->
+                <!--app:textSize="16sp"-->
+                <!--app:textMargin="14dp"-->
+                <!--app:showBaseLine="false"-->
+                <!--/>-->
         </RelativeLayout>
         <View
+            android:visibility="gone"
             android:layout_marginEnd="25dp"
             android:layout_marginStart="25dp"
             android:background="#EBEBEB"

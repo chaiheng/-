@@ -1,6 +1,8 @@
 package com.io.east.district.money;
 
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -9,7 +11,9 @@ import android.widget.TextView;
 import com.io.east.district.R;
 import com.io.east.district.base.BaseActivity;
 import com.io.east.district.base.BasePresenter;
-import com.zhzh.rulerlib.RulerView;
+import com.zjun.widget.RuleView;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,12 +25,14 @@ public class MarginDepositActivity extends BaseActivity {
     ImageView ivGoBack;
     @BindView(R.id.tv_recharge_amount)
     TextView tvRechargeAmount;
-    @BindView(R.id.rulerView)
-    RulerView rulerView;
+
     @BindView(R.id.tv_actual_amount)
     TextView tvActualAmount;
     @BindView(R.id.bt_go_prepaid)
     Button btGoPrepaid;
+    @BindView(R.id.horizontalScale)
+    RuleView horizontalScale;
+    private Vibrator vibrator;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -44,15 +50,29 @@ public class MarginDepositActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
-        rulerView.scrollToValue(1);
-        rulerView.setOnValueChangedListener(new RulerView.OnValueChangedListener() {
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        horizontalScale.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onValueChanged(int i) {
-                tvRechargeAmount.setText(""+i*1000);
-                tvActualAmount.setText(""+i*1000+100);
-                rulerView.scrollToValue(i);
+            public boolean onTouch(View v, MotionEvent horizontalScale) {
+                if (MotionEvent.ACTION_MOVE==horizontalScale.getAction()){
+                    vibrator.vibrate(500);
+                }else {
+                    vibrator.cancel();
+                }
+                return true;
             }
         });
+        horizontalScale.setOnValueChangedListener(new RuleView.OnValueChangedListener() {
+            @Override
+            public void onValueChanged(float value) {
+                BigDecimal bigDecimal  = new BigDecimal(value) ;
+
+                String string = bigDecimal.setScale(0, BigDecimal.ROUND_DOWN).toPlainString();
+
+
+            }
+        });
+
     }
 
     @OnClick({R.id.iv_go_back, R.id.bt_go_prepaid})
