@@ -8,9 +8,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.io.east.district.R;
+import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
 import com.io.east.district.base.BasePresenter;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 import com.zjun.widget.RuleView;
 
 import java.math.BigDecimal;
@@ -33,6 +38,8 @@ public class MarginDepositActivity extends BaseActivity {
     @BindView(R.id.horizontalScale)
     RuleView horizontalScale;
     private Vibrator vibrator;
+    private String money;
+    private String num;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -67,13 +74,18 @@ public class MarginDepositActivity extends BaseActivity {
             public void onValueChanged(float value) {
                 BigDecimal bigDecimal  = new BigDecimal(value) ;
 
-                String string = bigDecimal.setScale(0, BigDecimal.ROUND_DOWN).toPlainString();
-
+                num = bigDecimal.setScale(0, BigDecimal.ROUND_DOWN).toPlainString();
+                Integer valueOf = Integer.valueOf(num);
+                int figure = valueOf * 10000;
+                money  = String.valueOf(valueOf * 10000);
+                tvActualAmount.setText(""+figure+1000);
+                tvRechargeAmount.setText(money);
 
             }
         });
 
     }
+
 
     @OnClick({R.id.iv_go_back, R.id.bt_go_prepaid})
     public void onViewClicked(View view) {
@@ -82,6 +94,23 @@ public class MarginDepositActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.bt_go_prepaid:
+                String token = SPUtils.getInstance("login").getString("token");
+                EasyHttp.post(UrlDeploy.recharge)
+                        .headers("XX-Token", token)
+                        .headers("XX-Device-Type", "android")
+                        .params("money",money)
+                        .params("num",num)
+                        .execute(new SimpleCallBack<String>() {
+                            @Override
+                            public void onError(ApiException e) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(String s) {
+
+                            }
+                        });
                 break;
         }
     }

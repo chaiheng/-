@@ -155,35 +155,13 @@
                 app:gv_currentValue="1"
                 app:gv_minValue="1"
                 app:gv_maxValue="50"
-                app:gv_gradationUnit="0.1"
-                app:gv_numberPerCount="10"
+                app:gv_gradationUnit="0.2"
+                app:gv_numberPerCount="5"
                 app:gv_gradationGap="10dp"
                 app:gv_gradationNumberGap="16dp"
             />
 
-            <!--<com.zhzh.rulerlib.RulerView-->
-                <!--android:id="@+id/rulerView"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:layout_marginEnd="25dp"-->
-                <!--android:layout_marginStart="60dp"-->
-                <!--app:perWidth="45dp"-->
-                <!--app:minValue="1"-->
-                <!--app:maxValue="50"-->
-                <!--app:spacingValue="1"-->
-                <!--app:longSpacingValue="1"-->
-                <!--app:shortHeight="10dp"-->
 
-                <!--app:longHeight="15dp"-->
-                <!--app:middleHeight="24dp"-->
-                <!--app:lineWidth="1dp"-->
-                <!--app:middleLineWidth="1dp"-->
-                <!--app:middleLineColor="@color/color_333"-->
-                <!--app:lineColor="#EBEBEB"-->
-                <!--app:textSize="16sp"-->
-                <!--app:textMargin="14dp"-->
-                <!--app:showBaseLine="false"-->
-                <!--/>-->
         </RelativeLayout>
         <View
             android:visibility="gone"
