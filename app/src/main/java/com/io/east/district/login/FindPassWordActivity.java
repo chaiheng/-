@@ -3,6 +3,8 @@ package com.io.east.district.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -10,18 +12,32 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.content.res.AppCompatResources;
+
+import com.blankj.utilcode.util.GsonUtils;
+import com.hjq.toast.ToastUtils;
 import com.io.east.district.MyApplication;
 import com.io.east.district.R;
+import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
-import com.io.east.district.bean.FindPassBean;
+import com.io.east.district.base.BaseBody;
 import com.io.east.district.utils.CheckUtils;
-import com.io.east.district.utils.CountDownTimerUtils;
 import com.io.east.district.utils.EmojiInputFilter;
 import com.io.east.district.view.ClearEditText;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 
 public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implements FindPassView {
@@ -50,10 +66,11 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
     TextView tvFindpass;
     private boolean flag = false;
     private boolean flag2 = false;
+    private Disposable disposable;
 
     @Override
     protected FindPassPresenter createPresenter() {
-        return new FindPassPresenter(this);
+        return null;
     }
 
     @Override
@@ -112,22 +129,108 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
                 finish();
                 break;
             case R.id.tv_sendauth:
-                if (!CheckUtils.validatePhone(etPhone.getText().toString())) {
-                    showtoast("请输入正确的手机号码");
+                if (TextUtils.isEmpty(etPhone.getText().toString())){
+                    ToastUtils.show("请输入手机号码");
+                }else if (!CheckUtils.validatePhone(etPhone.getText().toString())) {
+                    ToastUtils.show("请输入正确的手机号码");
                 } else {
-                    CountDownTimerUtils.startCount(tvSendauth);
-                    presenter.SendMsg(etPhone.getText().toString());
+
+                    EasyHttp.get(UrlDeploy.verification_code)
+                            .params("mobile", etPhone.getText().toString())
+                            .params("reset", "1")
+                            .execute(new SimpleCallBack<String>() {
+
+                                @Override
+                                public void onError(ApiException e) {
+                                    Log.d("eee", e.getMessage());
+                                }
+
+                                @Override
+                                public void onSuccess(String s) {
+
+                                    BaseBody baseBody = GsonUtils.fromJson(s, BaseBody.class);
+                                    if (baseBody.isOk()){
+                                        ToastUtils.show("验证码发送成功");
+                                        startCountDownTime();
+
+                                    }else {
+                                        ToastUtils.show(baseBody.getMsg());
+                                    }
+
+                                }
+                            });
+//                    CountDownTimerUtils.startCount(tvSendauth);
+//                    presenter.SendMsg(etPhone.getText().toString());
                 }
                 break;
             case R.id.tv_findpass:
                 if (Check()) {
-                    showLoading();
-                    FindPassBean findPassBean = new FindPassBean(etPhone.getText().toString(), password.getText().toString(), authcode.getText().toString());
-                    presenter.findpass(findPassBean);
+                EasyHttp.post(UrlDeploy.PasswordReset)
+                        .params("mobile",etPhone.getText().toString())
+                        .params("password",password.getText().toString())
+                        .params("verification_code",authcode.getText().toString())
+                        .params("password_type","password")
+                        .execute(new SimpleCallBack<String>() {
+                            @Override
+                            public void onError(ApiException e) {
+                                Log.d("ee",e.getMessage());
+                            }
+
+                            @Override
+                            public void onSuccess(String s) {
+                               BaseBody baseBody = GsonUtils.fromJson(s, BaseBody.class);
+                                if (baseBody.isOk()){
+                                    ToastUtils.show("修改成功");
+                                    finish();
+                                }else {
+                                    ToastUtils.show(baseBody.getMsg());
+                                }
+                            }
+                        });
+
+
+
                 }
                 break;
         }
     }
+    private void startCountDownTime() {
 
+
+        disposable = Flowable.intervalRange(0, 61, 0, 1, TimeUnit.SECONDS)
+
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+//                        Log.d(TAG, "倒计时");
+                        tvSendauth.setEnabled(false);
+                        tvSendauth.setTextColor(
+                                AppCompatResources.getColorStateList(FindPassWordActivity.this, R.color.hint_color));
+                        tvSendauth.setText((60 - aLong) + "秒可重新发送");
+                    }
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+//                        Log.d(TAG, "倒计时完毕");
+                        tvSendauth.setEnabled(true);
+                        tvSendauth.setTextColor(
+                                AppCompatResources.getColorStateList(FindPassWordActivity.this, R.color.color_333));
+                        tvSendauth.setText("获取验证码");
+                    }
+                })
+                .subscribe();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (disposable != null) {
+            disposable.dispose();
+        }
+
+    }
 }
 

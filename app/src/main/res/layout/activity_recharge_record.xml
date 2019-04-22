@@ -15,7 +15,7 @@
             <ImageView
                 android:id="@+id/iv_go_back"
                 android:padding="10dp"
-              android:layout_marginStart="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/go_back"
                 android:layout_width="wrap_content"
@@ -30,10 +30,15 @@
 
         </RelativeLayout>
 
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/sr_recharge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_record"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rv_record"
-    android:layout_marginTop="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

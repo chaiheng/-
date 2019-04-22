@@ -11,23 +11,32 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.SPUtils;
+import com.hjq.toast.ToastUtils;
 import com.io.east.district.Constant;
 import com.io.east.district.MyApplication;
 import com.io.east.district.R;
 import com.io.east.district.activity.MainActivity;
+import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
+import com.io.east.district.bean.RegisterBean;
 import com.io.east.district.utils.CheckUtils;
 import com.io.east.district.utils.EmojiInputFilter;
 import com.io.east.district.utils.SharedPreferencesUtil;
 import com.io.east.district.view.ClearEditText;
 import com.io.east.district.view.PasswdEditText;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView {
+public class LoginActivity extends BaseActivity {
 
     @BindView(R.id.header_back)
     ImageView headerBack;
@@ -56,7 +65,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected LoginPresenter createPresenter() {
-        return new LoginPresenter(this);
+        return null;
     }
 
     @Override
@@ -78,22 +87,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
 
     @Override
-    public void onLoginSucc(String nickname) {
-        showtoast("登录成功");
-        hideLoading();
-        SharedPreferencesUtil.getInstance().saveInfo(Constant.IS_LOGIN, true);
-        SharedPreferencesUtil.getInstance().saveInfo(Constant.LOGIN_PHONE, etPhone.getText().toString());
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
-        //退出登录清空
-    }
-
-    @Override
-    public void onSendSucc() {
-//        showtoast("验证码发送成功");
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
@@ -112,12 +105,46 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 break;
             case R.id.tv_login:
                 //示例代码，示例接口
-//                if (Check()) {
-//                    showLoading();
-//                    presenter.login(etPhone.getText().toString(), password.getText().toString(), "");
-//                }
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
+                if (Check()) {
+                    EasyHttp.post(UrlDeploy.login)
+                            .params("mobile", etPhone.getText().toString().trim())
+                            .params("password", password.getText().toString().trim())
+                            .params("device_type", "android")
+                            .execute(new SimpleCallBack<String>() {
+                                @Override
+                                public void onError(ApiException e) {
+                                        ToastUtils.show("错误"+e.getMessage());
+                                }
+
+
+
+                                @Override
+                                public void onSuccess(String s) {
+                                    if (!TextUtils.isEmpty(s)){
+                                        JSONObject jsonObject  = JSON.parseObject(s);
+                                        int code = jsonObject.getIntValue("code");
+                                        String msg = jsonObject.getString("msg");
+                                        if (code==1){
+
+                                            RegisterBean registerBean = JSON.parseObject(s, RegisterBean.class);
+                                            SPUtils.getInstance("login").put("token", registerBean.getData().getToken());
+                                            SPUtils.getInstance("invitation_code").put("invitation_code", registerBean.getData().getInvitation_code());
+                                            ToastUtils.show("登录成功");
+                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        }else {
+                                            ToastUtils.show(msg);
+                                        }
+                                    }
+
+
+
+                                }
+
+
+                            });
+
+                }
+
                 break;
             case R.id.tv_register:
                 startActivity(new Intent(this, RegisterActivity.class));
@@ -127,13 +154,22 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     public boolean Check() {
+        if (TextUtils.isEmpty(etPhone.getText().toString())){
+            ToastUtils.show("请输入手机号");
+        }
         if (!CheckUtils.validatePhone(etPhone.getText().toString())) {
-            showtoast("手机号码不存在");
-            return false;
-        } else if (!CheckUtils.validatePhonePass(password.getText().toString())) {
-            showtoast("密码必须是6-18位字母加数字组合");
+            ToastUtils.show("请输入正确手机号");
             return false;
         }
+        if (TextUtils.isEmpty(password.getText().toString())){
+            ToastUtils.show("请输入密码");
+            return false;
+        }
+        if (!CheckUtils.validatePhonePass(password.getText().toString())) {
+            ToastUtils.show("密码必须是6-18位字母加数字组合");
+            return false;
+        }
+
         return true;
     }
 

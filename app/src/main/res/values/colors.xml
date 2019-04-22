@@ -19,4 +19,5 @@
     <color name="color_333">#333333</color>
     <color name="line">#EBEBEB</color>
     <color name="hint_color">#888888</color>
+    <color name="red">#FA5E59</color>
 </resources>

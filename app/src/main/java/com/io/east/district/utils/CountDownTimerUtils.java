@@ -14,6 +14,7 @@ public class CountDownTimerUtils {
 
             @Override
             public void onTick(long millisUntilFinished) {
+                textView.setEnabled(false);
                 textView.setText(millisUntilFinished / 1000 + "s");
             }
 
@@ -24,7 +25,7 @@ public class CountDownTimerUtils {
             }
         };
 
-        textView.setEnabled(false);
+//        textView.setEnabled(false);
         countDownTimer.start();
     }
 
