@@ -18,6 +18,7 @@ import androidx.multidex.MultiDexApplication;
 import com.blankj.utilcode.util.LogUtils;
 import com.hjq.toast.ToastUtils;
 import com.io.east.district.api.UrlDeploy;
+import com.io.east.district.utils.OSSClientUtil;
 import com.io.east.district.view.MyRefreshFooter;
 import com.io.east.district.view.MyRefreshHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;

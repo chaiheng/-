@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-
+    android:id="@+id/srl_asset"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="#EDEEEF"
     tools:context=".money.AssetsManagementActivity">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <RelativeLayout
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -175,164 +181,18 @@
         android:background="#EBEBEB"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:background="@color/white"
-    android:layout_width="match_parent"
-    android:layout_height="55dp">
-    <TextView
-        android:textColor="@color/black"
-        android:text="▼"
-        android:layout_marginStart="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/tv_phone"
-        android:textSize="16sp"
-        android:text="1234"
-        android:textColor="@color/hint_color"
-        android:layout_marginStart="50dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="200dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="充值奖励"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:textColor="#4EAB7F"
-        android:textSize="14sp"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="200dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="+500D值"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        android:text="状态"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="34dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        android:text="已收"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="34dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
-    <LinearLayout
-        android:background="#FAFAFA"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
+
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_asset"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:textSize="13sp"
-                android:textColor="@color/hint_color"
-                android:text="充值时间"
-                android:layout_marginStart="20dp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:textSize="13sp"
-                android:textColor="@color/color_333"
-                android:text="2019-12"
-                android:layout_marginEnd="20dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:textSize="13sp"
-                android:textColor="@color/hint_color"
-                android:text="充值保证金"
-                android:layout_marginStart="20dp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:textSize="13sp"
-                android:textColor="@color/color_333"
-                android:text="1000"
-                android:layout_marginEnd="20dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:textSize="13sp"
-                android:textColor="@color/hint_color"
-                android:text="入账时间"
-                android:layout_marginStart="20dp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:textSize="13sp"
-                android:textColor="@color/color_333"
-                android:text="2019-12"
-                android:layout_marginEnd="20dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:textSize="13sp"
-                android:textColor="@color/hint_color"
-                android:text="充值奖励"
-                android:layout_marginStart="20dp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:textSize="13sp"
-                android:textColor="@color/color_333"
-                android:text="500"
-                android:layout_marginEnd="20dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
+            android:layout_height="wrap_content">
 
+        </androidx.recyclerview.widget.RecyclerView>
 
-
-    </LinearLayout>
-</androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

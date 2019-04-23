@@ -2,35 +2,31 @@ package com.io.east.district.me;
 
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
+import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.SPUtils;
-
+import com.bumptech.glide.Glide;
 import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
+import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
 import com.io.east.district.base.BasePresenter;
+import com.io.east.district.bean.BaseEntity;
+import com.io.east.district.bean.UserProBean;
+import com.io.east.district.utils.OSSClientUtil;
 import com.io.east.district.view.CircleImageView;
 import com.io.east.district.view.dialog.IconDialog;
-
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -38,24 +34,15 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.Rationale;
-
-
 import com.yanzhenjie.permission.runtime.Permission;
 import com.zhouyou.http.EasyHttp;
-import com.zhouyou.http.body.UIProgressResponseCallBack;
-import com.zhouyou.http.callback.ProgressDialogCallBack;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
-import com.zhouyou.http.subsciber.IProgressDialog;
-import com.zhouyou.http.utils.HttpLog;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
 
 import static com.luck.picture.lib.config.PictureMimeType.ofImage;
 
@@ -74,7 +61,6 @@ public class MeActivity extends BaseActivity {
 
     @BindView(R.id.phone_text_view)
     TextView phoneTextView;
-
 
 
     private static final int REQ_CODE_PERMISSION = 1;
@@ -101,15 +87,18 @@ public class MeActivity extends BaseActivity {
         nameTextView.setFilters(filters);
     }
 
+    @Override
+    public void initData() {
+        super.initData();
+        fetchPersonalInfo();
+    }
 
- /*   private void fetchPersonalInfo() {
-        if (mUser == null) {
-            mUser = SharedPreferencesTool.getUser(this);
-        }
+    private void fetchPersonalInfo() {
+
         String token = SPUtils.getInstance("login").getString("token");
-
-        EasyHttp.post(URLConfig.URL_USER_INFO)
-                .params("token", token)
+        EasyHttp.get(UrlDeploy.read)
+                .headers("XX-Token", token)
+                .headers("XX-Device-Type", "android")
                 .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
@@ -118,59 +107,44 @@ public class MeActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(String s) {
-
-                        try {
-                            UserProfileBean userProfileBean = GsonUtils.fromJson(s, UserProfileBean.class);
-
-                                   if ("登录已失效，请重新登录!".equals(userProfileBean.getMsg())) {
-
-                                    ToastUtils.show("登录已失效请重新登录");
-
-                                    openLogin();
-
-                                    return;
-                                }
-                            if (userProfileBean.getCode() == 200) {
-                                String favatar = userProfileBean.getData().getFavatar();
-                                url = favatar;
-
-                                nickname = userProfileBean.getData().getFnickname();
-                                Log.d("nnn",nickname);
-                                if (!TextUtils.isEmpty(favatar) && favatar.startsWith("http") || favatar.startsWith("https")) {
-                                    Glide.with(MeActivity.this).load(favatar).into(avatarImageView);
-                                } else {
-                                    Glide.with(MeActivity.this).load(R.drawable.head_portrait).into(avatarImageView);
-                                }
-                                nameTextView.setText(nickname);
-
-
-                                String ftelephone = userProfileBean.getData().getFtelephone();
-                                if (!TextUtils.isEmpty(ftelephone) && ftelephone.length() >= 11) {
-                                    String reStr = ftelephone.substring(ftelephone.length() - 4, ftelephone.length());
-                                    String preStr = ftelephone.substring(0, ftelephone.length() - 8);
-                                    StringBuilder sb = new StringBuilder();
-                                    sb.append(preStr).append("****").append(reStr);
-                                    phoneTextView.setText(sb.toString());
-                                }
-
+                        UserProBean userProBean = JSON.parseObject(s, UserProBean.class);
+                        if (userProBean.getCode() == 1) {
+                            String avatar = userProBean.getData().getAvatar();
+                            String mobile = userProBean.getData().getMobile();
+                            String nickname = userProBean.getData().getNickname();
+                            nameTextView.setText(nickname);
+                            if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http") || avatar.startsWith("https")) {
+                                Glide.with(MeActivity.this).load(avatar).into(avatarImageView);
+                            } else {
+                                Glide.with(MeActivity.this).load(R.mipmap.photo).into(avatarImageView);
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+
+                            if (!TextUtils.isEmpty(mobile) && mobile.length() >= 11) {
+                                String reStr = mobile.substring(mobile.length() - 4, mobile.length());
+                                String preStr = mobile.substring(0, mobile.length() - 8);
+                                StringBuilder sb = new StringBuilder();
+                                sb.append(preStr).append("****").append(reStr);
+                                phoneTextView.setText(sb.toString());
+                            }
+
                         }
+
 
                     }
                 });
 
 
-    }*/
+    }
 
     private void submitPersonalInfo() {
 
-    /*    String token = SPUtils.getInstance("login").getString("token");
-        EasyHttp.post(URLConfig.ModifyPersonal)
-                .params("favatar", url)
-                .params("fnickname", nameTextView.getText().toString())
-                .params("token", token)
+        String token = SPUtils.getInstance("login").getString("token");
+        EasyHttp.put(UrlDeploy.modified)
+                .headers("XX-Token", token)
+                .headers("XX-Device-Type", "android")
+                .params("avatar", url)
+                .params("nickname", nameTextView.getText().toString())
+
                 .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
@@ -180,22 +154,18 @@ public class MeActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s) {
                         try {
-                            Entity entity = GsonUtils.fromJson(s, Entity.class);
-                            if (entity.getCode() == 200) {
+                            BaseEntity baseEntity = JSON.parseObject(s, BaseEntity.class);
+                            if (baseEntity.getCode()==1){
                                 ToastUtils.show("修改成功");
                                 finish();
-                            } else if (entity.getCode() == 401) {
-                                ToastUtils.show("登录已失效请重新登录");
-                                openLogin();
-
-                            } else {
-                                ToastUtils.show(entity.getMsg());
+                            }else {
+                                ToastUtils.show(baseEntity.getMsg());
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                });*/
+                });
 
 
     }
@@ -207,81 +177,24 @@ public class MeActivity extends BaseActivity {
      */
     private void uploadAvatar(String path) {
 
-        final UIProgressResponseCallBack listener = new UIProgressResponseCallBack() {
-            @Override
-            public void onUIResponseProgress(long bytesRead, long contentLength, boolean done) {
-                int progress = (int) (bytesRead * 100 / contentLength);
-                HttpLog.e(progress + "% ");
-                dialog.setProgress(progress);
-                dialog.setMessage(progress + "%");
-                if (done) {//完成
-                    dialog.setMessage("头像上传完成");
-                }
-            }
-        };
-        File file = new File(path);
+
+//        File file = new File(path);
         String token = SPUtils.getInstance("login").getString("token");
         Log.d("token", "...." + token);
-      /*  EasyHttp.post(URLConfig.URL_IDENTITY_CARD_PHOTO)
-                .params("token", token)
-                .params("type", "8")
-                .params("file", file, file.getName(), MediaType.parse("image/*"), listener)
-                .execute(new ProgressDialogCallBack<String>(mProgressDialog, true, true) {
-
-                    @Override
-                    public void onError(ApiException e) {
-                        super.onError(e);
-//                        ToastUtils.show("上传失败"+e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onSuccess(String string) {
-                        try {
-                            Gson gson = new Gson();
-                            UpLoadBean upLoadBean = gson.fromJson(string, UpLoadBean.class);
-
-                            if ("SUCCESS".equals(upLoadBean.getState())) {
-
-                                tvSave.setEnabled(true);
-                                tvSave.setTextColor(AppCompatResources.getColorStateList(MeActivity.this, R.color.black));
-                                url = upLoadBean.getUrl();
-                                if (mPersonalInfo == null) {
-                                    mPersonalInfo = new PersonalInfo();
-                                }
-
-                                mPersonalInfo.setFavatar(url);
-                                Glide.with(MeActivity.this).load(url).into(avatarImageView);
-
-                            }
-                        } catch (JsonSyntaxException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });*/
+        OSSClientUtil ossClientUtil = new OSSClientUtil();
+//        ossClientUtil.init();
+        try {
+            ossClientUtil.uploadImg2Oss(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        url = ossClientUtil.getUrl("XyVjFQNlsbMnNNCGc4aOSMwmjZV5nU");
+        Glide.with(MeActivity.this).load(url).into(avatarImageView);
 
     }
 
 
-    private ProgressDialog dialog;
-    private IProgressDialog mProgressDialog = new IProgressDialog() {
-        @Override
-        public Dialog getDialog() {
-            if (dialog == null) {
-                dialog = new ProgressDialog(MeActivity.this);
-                dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置进度条的形式为圆形转动的进度条
-                dialog.setMessage("正在上传...");
-                // 设置提示的title的图标，默认是没有的，如果没有设置title的话只设置Icon是不会显示图标的
-                dialog.setTitle("头像上传");
-                dialog.setMax(100);
-            }
-            return dialog;
-        }
-    };
-
-
-
-    @OnClick({R.id.avatar_container, R.id.iv_go_back, R.id.tv_save,R.id.phone_container
+    @OnClick({R.id.avatar_container, R.id.iv_go_back, R.id.tv_save, R.id.phone_container
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -302,16 +215,10 @@ public class MeActivity extends BaseActivity {
             case R.id.avatar_container:
                 openAlbum();
                 break;
-            case   R.id.phone_container:
-//                startActivity(new Intent(this,BindingPhoneValidationActivity.class));
-                finish();
-                break;
 
 
         }
     }
-
-
 
 
     /**
@@ -450,10 +357,6 @@ public class MeActivity extends BaseActivity {
     }
 
 
-
-
-
-
     /**
      * 过滤 表情
      */
@@ -553,6 +456,6 @@ public class MeActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-     return R.layout.activity_me;
+        return R.layout.activity_me;
     }
 }

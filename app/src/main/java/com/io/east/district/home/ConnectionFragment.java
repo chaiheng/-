@@ -81,6 +81,7 @@ public class ConnectionFragment extends BaseFragment {
 
     @Override
     protected void init() {
+
         if (is_partner == 1) {
 //               续费
             rlRenew.setVisibility(View.GONE);

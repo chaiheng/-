@@ -2,7 +2,6 @@ package com.io.east.district.me;
 
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -10,13 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.GsonUtils;
+import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.SPUtils;
-
 import com.io.east.district.R;
 import com.io.east.district.adapter.NoticeAdapter;
+import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
+import com.io.east.district.base.BaseEmptyView;
 import com.io.east.district.base.BasePresenter;
+import com.io.east.district.bean.NoticeBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -48,9 +49,9 @@ public class NoticeActivity extends BaseActivity {
     @BindView(R.id.mSmartRefreshLayout)
     SmartRefreshLayout mSmartRefreshLayout;
     private NoticeAdapter noticeAdapter;
-    private  List<String> mData  =new ArrayList<>();
+    private List<NoticeBean.DataBean> mData = new ArrayList<>();
 
-
+    private int page = 1;
 
     @OnClick(R.id.iv_go_back)
     public void onViewClicked() {
@@ -74,7 +75,7 @@ public class NoticeActivity extends BaseActivity {
         mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                initData();
+               getData();
                 mSmartRefreshLayout.finishRefresh();
             }
         });
@@ -88,16 +89,23 @@ public class NoticeActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-    return R.layout.activity_notice;
+        return R.layout.activity_notice;
     }
 
     @Override
     public void initData() {
         super.initData();
-       /* String token = SPUtils.getInstance("login").getString("token");
-        EasyHttp.post(URLConfig.affiche)
-                .params("local", "1")
-                .params("token", token)
+
+
+    }
+
+    private void getData() {
+        String token = SPUtils.getInstance("login").getString("token");
+        EasyHttp.get(UrlDeploy.notice)
+                .headers("XX-Token", token)
+                .headers("XX-Device-Type", "android")
+                .params("list_rows", "10")
+                .params("page", ""+page)
                 .execute(new SimpleCallBack<String>() {
 
                     @Override
@@ -108,15 +116,16 @@ public class NoticeActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s) {
                         try {
-                       int code = proclamationBean.getCode();
-                            if (code == 200) {
-                                List<ProclamationBean.DataBean.ArticlesBean> articles = proclamationBean.getData().getArticles();
-                                for (int i = 0; i < articles.size(); i++) {
-                                    valueBeanList = articles.get(i).getValue();
-                                    noticeAdapter.setNewData(valueBeanList);
-                                }
+                            NoticeBean noticeBean = JSON.parseObject(s, NoticeBean.class);
+                            int code = noticeBean.getCode();
+                            if (code == 1) {
+                                List<NoticeBean.DataBean> data = noticeBean.getData();
 
-                                if (valueBeanList.isEmpty()) {
+
+                                    noticeAdapter.setNewData(data);
+
+
+                                if (data.isEmpty()) {
                                     noticeAdapter.setEmptyView(new BaseEmptyView(NoticeActivity.this));
                                 }
                                 noticeAdapter.notifyDataSetChanged();
@@ -126,11 +135,8 @@ public class NoticeActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                     }
-                });*/
-
+                });
 
     }
-
-
 
 }

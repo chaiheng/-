@@ -122,5 +122,6 @@ public class TeamManagementActivity extends BaseActivity {
 
     @OnClick(R.id.iv_go_back)
     public void onViewClicked() {
+        finish();
     }
 }

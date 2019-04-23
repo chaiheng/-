@@ -1,12 +1,7 @@
 package com.io.east.district.certification;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -23,13 +18,20 @@ import android.widget.TextView;
 
 import androidx.appcompat.content.res.AppCompatResources;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
+import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
 import com.io.east.district.base.BasePresenter;
+import com.io.east.district.bean.AddIdCardBean;
+import com.io.east.district.bean.BaseEntity;
+import com.io.east.district.bean.LooKVerifyBean;
+import com.io.east.district.utils.OSSClientUtil;
 import com.io.east.district.view.dialog.IconDialog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -40,18 +42,14 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.runtime.Permission;
-import com.zhouyou.http.body.UIProgressResponseCallBack;
-import com.zhouyou.http.subsciber.IProgressDialog;
-import com.zhouyou.http.utils.HttpLog;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.luck.picture.lib.config.PictureMimeType.ofImage;
@@ -119,8 +117,8 @@ public class CertificationActivity extends BaseActivity {
 
 
     private List<String> mData = new ArrayList<>();
-    private String status;
-//    private boolean afresh;
+
+    private boolean afresh;
 
 
     @Override
@@ -132,93 +130,119 @@ public class CertificationActivity extends BaseActivity {
     }
 
     @Override
+    public void initData() {
+        super.initData();
+        String token = SPUtils.getInstance("login").getString("token");
+        EasyHttp.get(UrlDeploy.verify)
+                .headers("XX-Token", token)
+                .headers("XX-Device-Type", "android")
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        JSONObject jsonObject = JSON.parseObject(s);
+                        int code = jsonObject.getIntValue("code");
+
+
+                        if (code == 0) {
+//                               没有认证
+                            tvSubmit.setVisibility(View.VISIBLE);
+                            llCredentials.setVisibility(View.VISIBLE);
+                            llUploadPictures.setVisibility(View.VISIBLE);
+                            llAuditStatus.setVisibility(View.GONE);
+                        } else {
+                            LooKVerifyBean looKVerifyBean = JSON.parseObject(s, LooKVerifyBean.class);
+                            String country = looKVerifyBean.getData().getCountry();
+                            String real_name = looKVerifyBean.getData().getReal_name();
+                            String id_number = looKVerifyBean.getData().getId_number();
+                            String img_front = looKVerifyBean.getData().getImg_front();
+                            String img_reverse = looKVerifyBean.getData().getImg_reverse();
+                            String remark = looKVerifyBean.getData().getRemark();
+                            int status = looKVerifyBean.getData().getStatus();
+
+
+                            switch (status) {
+                                case 2:
+//                                      成功
+                                    tvName.setText(real_name);
+                                    tvIDNo.setText(id_number);
+
+                                    tvMsg.setVisibility(View.GONE);
+                                    Glide.with(CertificationActivity.this).load(img_front).into(ivPositive);
+                                    Glide.with(CertificationActivity.this).load(img_reverse).into(ivContrary);
+                                    tvSubmit.setVisibility(View.GONE);
+                                    llCredentials.setVisibility(View.GONE);
+                                    llUploadPictures.setVisibility(View.GONE);
+                                    llAuditStatus.setVisibility(View.VISIBLE);
+                                    ivStatus.setImageResource(R.mipmap.succ);
+                                    tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.black));
+                                    tvPrompt.setText("审核成功");
+                                    tvPrompt.setTextSize(18f);
+                                    btConfirm.setText("确定");
+                                    break;
+
+                                case 3:
+//                          审核失败
+                                    tvName.setText(real_name);
+                                    tvIDNo.setText(id_number);
+
+                                    Glide.with(CertificationActivity.this).load(img_front).into(ivPositive);
+                                    Glide.with(CertificationActivity.this).load(img_reverse).into(ivContrary);
+                                    tvSubmit.setVisibility(View.GONE);
+                                    llCredentials.setVisibility(View.GONE);
+                                    llUploadPictures.setVisibility(View.GONE);
+                                    llAuditStatus.setVisibility(View.VISIBLE);
+
+                                    ivStatus.setImageResource(R.mipmap.failure);
+                                    tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.black));
+                                    tvPrompt.setText("审核失败");
+                                    tvPrompt.setTextSize(18f);
+                                    tvMsg.setVisibility(View.VISIBLE);
+                                    tvMsg.setText(remark);
+                                    btConfirm.setText("重新上传");
+                                    break;
+
+                                case 1:
+//                                        审核中
+                                    tvName.setText(real_name);
+                                    tvIDNo.setText(id_number);
+
+                                    Glide.with(CertificationActivity.this).load(img_front).into(ivPositive);
+                                    Glide.with(CertificationActivity.this).load(img_reverse).into(ivContrary);
+                                    tvSubmit.setVisibility(View.GONE);
+                                    llCredentials.setVisibility(View.GONE);
+                                    llUploadPictures.setVisibility(View.GONE);
+                                    llAuditStatus.setVisibility(View.VISIBLE);
+                                    ivStatus.setImageResource(R.mipmap.audit);
+                                    tvMsg.setVisibility(View.GONE);
+                                    tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.hint_color));
+                                    tvPrompt.setText("大约需要1～2个工作日，请耐心等候");
+                                    btConfirm.setText("确定");
+                                    break;
+
+
+                                default:
+
+                                    tvSubmit.setVisibility(View.VISIBLE);
+                                    llCredentials.setVisibility(View.VISIBLE);
+                                    llUploadPictures.setVisibility(View.VISIBLE);
+                                    llAuditStatus.setVisibility(View.GONE);
+                                    break;
+
+
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void initView() {
         super.initView();
-        Intent intent = getIntent();
-        status = intent.getStringExtra("status");
-        String fcode = intent.getStringExtra("fcode");
-        String fname = intent.getStringExtra("fname");
-        String remark = intent.getStringExtra("remark");
-        String idCardZmImgURL = intent.getStringExtra("idCardZmImgURL");
-        String idCardFmImgURL = intent.getStringExtra("idCardFmImgURL");
-
-        if (!TextUtils.isEmpty(status)){
-            switch (status) {
-                case "succeed":
-                    tvName.setText(fname);
-                    tvIDNo.setText(fcode);
-
-                    tvMsg.setVisibility(View.GONE);
-                    Glide.with(CertificationActivity.this).load(idCardZmImgURL).into(ivPositive);
-                    Glide.with(CertificationActivity.this).load(idCardFmImgURL).into(ivContrary);
-                    tvSubmit.setVisibility(View.GONE);
-                    llCredentials.setVisibility(View.GONE);
-                    llUploadPictures.setVisibility(View.GONE);
-                    llAuditStatus.setVisibility(View.VISIBLE);
-                    ivStatus.setImageResource(R.mipmap.succ);
-                    tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.black));
-                    tvPrompt.setText("审核成功");
-                    tvPrompt.setTextSize(18f);
-                    btConfirm.setText("确定");
-                    break;
-
-                case "failure":
-
-                    tvName.setText(fname);
-                    tvIDNo.setText(fcode);
-
-
-                    Glide.with(CertificationActivity.this).load(idCardZmImgURL).into(ivPositive);
-                    Glide.with(CertificationActivity.this).load(idCardFmImgURL).into(ivContrary);
-                    tvSubmit.setVisibility(View.GONE);
-                    llCredentials.setVisibility(View.GONE);
-                    llUploadPictures.setVisibility(View.GONE);
-                    llAuditStatus.setVisibility(View.VISIBLE);
-
-                    ivStatus.setImageResource(R.mipmap.failure);
-                    tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.black));
-                    tvPrompt.setText("审核失败");
-                    tvPrompt.setTextSize(18f);
-                    tvMsg.setVisibility(View.VISIBLE);
-                    tvMsg.setText(remark);
-                    btConfirm.setText("重新上传");
-                    break;
-
-                case "audit":
-                    tvName.setText(fname);
-                    tvIDNo.setText(fcode);
-
-                    Glide.with(CertificationActivity.this).load(idCardZmImgURL).into(ivPositive);
-                    Glide.with(CertificationActivity.this).load(idCardFmImgURL).into(ivContrary);
-                    tvSubmit.setVisibility(View.GONE);
-                    llCredentials.setVisibility(View.GONE);
-                    llUploadPictures.setVisibility(View.GONE);
-                    llAuditStatus.setVisibility(View.VISIBLE);
-                    ivStatus.setImageResource(R.mipmap.audit);
-                    tvMsg.setVisibility(View.GONE);
-                    tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.hint_color));
-                    tvPrompt.setText("大约需要1～2个工作日，请耐心等候");
-                    btConfirm.setText("确定");
-                    break;
-
-                case "no":
-
-                    tvSubmit.setVisibility(View.VISIBLE);
-                    llCredentials.setVisibility(View.VISIBLE);
-                    llUploadPictures.setVisibility(View.VISIBLE);
-                    llAuditStatus.setVisibility(View.GONE);
-                    break;
-                default:
-
-                    tvSubmit.setVisibility(View.VISIBLE);
-                    llCredentials.setVisibility(View.VISIBLE);
-                    llUploadPictures.setVisibility(View.VISIBLE);
-                    llAuditStatus.setVisibility(View.GONE);
-                    break;
-
-
-            }
-        }
 
 
         etName.addTextChangedListener(new TextWatcher() {
@@ -295,7 +319,101 @@ public class CertificationActivity extends BaseActivity {
 
 
                 if (idCard18Exact) {
-                    certification(name, "7", idNumber, frontUrl, reverseUrl);
+                    if (afresh){
+//                           修改 身份证
+
+                        String token = SPUtils.getInstance("login").getString("token");
+                        EasyHttp.put(UrlDeploy.ChangeVerify)
+                                .headers("XX-Token", token)
+                                .headers("XX-Device-Type", "android")
+                                .params("real_name",name)
+                                .params("id_number",idNumber)
+                                .params("img_front",frontUrl)
+                                .params("img_reverse",reverseUrl)
+                                .execute(new SimpleCallBack<String>() {
+                                    @Override
+                                    public void onError(ApiException e) {
+
+                                    }
+
+                                    @Override
+                                    public void onSuccess(String s) {
+                                        BaseEntity baseEntity = JSON.parseObject(s, BaseEntity.class);
+                                        int code = baseEntity.getCode();
+                                        if (code==1){
+                                            ToastUtils.show("提交成功");
+
+                                            tvSubmit.setVisibility(View.GONE);
+                                            llCredentials.setVisibility(View.GONE);
+                                            llUploadPictures.setVisibility(View.GONE);
+                                            llAuditStatus.setVisibility(View.VISIBLE);
+                                            ivStatus.setImageResource(R.mipmap.audit);
+                                            tvMsg.setVisibility(View.GONE);
+                                            tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.hint_color));
+                                            tvPrompt.setText("大约需要1～2个工作日，请耐心等候");
+                                            btConfirm.setText("确定");
+                                            tvSubmit.setVisibility(View.GONE);
+                                            llCredentials.setVisibility(View.GONE);
+                                            llUploadPictures.setVisibility(View.GONE);
+                                            llAuditStatus.setVisibility(View.VISIBLE);
+                                            tvName.setText(name);
+                                            tvIDNo.setText(idNumber);
+                                        }else {
+                                            ToastUtils.show(baseEntity.getMsg());
+                                        }
+
+
+                                    }
+                                });
+
+                    }else {
+//                           添加身份证
+                        String token = SPUtils.getInstance("login").getString("token");
+                        EasyHttp.post(UrlDeploy.verify)
+                                .headers("XX-Token", token)
+                                .headers("XX-Device-Type", "android")
+                                .params("real_name",name)
+                                .params("id_number",idNumber)
+                                .params("img_front",frontUrl)
+                                .params("img_reverse",reverseUrl)
+                                .execute(new SimpleCallBack<String>() {
+                                    @Override
+                                    public void onError(ApiException e) {
+
+                                    }
+
+                                    @Override
+                                    public void onSuccess(String s) {
+                                        AddIdCardBean addIdCardBean = JSON.parseObject(s, AddIdCardBean.class);
+                                        int code = addIdCardBean.getCode();
+                                        if (code==1){
+                                          ToastUtils.show("提交成功");
+
+                                            tvSubmit.setVisibility(View.GONE);
+                                            llCredentials.setVisibility(View.GONE);
+                                            llUploadPictures.setVisibility(View.GONE);
+                                            llAuditStatus.setVisibility(View.VISIBLE);
+                                            ivStatus.setImageResource(R.mipmap.audit);
+                                            tvMsg.setVisibility(View.GONE);
+                                            tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.hint_color));
+                                            tvPrompt.setText("大约需要1～2个工作日，请耐心等候");
+                                            btConfirm.setText("确定");
+                                            tvSubmit.setVisibility(View.GONE);
+                                            llCredentials.setVisibility(View.GONE);
+                                            llUploadPictures.setVisibility(View.GONE);
+                                            llAuditStatus.setVisibility(View.VISIBLE);
+                                            tvName.setText(name);
+                                            tvIDNo.setText(idNumber);
+                                        }else {
+                                            ToastUtils.show(addIdCardBean.getMsg());
+                                        }
+
+
+                                    }
+                                });
+                    }
+//
+
                 } else {
 
                     ToastUtils.show("身份证号不合法");
@@ -321,7 +439,8 @@ public class CertificationActivity extends BaseActivity {
                     tvSubmit.setVisibility(View.VISIBLE);
                     llCredentials.setVisibility(View.VISIBLE);
                     llUploadPictures.setVisibility(View.VISIBLE);
-//                    afresh = true;
+                    afresh = true;
+
                 } else {
                     finish();
                 }
@@ -339,8 +458,7 @@ public class CertificationActivity extends BaseActivity {
         public void showRationale(Context context, Object data, RequestExecutor executor) {
             executor.execute();
 
-            // When the user interrupts the request:
-//            executor.cancel();
+
         }
 
 
@@ -421,114 +539,33 @@ public class CertificationActivity extends BaseActivity {
     private void uploading(String path) {
 
 
-        final UIProgressResponseCallBack listener = new UIProgressResponseCallBack() {
-            @Override
-            public void onUIResponseProgress(long bytesRead, long contentLength, boolean done) {
-                int progress = (int) (bytesRead * 100 / contentLength);
-                HttpLog.e(progress + "% ");
-                dialog.setProgress(progress);
-                dialog.setMessage(progress + "%");
-                if (done) {//完成
-                    dialog.setMessage("上传完成");
-                }
-            }
-        };
-        File file = new File(path);
-//        RequestBody requestBody = RequestBody.create(MediaType.parse("Content-Type: multipart/form-data"), file);
-//
-//        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
-
         String token = SPUtils.getInstance("login").getString("token");
         Log.d("token", "...." + token);
-       /* EasyHttp.post(URLConfig.URL_IDENTITY_CARD_PHOTO)
-                .params("token", token)
-                .params("type", "7")
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
-                .params("file", file, file.getName(), MediaType.parse("image/*"), listener)
-                .execute(new ProgressDialogCallBack<String>(mProgressDialog, true, true) {
 
-                    @Override
-                    public void onError(ApiException e) {
-                        super.onError(e);
-//                        ToastUtils.show("上传失败"+e.getMessage());
 
-                    }
+        OSSClientUtil ossClientUtil = new OSSClientUtil();
+//        ossClientUtil.init();
+        try {
+            ossClientUtil.uploadImg2Oss(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-                    @Override
-                    public void onSuccess(String string) {
-
-                        try {
-                            UpLoadBean upLoadBean = GsonUtils.fromJson(string, UpLoadBean.class);
-                            if ("SUCCESS".equals(upLoadBean.getState())) {
-                                if (state == 1) {
+        if (state == 1) {
 //                             正面
-                                    frontUrl = upLoadBean.getUrl();
-                                    Log.d("frontUrl", "...." + frontUrl);
+            frontUrl = ossClientUtil.getUrl("XyVjFQNlsbMnNNCGc4aOSMwmjZV5nU");
+            Log.d("frontUrl", "...." + frontUrl);
 
-                                } else if (state == 2) {
+        } else if (state == 2) {
 //                               反面
-                                    reverseUrl = upLoadBean.getUrl();
-                                    Log.d("reverseUrl", "...." + reverseUrl);
-                                }
-                            }
-                        } catch (JsonParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                });*/
+            reverseUrl = ossClientUtil.getUrl("XyVjFQNlsbMnNNCGc4aOSMwmjZV5nU");
+            Log.d("reverseUrl", "...." + reverseUrl);
+        }
 
 
     }
 
 
-    private ProgressDialog dialog;
-    private IProgressDialog mProgressDialog = new IProgressDialog() {
-        @Override
-        public Dialog getDialog() {
-            if (dialog == null) {
-                dialog = new ProgressDialog(CertificationActivity.this);
-                dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置进度条的形式为圆形转动的进度条
-                dialog.setMessage("正在上传...");
-                // 设置提示的title的图标，默认是没有的，如果没有设置title的话只设置Icon是不会显示图标的
-                dialog.setTitle("图片上传");
-                dialog.setMax(100);
-            }
-            return dialog;
-        }
-    };
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-
-
-            tvSubmit.setVisibility(View.GONE);
-            llCredentials.setVisibility(View.GONE);
-            llUploadPictures.setVisibility(View.GONE);
-            llAuditStatus.setVisibility(View.VISIBLE);
-            ivStatus.setImageResource(R.mipmap.audit);
-            tvMsg.setVisibility(View.GONE);
-            tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.hint_color));
-            tvPrompt.setText("大约需要1～2个工作日，请耐心等候");
-            btConfirm.setText("确定");
-            tvSubmit.setVisibility(View.GONE);
-            llCredentials.setVisibility(View.GONE);
-            llUploadPictures.setVisibility(View.GONE);
-            llAuditStatus.setVisibility(View.VISIBLE);
-            tvName.setText(name);
-            tvIDNo.setText(idNumber);
-
-  /*          if (identificationBean != null) {
-                Glide.with(CertificationActivity.this).load(frontUrl)
-                        .into(ivPositive);
-                Glide.with(CertificationActivity.this).load(reverseUrl)
-                        .into(ivContrary);
-            }
-*/
-
-            return false;
-        }
-    });
 
     @Override
     protected BasePresenter createPresenter() {
@@ -540,27 +577,10 @@ public class CertificationActivity extends BaseActivity {
         return R.layout.activity_certification;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (handler != null) {
-            handler.removeCallbacks(null);
-        }
-    }
 
     /**
      * 认证身份证
      */
-
-    private void certification(String realname, String identitytype, String identityno,
-                               String idCardZmImgURL, String idCardFmImgURL) {
-        String token = SPUtils.getInstance("login").getString("token");
-        String secretKey = SPUtils.getInstance("login").getString("secretKey");
-
-        Map<String, String> params = new HashMap<>();
-
-
-    }
 
 
     private void showChoice() {
@@ -689,8 +709,7 @@ public class CertificationActivity extends BaseActivity {
                     if (!getIsEmoji(codePoint)) {
                         buffer.append(codePoint);
                     } else {
-//                        ToastUtil.show(ApplicationContext.getString(R.string
-//                                .installment_contact_detail_address_face_tip));
+                        ;
                         i++;
                         continue;
                     }
@@ -734,8 +753,7 @@ public class CertificationActivity extends BaseActivity {
                         if (!getIsSp(codePoint)) {
                             buffer.append(codePoint);
                         } else {
-//                        ToastUtil.show(ApplicationContext.getString(R.string
-//                                .installment_contact_detail_address_error_tip));
+
                             i++;
                             continue;
                         }
@@ -768,10 +786,4 @@ public class CertificationActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

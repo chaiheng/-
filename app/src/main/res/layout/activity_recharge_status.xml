@@ -190,6 +190,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tv_money"
             android:textSize="16sp"
             android:layout_marginEnd="20dp"
             android:text="10000.00"
@@ -199,6 +200,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tv_num"
             android:textColor="@color/color_333"
             android:textSize="15sp"
             android:text="11"
@@ -213,6 +215,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp">
         <TextView
+            android:id="@+id/tv_total"
             android:textSize="16sp"
             android:textColor="#FA5E59"
             android:text="合计：¥10000.00"
@@ -222,9 +225,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tv_CNY"
             android:textSize="16sp"
             android:textColor="@color/color_333"
-            android:text="≈9000.02 BTA"
+            android:text="¥111"
             android:layout_marginTop="44dp"
             android:layout_marginEnd="20dp"
             android:layout_alignParentRight="true"

@@ -1,13 +1,13 @@
 package com.io.east.district.adapter;
 
 import android.annotation.SuppressLint;
-import android.text.Html;
 
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.io.east.district.R;
+import com.io.east.district.bean.NoticeBean;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,23 +16,13 @@ import java.util.List;
 /**
  * 公告列表
  */
-public class NoticeAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    public NoticeAdapter(int layoutResId, @Nullable List<String> data) {
+public class NoticeAdapter extends BaseQuickAdapter<NoticeBean.DataBean, BaseViewHolder> {
+    public NoticeAdapter(int layoutResId, @Nullable List<NoticeBean.DataBean> data) {
         super(layoutResId, data);
     }
 
-    /*public NoticeAdapter(int layoutResId, @Nullable List<ProclamationBean.DataBean.ArticlesBean.ValueBean> data) {
-        super(layoutResId, data);
-    }
 
-    @Override
-    protected void convert(BaseViewHolder helper, ProclamationBean.DataBean.ArticlesBean.ValueBean item) {
-        helper.setText(R.id.bt_time, stampToDate(item.getFcreatedate()));
-        helper.setText(R.id.tv_title, item.getFtitle());
-        helper.setText(R.id.tv_msg, Html.fromHtml(item.getFcontent()));
-//        helper.setText(R.id.tv_name, item.getKey().getFname());
-//        helper.setText(R.id.tv_min, stampToDate2(item.getKey().getFcreatetime()));
-    }*/
+
 
 
     /*
@@ -59,8 +49,11 @@ public class NoticeAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         return res;
     }
 
-    @Override
-    protected void convert(BaseViewHolder helper, String item) {
 
+    @Override
+    protected void convert(BaseViewHolder helper, NoticeBean.DataBean item) {
+        helper.setText(R.id.bt_time,item.getCreatetime());
+        helper.setText(R.id.tv_title, item.getTitle());
+        helper.setText(R.id.tv_msg, item.getContent());
     }
 }

@@ -1,6 +1,5 @@
 package com.io.east.district.activity;
 
-import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.IdRes;
@@ -16,6 +15,7 @@ import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
 import com.io.east.district.bean.PeopleBean;
 import com.io.east.district.downfile.FilePresenter;
+import com.io.east.district.event.ConnectionEvent;
 import com.io.east.district.home.ConfirmPrepaidFragment;
 import com.io.east.district.home.ConnectionFragment;
 import com.io.east.district.home.MyFragment;
@@ -29,10 +29,13 @@ import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
@@ -45,6 +48,7 @@ public class MainActivity extends BaseActivity {
     private ViewPagerAdapter mViewPagerAdapter;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     public int is_partner;
+    private boolean isNo;
 
     @Override
     protected FilePresenter createPresenter() {
@@ -58,6 +62,8 @@ public class MainActivity extends BaseActivity {
 
 
     public void initView() {
+        EventBus.getDefault().register(this);
+        isNo = getIntent().getBooleanExtra("isNo", false);
         MyApplication.getInstance().exit();
         mFragments.add(ProjectFragment.newInstance());
         mFragments.add(ConnectionFragment.newInstance());
@@ -111,7 +117,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
     private void selectTab(@IdRes int tabId) {
         switch (tabId) {
             case R.id.tab_hot:
@@ -123,8 +128,8 @@ public class MainActivity extends BaseActivity {
                 String token = SPUtils.getInstance("login").getString("token");
 
                 EasyHttp.get(UrlDeploy.people)
-                        .headers("XX-Token",token)
-                        .headers("XX-Device-Type","android")
+                        .headers("XX-Token", token)
+                        .headers("XX-Device-Type", "android")
                         .execute(new SimpleCallBack<String>() {
                             @Override
                             public void onError(ApiException e) {
@@ -136,14 +141,18 @@ public class MainActivity extends BaseActivity {
                                 Log.d("renmai", "...." + s);
 
                                 PeopleBean peopleBean = JSON.parseObject(s, PeopleBean.class);
-                                if (peopleBean.getData()==null){
+                                if (peopleBean.getData() == null) {
 //                               为空不是合伙人
                                     mainViewpager.setCurrentItem(3, false);
-                                }else {
-                                    if (peopleBean.getCode()==1){
+                                } else {
+                                    if (peopleBean.getCode() == 1) {
                                         is_partner = peopleBean.getData().getIs_partner();
+                                        if (is_partner == 0 && isNo) {
+                                            mainViewpager.setCurrentItem(2, false);
+                                        } else {
+                                            mainViewpager.setCurrentItem(1, false);
+                                        }
 
-                                        mainViewpager.setCurrentItem(1, false);
 //                            clpProgress.setProgress();
                                     }
 
@@ -151,10 +160,6 @@ public class MainActivity extends BaseActivity {
 
                             }
                         });
-
-
-//                    mainViewpager.setCurrentItem(2, false);
-
 
 
                 break;
@@ -166,12 +171,17 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void goConnection(ConnectionEvent event) {
+        if (event.isPartner) {
+            mainViewpager.setCurrentItem(1, false);
+        }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

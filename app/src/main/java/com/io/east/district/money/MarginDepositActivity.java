@@ -1,18 +1,23 @@
 package com.io.east.district.money;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.SPUtils;
+import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
 import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
 import com.io.east.district.base.BasePresenter;
+import com.io.east.district.bean.RechargeBean;
+import com.io.east.district.view.dialog.OrderDialog;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
@@ -58,17 +63,18 @@ public class MarginDepositActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        horizontalScale.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent horizontalScale) {
-                if (MotionEvent.ACTION_MOVE==horizontalScale.getAction()){
-                    vibrator.vibrate(500);
-                }else {
-                    vibrator.cancel();
-                }
-                return true;
-            }
-        });
+
+//        horizontalScale.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent horizontalScale) {
+//                if (MotionEvent.ACTION_MOVE==horizontalScale.getAction()){
+//                    vibrator.vibrate(500);
+//                }else {
+//                    vibrator.cancel();
+//                }
+//                return false;
+//            }
+//        });
         horizontalScale.setOnValueChangedListener(new RuleView.OnValueChangedListener() {
             @Override
             public void onValueChanged(float value) {
@@ -77,8 +83,9 @@ public class MarginDepositActivity extends BaseActivity {
                 num = bigDecimal.setScale(0, BigDecimal.ROUND_DOWN).toPlainString();
                 Integer valueOf = Integer.valueOf(num);
                 int figure = valueOf * 10000;
+                int practical  = figure + 1000;
                 money  = String.valueOf(valueOf * 10000);
-                tvActualAmount.setText(""+figure+1000);
+                tvActualAmount.setText(""+practical );
                 tvRechargeAmount.setText(money);
 
             }
@@ -94,23 +101,42 @@ public class MarginDepositActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.bt_go_prepaid:
-                String token = SPUtils.getInstance("login").getString("token");
-                EasyHttp.post(UrlDeploy.recharge)
-                        .headers("XX-Token", token)
-                        .headers("XX-Device-Type", "android")
-                        .params("money",money)
-                        .params("num",num)
-                        .execute(new SimpleCallBack<String>() {
-                            @Override
-                            public void onError(ApiException e) {
+                OrderDialog  orderDialog  =  new OrderDialog(this);
+                orderDialog.show();
+                orderDialog.setOrderLister(new OrderDialog.Order() {
+                    @Override
+                    public void onClick(View view) {
 
-                            }
+                        String token = SPUtils.getInstance("login").getString("token");
+                        EasyHttp.post(UrlDeploy.recharge)
+                                .headers("XX-Token", token)
+                                .headers("XX-Device-Type", "android")
+                                .params("money",money)
+                                .params("num",num)
+                                .execute(new SimpleCallBack<String>() {
+                                    @Override
+                                    public void onError(ApiException e) {
 
-                            @Override
-                            public void onSuccess(String s) {
+                                    }
 
-                            }
-                        });
+                                    @Override
+                                    public void onSuccess(String s) {
+                                        Log.d("ccc","...."+s);
+                                        RechargeBean rechargeBean = JSON.parseObject(s,  RechargeBean.class);
+
+                                        int code = rechargeBean.getCode();
+                                        if (code==1){
+                                            startActivity(new Intent(MarginDepositActivity.this,PrepaidActivity.class));
+                                        }else {
+                                            ToastUtils.show(rechargeBean.getMsg());
+                                        }
+//
+                                    }
+                                });
+                        orderDialog.dismiss();
+                    }
+                });
+
                 break;
         }
     }
