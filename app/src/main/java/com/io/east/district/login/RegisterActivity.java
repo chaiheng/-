@@ -200,6 +200,7 @@ public class RegisterActivity extends BaseActivity {
                                 @Override
                                 public void onSuccess(String s) {
                                     if (!TextUtils.isEmpty(s)) {
+                                        Log.d("register","..."+s);
                                         JSONObject jsonObject = JSON.parseObject(s);
                                         int code = jsonObject.getIntValue("code");
                                         String msg = jsonObject.getString("msg");
@@ -208,7 +209,8 @@ public class RegisterActivity extends BaseActivity {
                                             RegisterBean registerBean = JSON.parseObject(s, RegisterBean.class);
                                             ToastUtils.show("注册成功");
                                             SPUtils.getInstance("login").put("token", registerBean.getData().getToken());
-                                            SPUtils.getInstance("invitation_code").put("invitation_code", registerBean.getData().getInvitation_code());
+                                            SPUtils.getInstance("login").put("invitation_code", registerBean.getData().getInvitation_code());
+                                            SPUtils.getInstance("login").put("phone", registerBean.getData().getMobile());
                                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                                         } else {
                                             ToastUtils.show(msg);

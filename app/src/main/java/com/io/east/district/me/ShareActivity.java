@@ -1,22 +1,19 @@
 package com.io.east.district.me;
 
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
 import com.io.east.district.base.BaseActivity;
@@ -32,7 +29,6 @@ import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -64,17 +60,10 @@ public class ShareActivity extends BaseActivity {
     private ClipboardManager mClipboardManager;
     //剪切板Data对象
     private ClipData mClipData;
-    @SuppressLint("HandlerLeak")
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Bitmap qrBitmap = CodeUtils.createImage("", 160, 160, null);
-            ivQrCode.setImageBitmap(qrBitmap);
 
-        }
-    };
     private Bitmap qrBitmap;
+
+    private String invitation_code;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -86,62 +75,19 @@ public class ShareActivity extends BaseActivity {
         return R.layout.activity_share;
     }
 
-    @Override
-    protected void onDestroy() {
-
-        if (handler != null) {
-            handler.removeCallbacks(null);
-        }
-        super.onDestroy();
-    }
-
 
     @Override
-    public void initData() {
-        super.initData();
-     /*   EasyHttp.post(URLConfig.DOWNLOADUR)
-                .execute(new SimpleCallBack<String>() {
-                    @Override
-                    public void onError(ApiException e) {
+    public void initView() {
+        super.initView();
 
-                    }
-
-                    @Override
-                    public void onSuccess(String s) {
-                        try {
-                            DownLoadBean downLoadBean = GsonUtils.fromJson(s, DownLoadBean.class);
-                            int code = downLoadBean.getCode();
-                            if (code == 200) {
-                                url = downLoadBean.getData();
-                                Log.d("durl", "....." + url);
-                                if (!TextUtils.isEmpty(url)) {
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            RxQRCode.builder(url).
-                                                    backColor(0xFFFFFFFF).
-                                                    codeColor(0xFF000000).
-                                                    codeSide(160).
-                                                    into(ivQrCode);
-//                                            qrBitmap = QRCodeEncoder.syncEncodeQRCode(url, BGAQRCodeUtil.dp2px(ShareActivity.this, 160));
-                                            handler.sendEmptyMessage(1);
-                                        }
-                                    }).start();
-
-                                }
-
-
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });*/
+        invitation_code = SPUtils.getInstance("login").getString("invitation_code");
+        tvInvitationCode.setText(invitation_code);
+        String url = "https://h5.qdd.world/#/Register?code=" + invitation_code;
+        qrBitmap = CodeUtils.createImage(url, 160, 160, null);
+        ivQrCode.setImageBitmap(qrBitmap);
     }
 
-
-    @OnClick({R.id.iv_go_back, R.id.bt_save,R.id.tv_share,
+    @OnClick({R.id.iv_go_back, R.id.bt_save, R.id.tv_share,
             R.id.bt_copy_invitation_code, R.id.bt_copy_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -192,19 +138,27 @@ public class ShareActivity extends BaseActivity {
 
                 break;
             case R.id.tv_share:
-                ShareDialog  shareDialog  = new ShareDialog(this);
+                ShareDialog shareDialog = new ShareDialog(this);
                 shareDialog.show();
                 break;
             case R.id.bt_copy_invitation_code:
-                String copy = tvInvitationCode.getText().toString();
+//                String copy = tvInvitationCode.getText().toString();
                 //创建一个新的文本clip对象
-                mClipData = ClipData.newPlainText("Simple test", copy);
+                mClipData = ClipData.newPlainText("Simple test", invitation_code);
                 //把clip对象放在剪贴板中
                 mClipboardManager.setPrimaryClip(mClipData);
 
                 ToastUtils.show("复制成功！");
                 break;
             case R.id.bt_copy_address:
+
+
+                //创建一个新的文本clip对象
+                mClipData = ClipData.newPlainText("Simple test", url);
+                //把clip对象放在剪贴板中
+                mClipboardManager.setPrimaryClip(mClipData);
+
+                ToastUtils.show("复制成功！");
                 break;
 
         }
@@ -215,14 +169,6 @@ public class ShareActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 //        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
-    }
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 
 

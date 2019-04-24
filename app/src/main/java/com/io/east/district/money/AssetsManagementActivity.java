@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
 import com.io.east.district.adapter.AssetAdapter;
@@ -38,6 +39,7 @@ import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.widget.WheelView;
 
+
 /**
  * 资产管理
  */
@@ -55,8 +57,7 @@ public class AssetsManagementActivity extends BaseActivity {
     TextView tvRoute;
     @BindView(R.id.bt_select_time)
     Button btSelectTime;
-    @BindView(R.id.tv_phone)
-    TextView tvPhone;
+
     @BindView(R.id.rv_asset)
     RecyclerView rvAsset;
     @BindView(R.id.srl_asset)
@@ -102,11 +103,14 @@ public class AssetsManagementActivity extends BaseActivity {
                 .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
-
+                        srlAsset.finishRefresh();
+                        srlAsset.finishLoadMore();
                     }
 
                     @Override
                     public void onSuccess(String s) {
+                        srlAsset.finishRefresh();
+                        srlAsset.finishLoadMore();
                         AssetsListBean assetsBean = JSON.parseObject(s, AssetsListBean.class);
                         if (assetsBean.getCode() == 1) {
                             if (page == 1) {
@@ -165,29 +169,35 @@ public class AssetsManagementActivity extends BaseActivity {
                 break;
             case R.id.bt_select_time:
 
+               int screenWidth = ScreenUtils.getScreenWidth();
+
                 DatePicker picker = new DatePicker(this, DatePicker.YEAR_MONTH);
                 picker.setGravity(Gravity.BOTTOM);
-
-                picker.setRangeStart(2016, 10, 14);
+                picker.setRangeStart(2019, 3, 14);
                 picker.setLabel("", "", "");
-                picker.setUseWeight(true);
-                picker.setBackgroundColor(R.color.white);
+                picker.setWidth(screenWidth);
+//               picker.setUseWeight(true);
+
+                picker.setBackgroundColor(getResources().getColor(R.color.white));
                 picker.setCancelText("取消");
-                picker.setCancelTextColor(R.color.hint_color);
-                picker.setCancelTextSize(18);
+                picker.setCancelTextColor(getResources().getColor(R.color.hint_color));
+                picker.setCancelTextSize(16);
+                picker.setTopPadding(20);
                 picker.setSubmitText("确定");
-                picker.setSubmitTextSize(18);
-                picker.setCancelTextColor(R.color.color_333);
-                picker.setDividerColor(R.color.line);
-                picker.setTextColor(R.color.black);
+                picker.setTextSize(20);
+                picker.setSubmitTextSize(16);
+                picker.setCancelTextColor(getResources().getColor(R.color.hint_color));
+                picker.setSubmitTextColor(getResources().getColor(R.color.color_333));
+                picker.setDividerColor(getResources().getColor(R.color.line));
+                picker.setTextColor(getResources().getColor(R.color.black));
                 picker.setTopLineVisible(true);
-                picker.setTopBackgroundColor(R.color.white);
+
                 picker.setTopHeight(55);
-                picker.setTopLineColor(R.color.line);
+                picker.setTopLineColor(getResources().getColor(R.color.line));
                 picker.setCycleDisable(false);
                 picker.setDividerRatio(WheelView.DividerConfig.FILL);
                 picker.setRangeEnd(2030, 11, 11);
-                picker.setSelectedItem(2019, 1);
+                picker.setSelectedItem(2019, 6);
                 picker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                     @Override
                     public void onDatePicked(String year, String month) {

@@ -2,10 +2,7 @@ package com.io.east.district.me;
 
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -16,16 +13,21 @@ import android.widget.TextView;
 
 import androidx.appcompat.content.res.AppCompatResources;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.blankj.utilcode.util.GsonUtils;
-
+import com.blankj.utilcode.util.SPUtils;
 import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
+import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
+import com.io.east.district.base.BaseBody;
 import com.io.east.district.base.BasePresenter;
 import com.io.east.district.utils.Validator;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -64,6 +66,7 @@ public class SetFundPassWordActivity extends BaseActivity {
     TextView btConfirm;
     private Disposable disposable;
     private boolean isSet;
+    private String phone;
 
     @Override
     public void initView() {
@@ -75,7 +78,9 @@ public class SetFundPassWordActivity extends BaseActivity {
         } else {
             tvTitle.setText("修改交易密码");
         }
-//        tvPhone.setText();
+
+        phone = SPUtils.getInstance("login").getString("phone");
+        tvPhone.setText(phone);
     }
 
 
@@ -88,7 +93,34 @@ public class SetFundPassWordActivity extends BaseActivity {
                 break;
             case R.id.tv_get_code:
 //                    验证码
-                startCountDownTime();
+
+                EasyHttp.get(UrlDeploy.verification_code)
+                        .params("mobile", phone)
+                        .params("reset", "")
+                        .execute(new SimpleCallBack<String>() {
+
+                            @Override
+                            public void onError(ApiException e) {
+                                Log.d("eee", e.getMessage());
+                            }
+
+                            @Override
+                            public void onSuccess(String s) {
+                                JSONObject jsonObject = JSON.parseObject(s);
+                                int code = jsonObject.getIntValue("code");
+                                String msg = jsonObject.getString("msg");
+                                if (code == 1) {
+                                    ToastUtils.show("验证码发送成功");
+                                    startCountDownTime();
+
+                                } else {
+                                    ToastUtils.show(msg);
+                                }
+
+
+                            }
+                        });
+
                 break;
             case R.id.iv_hide:
 
@@ -121,6 +153,29 @@ public class SetFundPassWordActivity extends BaseActivity {
                 }
 
 
+                EasyHttp.post(UrlDeploy.PasswordReset)
+                        .params("mobile",phone)
+                        .params("password",etPassword.getText().toString())
+                        .params("verification_code",etSecurityCode.getText().toString())
+                        .params("password_type"," payment_password")
+                        .execute(new SimpleCallBack<String>() {
+                            @Override
+                            public void onError(ApiException e) {
+                                Log.d("ee",e.getMessage());
+                            }
+
+                            @Override
+                            public void onSuccess(String s) {
+
+                                BaseBody baseBody = GsonUtils.fromJson(s, BaseBody.class);
+                                if (baseBody.isOk()){
+                                    ToastUtils.show("修改成功");
+                                    finish();
+                                }else {
+                                    ToastUtils.show(baseBody.getMsg());
+                                }
+                            }
+                        });
 
 
                 break;

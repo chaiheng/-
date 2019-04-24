@@ -1,31 +1,24 @@
 package com.io.east.district.me;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.GsonUtils;
+import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.SPUtils;
-
-import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
+import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
 import com.io.east.district.base.BasePresenter;
-import com.io.east.district.certification.CertificationActivity;
+import com.io.east.district.bean.VerificationBean;
 import com.io.east.district.utils.SharedPreferencesUtil;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -113,17 +106,36 @@ public class SafeCenterActivity extends BaseActivity {
                 break;
             case R.id.lin_update_psd:
 //                资金密码
-           /*
-                    boolean bindTrade = mSafeSettingEntity.getData().isBindTrade();
-                    if (bindTrade) {
-                        startActivity(new Intent(SafeCenterActivity.this, MoneyPassWordActivity.class)
-                                .putExtra("isSet", false));
+                String token = SPUtils.getInstance("login").getString("token");
+                EasyHttp.get(UrlDeploy.verification)
+                        .headers("XX-Token", token)
+                        .headers("XX-Device-Type", "android")
+                        .execute(new SimpleCallBack<String>() {
+                            @Override
+                            public void onError(ApiException e) {
 
-                    } else {
-                        startActivity(new Intent(SafeCenterActivity.this, SetFundPassWordActivity.class)
-                                .putExtra("isSet", true));
-                    }
-          */
+                            }
+
+                            @Override
+                            public void onSuccess(String s) {
+                                VerificationBean verificationBean = JSON.parseObject(s, VerificationBean.class);
+                                String msg = verificationBean.getMsg();
+                                int code = verificationBean.getCode();
+                                if (code==1){
+                                    int is_payment = verificationBean.getData().getIs_payment();
+                                    if (is_payment==1) {
+                                        startActivity(new Intent(SafeCenterActivity.this, MoneyPassWordActivity.class)
+                                                .putExtra("isSet", false));
+
+                                    } else {
+                                        startActivity(new Intent(SafeCenterActivity.this, SetFundPassWordActivity.class)
+                                                .putExtra("isSet", true));
+                                    }
+                                }
+                            }
+                        });
+
+
 
 
                 break;

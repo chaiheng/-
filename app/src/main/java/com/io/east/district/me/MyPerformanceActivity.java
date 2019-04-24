@@ -1,6 +1,10 @@
 package com.io.east.district.me;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -15,6 +19,7 @@ import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -40,6 +45,8 @@ public class MyPerformanceActivity extends BaseActivity {
     TextView tvWeekEarnings;
     @BindView(R.id.tv_monthly_earnings)
     TextView tvMonthlyEarnings;
+    @BindView(R.id.rl_total)
+    RelativeLayout rlTotal;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -69,29 +76,48 @@ public class MyPerformanceActivity extends BaseActivity {
                         PerformanceBean performanceBean = JSON.parseObject(s, PerformanceBean.class);
                         String msg = performanceBean.getMsg();
                         int code = performanceBean.getCode();
-                        if (code==1){
+                        if (code == 1) {
                             int month_received_sum = performanceBean.getData().getMonth_received_sum();
 //                            tvMonthlyIncome.setText(""+month_received_sum);
                             int Total_sum = performanceBean.getData().getTotal_sum();
-                            tvSum.setText(""+Total_sum);
+                            tvSum.setText("" + Total_sum);
                             int month_sum = performanceBean.getData().getMonth_sum();
                             int month_wait_sum = performanceBean.getData().getMonth_wait_sum();
                             int week_sum = performanceBean.getData().getWeek_sum();
                             int today_sum = performanceBean.getData().getToday_sum();
-                            tvHaveIncome.setText(""+month_received_sum);
-                            tvWeekEarnings.setText(""+week_sum);
-                            tvDailyEarnings.setText(""+today_sum);
-                            tvIncome.setText(""+month_wait_sum);
-                            tvMonthlyIncome.setText(""+month_sum);
-                            tvMonthlyEarnings.setText(""+month_sum);
+                            tvHaveIncome.setText("" + month_received_sum);
+                            tvWeekEarnings.setText("" + week_sum);
+                            tvDailyEarnings.setText("" + today_sum);
+                            tvIncome.setText("" + month_wait_sum);
+                            tvMonthlyIncome.setText("" + month_sum);
+                            tvMonthlyEarnings.setText("" + month_sum);
                         }
                     }
                 });
     }
 
 
-    @OnClick(R.id.iv_go_back)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.iv_go_back,R.id.rl_total})
+    public void onViewClicked(View view) {
+        switch (view.getId()){
+            case R.id.iv_go_back:
+                finish();
+                break;
+            case R.id.rl_total:
+
+                startActivity(new Intent(this,TotalPerformanceActivity.class));
+                break;
+
+        }
+
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+
 }

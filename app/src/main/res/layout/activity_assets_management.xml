@@ -6,10 +6,11 @@
     android:id="@+id/srl_asset"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+
     android:background="#EDEEEF"
     tools:context=".money.AssetsManagementActivity">
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:fitsSystemWindows="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -190,7 +191,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_asset"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
         </androidx.recyclerview.widget.RecyclerView>
 

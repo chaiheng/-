@@ -63,7 +63,8 @@ public class MainActivity extends BaseActivity {
 
     public void initView() {
         EventBus.getDefault().register(this);
-        isNo = getIntent().getBooleanExtra("isNo", false);
+     getIntent().getBooleanExtra("isNo", false);
+//        else isNo = false;
         MyApplication.getInstance().exit();
         mFragments.add(ProjectFragment.newInstance());
         mFragments.add(ConnectionFragment.newInstance());

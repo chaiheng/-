@@ -32,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_subsidiary"
             android:text="明细"
             android:textColor="@color/color_333"
@@ -49,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl_total"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="60dp">

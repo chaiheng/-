@@ -13,6 +13,7 @@ import com.io.east.district.R;
 import com.io.east.district.adapter.RecordAdapter;
 import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
+import com.io.east.district.base.BaseEmptyView;
 import com.io.east.district.base.BasePresenter;
 import com.io.east.district.bean.RechargeRecordBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -76,9 +77,11 @@ public class RechargeRecordActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s) {
                         RechargeRecordBean rechargeRecordBean = JSON.parseObject(s, RechargeRecordBean.class);
-
+                        srRecharge.finishRefresh();
+                        srRecharge.finishLoadMore();
 
                         if (rechargeRecordBean.getCode()==1){
+
                             if (page==1){
                                 data = rechargeRecordBean.getData();
                                 recordAdapter.setNewData(data);
@@ -106,6 +109,7 @@ public class RechargeRecordActivity extends BaseActivity {
         recordAdapter = new RecordAdapter(R.layout.item_record, data);
         rvRecord.setAdapter(recordAdapter);
         srRecharge.autoRefresh();
+        recordAdapter.setEmptyView(new BaseEmptyView(this));
         srRecharge.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {

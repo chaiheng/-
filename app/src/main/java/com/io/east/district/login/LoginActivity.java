@@ -1,7 +1,6 @@
 package com.io.east.district.login;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
@@ -32,7 +31,6 @@ import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -86,12 +84,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 
     @OnClick({R.id.header_back, R.id.tv_forget, R.id.tv_login})
     public void onViewClicked(View view) {
@@ -128,9 +121,11 @@ public class LoginActivity extends BaseActivity {
 
                                             RegisterBean registerBean = JSON.parseObject(s, RegisterBean.class);
                                             SPUtils.getInstance("login").put("token", registerBean.getData().getToken());
-                                            SPUtils.getInstance("invitation_code").put("invitation_code", registerBean.getData().getInvitation_code());
+                                            SPUtils.getInstance("login").put("invitation_code", registerBean.getData().getInvitation_code());
+                                            SPUtils.getInstance("login").put("phone", registerBean.getData().getMobile());
                                             ToastUtils.show("登录成功");
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                            finish();
                                         }else {
                                             ToastUtils.show(msg);
                                         }

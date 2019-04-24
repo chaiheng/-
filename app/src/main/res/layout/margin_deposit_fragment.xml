@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/srl_deposit"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -90,22 +91,24 @@
         </RelativeLayout>
     </LinearLayout>
 
-    
+
+
     <RelativeLayout
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="55dp">
 
-    <TextView
-        android:layout_marginStart="20dp"
-        android:layout_centerVertical="true"
-        android:text="订单状态"
-        android:textColor="@color/color_333"
-        android:textSize="16sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
         <TextView
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:text="订单状态"
+            android:textColor="@color/color_333"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_status"
             android:text="确认中"
             android:textColor="@color/color_333"
             android:textSize="16sp"
@@ -132,34 +135,42 @@
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:text="17:00:20"
-            android:textColor="#FA5E59"
-            android:textSize="16sp"
+        <cn.iwgang.countdownview.CountdownView
             android:layout_marginEnd="20dp"
             android:layout_centerVertical="true"
+            android:id="@+id/cv_count_down"
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:isHideTimeBackground="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:timeTextColor="#FA5E59"
+            app:timeTextSize="16sp"
+            app:suffix=":"
+            />
     </RelativeLayout>
     <RelativeLayout
         android:background="#FCFCFC"
         android:layout_width="match_parent"
         android:layout_height="55dp">
         <TextView
+            android:textSize="16sp"
             android:textColor="@color/color_333"
             android:layout_marginStart="20dp"
             android:layout_centerVertical="true"
-          android:text="充值金额"
+            android:text="充值金额"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:textSize="16sp"
             android:layout_marginStart="80dp"
             android:layout_centerVertical="true"
             android:text="(不可退)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tv_money"
             android:textSize="16sp"
             android:layout_marginEnd="20dp"
             android:text="10000.00"
@@ -169,6 +180,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tv_num"
             android:textColor="@color/color_333"
             android:textSize="15sp"
             android:text="11"
@@ -183,6 +195,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp">
         <TextView
+            android:id="@+id/tv_total"
             android:textSize="16sp"
             android:textColor="#FA5E59"
             android:text="合计：¥10000.00"
@@ -192,12 +205,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+
+            android:id="@+id/tv_convert"
             android:textSize="16sp"
             android:textColor="@color/color_333"
             android:text="≈9000.02 BTA"
             android:layout_marginTop="44dp"
             android:layout_marginEnd="20dp"
             android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_give"
+            android:textSize="16sp"
+            android:textColor="@color/hint_color"
+            android:text="1000"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RelativeLayout>

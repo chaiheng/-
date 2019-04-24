@@ -33,6 +33,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,9 +69,8 @@
                     android:id="@+id/pv_progress"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
-                    app:pr_bg_start_color="#f5f5f5"
 
-                    app:pr_progress="80"
+                    app:pr_bg_start_color="#f5f5f5"
                     app:pr_progress_end_color="#e3564b"
                     app:pr_progress_start_color="#ed8743"
                     app:pr_progress_width="19dp"

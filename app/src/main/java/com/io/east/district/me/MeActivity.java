@@ -15,6 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.sdk.android.oss.ClientException;
+import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.hjq.toast.ToastUtils;
@@ -39,6 +44,8 @@ import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -155,10 +162,10 @@ public class MeActivity extends BaseActivity {
                     public void onSuccess(String s) {
                         try {
                             BaseEntity baseEntity = JSON.parseObject(s, BaseEntity.class);
-                            if (baseEntity.getCode()==1){
+                            if (baseEntity.getCode() == 1) {
                                 ToastUtils.show("修改成功");
                                 finish();
-                            }else {
+                            } else {
                                 ToastUtils.show(baseEntity.getMsg());
                             }
                         } catch (Exception e) {
@@ -181,15 +188,29 @@ public class MeActivity extends BaseActivity {
 //        File file = new File(path);
         String token = SPUtils.getInstance("login").getString("token");
         Log.d("token", "...." + token);
-        OSSClientUtil ossClientUtil = new OSSClientUtil();
-//        ossClientUtil.init();
-        try {
-            ossClientUtil.uploadImg2Oss(path);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        url = ossClientUtil.getUrl("XyVjFQNlsbMnNNCGc4aOSMwmjZV5nU");
-        Glide.with(MeActivity.this).load(url).into(avatarImageView);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy/MM/dd HH:mm:ss");// HH:mm:ss
+//获取当前时间
+        Date date = new Date(System.currentTimeMillis());
+        String time = simpleDateFormat.format(date);
+        String objectKey = "qdd/headPortrait/" + time + ".jpg";
+        OSSClientUtil ossClientUtil = new OSSClientUtil(this);
+        PutObjectRequest put = new PutObjectRequest("<bucketName>", objectKey, path);
+        ossClientUtil.ossClient.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+            @Override
+            public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+
+                String imgUrl = ossClientUtil.getImgUrl("", objectKey);
+
+                Glide.with(MeActivity.this).load(imgUrl).into(avatarImageView);
+
+            }
+
+            @Override
+            public void onFailure(PutObjectRequest request, ClientException clientException, ServiceException serviceException) {
+
+            }
+        });
+
 
     }
 

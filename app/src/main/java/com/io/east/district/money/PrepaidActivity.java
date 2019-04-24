@@ -16,11 +16,13 @@ import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.SPUtils;
 import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
+import com.io.east.district.activity.MainActivity;
 import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
 import com.io.east.district.base.BasePresenter;
 import com.io.east.district.bean.CancelRechargeBean;
 import com.io.east.district.bean.PrepaidBean;
+import com.io.east.district.event.ConnectionEvent;
 import com.io.east.district.view.dialog.CancelOrderDialog;
 import com.io.east.district.view.dialog.PaidDialog;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
@@ -30,6 +32,8 @@ import com.yanzhenjie.permission.runtime.Permission;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.List;
@@ -71,6 +75,8 @@ public class PrepaidActivity extends BaseActivity {
     private String address;
     private Bitmap qrBitmap;
     private int status;
+    private String recharge_id;
+    private int partner;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -86,10 +92,15 @@ public class PrepaidActivity extends BaseActivity {
     public void initData() {
         super.initData();
         String token = SPUtils.getInstance("login").getString("token");
-        EasyHttp.get(UrlDeploy.cancelRecharge)
+        recharge_id = getIntent().getStringExtra("recharge_id");
+//        String url = UrlDeploy.cancelRecharge + recharge_id;
+//        Log.d("uuu","...."+url);
+        EasyHttp.get(UrlDeploy.cancelRecharge + recharge_id)
+
                 .headers("XX-Token", token)
                 .headers("XX-Device-Type", "android")
-                .params("is_address","1")
+                .params("is_address", "1")
+
                 .execute(new SimpleCallBack<String>() {
 
 
@@ -100,18 +111,19 @@ public class PrepaidActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(String s) {
-                        PrepaidBean prepaidBean = JSON.parseObject(s,  PrepaidBean.class);
+                        PrepaidBean prepaidBean = JSON.parseObject(s, PrepaidBean.class);
 
                         int code = prepaidBean.getCode();
-                        if (code==1){
+                        if (code == 1) {
                             String money = prepaidBean.getData().getMoney();
+                            partner = prepaidBean.getData().getIs_partner();
                             String amount = prepaidBean.getData().getAmount();
                             countdownTime = prepaidBean.getData().getCountdown();
-                            tvFigure.setText(amount+"BTA");
+                            tvFigure.setText(amount + "BTA");
                             status = prepaidBean.getData().getStatus();
                             address = prepaidBean.getData().getUser_bta().getAddress();
                             tvPrepaidAddress.setText(address);
-                           qrBitmap = CodeUtils.createImage(address, 130, 130, null);
+                            qrBitmap = CodeUtils.createImage(address, 130, 130, null);
                             ivQrCode.setImageBitmap(qrBitmap);
 
                         }
@@ -122,8 +134,8 @@ public class PrepaidActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        cvCountDown.start(countdownTime*1000);
-        for (int i=0; i<1000;i++){
+        cvCountDown.start(1800000);
+        for (int i = 0; i < 1000; i++) {
             cvCountDown.updateShow(i);
         }
 //        cvCountDown.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
@@ -135,7 +147,20 @@ public class PrepaidActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        startMain();
+    }
 
+    private void startMain() {
+        if (partner == 1) {
+            startActivity(new Intent(this, MainActivity.class));
+            EventBus.getDefault().post(new ConnectionEvent(true));
+        } else {
+            startActivity(new Intent(this, MainActivity.class).putExtra("isNo", true));
+        }
+    }
 
     @OnClick({R.id.tv_save, R.id.bt_copy_address, R.id.tv_cancel_order, R.id.bt_paid})
     public void onViewClicked(View view) {
@@ -199,9 +224,10 @@ public class PrepaidActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         String token = SPUtils.getInstance("login").getString("token");
-                        EasyHttp.put(UrlDeploy.cancelRecharge)
+                        EasyHttp.put(UrlDeploy.cancelRecharge + recharge_id)
                                 .headers("XX-Token", token)
                                 .headers("XX-Device-Type", "android")
+
                                 .execute(new SimpleCallBack<String>() {
                                     @Override
                                     public void onError(ApiException e) {
@@ -210,12 +236,12 @@ public class PrepaidActivity extends BaseActivity {
 
                                     @Override
                                     public void onSuccess(String s) {
-                                        CancelRechargeBean cancelRechargeBean = JSON.parseObject(s,  CancelRechargeBean.class);
+                                        CancelRechargeBean cancelRechargeBean = JSON.parseObject(s, CancelRechargeBean.class);
 
                                         int code = cancelRechargeBean.getCode();
-                                        if (code==1){
+                                        if (code == 1) {
                                             ToastUtils.show("取消成功");
-                                        }else {
+                                        } else {
                                             ToastUtils.show(cancelRechargeBean.getMsg());
                                         }
                                     }
@@ -231,10 +257,10 @@ public class PrepaidActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         String token = SPUtils.getInstance("login").getString("token");
-                        EasyHttp.get(UrlDeploy.cancelRecharge)
+                        EasyHttp.get(UrlDeploy.cancelRecharge + recharge_id)
                                 .headers("XX-Token", token)
                                 .headers("XX-Device-Type", "android")
-                                .params("is_address","")
+                                .params("is_address", "")
                                 .execute(new SimpleCallBack<String>() {
                                     @Override
                                     public void onError(ApiException e) {
@@ -243,10 +269,10 @@ public class PrepaidActivity extends BaseActivity {
 
                                     @Override
                                     public void onSuccess(String s) {
-                                        PrepaidBean prepaidBean = JSON.parseObject(s,  PrepaidBean.class);
+                                        PrepaidBean prepaidBean = JSON.parseObject(s, PrepaidBean.class);
 
                                         int code = prepaidBean.getCode();
-                                        if (code==1){
+                                        if (code == 1) {
 
                                             int status = prepaidBean.getData().getStatus();
                                             address = prepaidBean.getData().getUser_bta().getAddress();
@@ -254,8 +280,9 @@ public class PrepaidActivity extends BaseActivity {
                                             qrBitmap = CodeUtils.createImage(address, 130, 130, null);
                                             ivQrCode.setImageBitmap(qrBitmap);
 
-                                            startActivity(new Intent(PrepaidActivity.this,ConfirmPrepaidActivity.class)
-                                                  );
+                                            startActivity(new Intent(PrepaidActivity.this, ConfirmPrepaidActivity.class)
+                                                    .putExtra("recharge_id", "" + recharge_id)
+                                            );
                                             finish();
                                         }
                                     }

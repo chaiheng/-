@@ -1,5 +1,6 @@
 package com.io.east.district.certification;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
@@ -20,6 +21,11 @@ import androidx.appcompat.content.res.AppCompatResources;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.sdk.android.oss.ClientException;
+import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
@@ -46,7 +52,9 @@ import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -147,15 +155,17 @@ public class CertificationActivity extends BaseActivity {
                         JSONObject jsonObject = JSON.parseObject(s);
                         int code = jsonObject.getIntValue("code");
 
-
-                        if (code == 0) {
+                        LooKVerifyBean looKVerifyBean = JSON.parseObject(s, LooKVerifyBean.class);
+                        if (looKVerifyBean.getData()== null) {
 //                               没有认证
+                            tvPositiveHints.setVisibility(View.VISIBLE);
+                            tvReverseHints.setVisibility(View.VISIBLE);
                             tvSubmit.setVisibility(View.VISIBLE);
                             llCredentials.setVisibility(View.VISIBLE);
                             llUploadPictures.setVisibility(View.VISIBLE);
                             llAuditStatus.setVisibility(View.GONE);
                         } else {
-                            LooKVerifyBean looKVerifyBean = JSON.parseObject(s, LooKVerifyBean.class);
+
                             String country = looKVerifyBean.getData().getCountry();
                             String real_name = looKVerifyBean.getData().getReal_name();
                             String id_number = looKVerifyBean.getData().getId_number();
@@ -170,7 +180,8 @@ public class CertificationActivity extends BaseActivity {
 //                                      成功
                                     tvName.setText(real_name);
                                     tvIDNo.setText(id_number);
-
+                                    tvPositiveHints.setVisibility(View.GONE);
+                                    tvReverseHints.setVisibility(View.GONE);
                                     tvMsg.setVisibility(View.GONE);
                                     Glide.with(CertificationActivity.this).load(img_front).into(ivPositive);
                                     Glide.with(CertificationActivity.this).load(img_reverse).into(ivContrary);
@@ -196,7 +207,8 @@ public class CertificationActivity extends BaseActivity {
                                     llCredentials.setVisibility(View.GONE);
                                     llUploadPictures.setVisibility(View.GONE);
                                     llAuditStatus.setVisibility(View.VISIBLE);
-
+                                    tvPositiveHints.setVisibility(View.GONE);
+                                    tvReverseHints.setVisibility(View.GONE);
                                     ivStatus.setImageResource(R.mipmap.failure);
                                     tvPrompt.setTextColor(AppCompatResources.getColorStateList(CertificationActivity.this, R.color.black));
                                     tvPrompt.setText("审核失败");
@@ -210,7 +222,8 @@ public class CertificationActivity extends BaseActivity {
 //                                        审核中
                                     tvName.setText(real_name);
                                     tvIDNo.setText(id_number);
-
+                                    tvPositiveHints.setVisibility(View.GONE);
+                                    tvReverseHints.setVisibility(View.GONE);
                                     Glide.with(CertificationActivity.this).load(img_front).into(ivPositive);
                                     Glide.with(CertificationActivity.this).load(img_reverse).into(ivContrary);
                                     tvSubmit.setVisibility(View.GONE);
@@ -226,7 +239,8 @@ public class CertificationActivity extends BaseActivity {
 
 
                                 default:
-
+                                    tvPositiveHints.setVisibility(View.VISIBLE);
+                                    tvReverseHints.setVisibility(View.VISIBLE);
                                     tvSubmit.setVisibility(View.VISIBLE);
                                     llCredentials.setVisibility(View.VISIBLE);
                                     llUploadPictures.setVisibility(View.VISIBLE);
@@ -342,7 +356,8 @@ public class CertificationActivity extends BaseActivity {
                                         int code = baseEntity.getCode();
                                         if (code==1){
                                             ToastUtils.show("提交成功");
-
+                                            tvPositiveHints.setVisibility(View.GONE);
+                                            tvReverseHints.setVisibility(View.GONE);
                                             tvSubmit.setVisibility(View.GONE);
                                             llCredentials.setVisibility(View.GONE);
                                             llUploadPictures.setVisibility(View.GONE);
@@ -512,6 +527,7 @@ public class CertificationActivity extends BaseActivity {
                         LocalMedia localMedia1 = selectList.get(0);
                         String path = localMedia1.getCompressPath();
                         ivCamera.setVisibility(View.GONE);
+                        tvPositiveHints.setVisibility(View.GONE);
                         Glide.with(this).load(path).into(ivFront);
                         mData.add(path);
                         setState();
@@ -523,6 +539,7 @@ public class CertificationActivity extends BaseActivity {
                         String path = localMedia1.getCompressPath();
                         ivCamera2.setVisibility(View.GONE);
                         Glide.with(this).load(path).into(ivVerso);
+                        tvReverseHints.setVisibility(View.GONE);
                         uploading(path);
                         mData.add(path);
                         setState();
@@ -542,25 +559,53 @@ public class CertificationActivity extends BaseActivity {
         String token = SPUtils.getInstance("login").getString("token");
         Log.d("token", "...." + token);
 
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy/MM/dd HH:mm:ss");// HH:mm:ss
+//获取当前时间
+        Date date = new Date(System.currentTimeMillis());
+        String time = simpleDateFormat.format(date);
 
-        OSSClientUtil ossClientUtil = new OSSClientUtil();
-//        ossClientUtil.init();
-        try {
-            ossClientUtil.uploadImg2Oss(path);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        if (state == 1) {
+        String objectKey = "qdd/identityCard/" +time + ".jpg";
+        OSSClientUtil ossClientUtil = new OSSClientUtil(this);
+
+        PutObjectRequest put = new PutObjectRequest("<bucketName>", objectKey, path);
+        ossClientUtil.ossClient.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+            @Override
+            public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+
+                if (state == 1) {
 //                             正面
-            frontUrl = ossClientUtil.getUrl("XyVjFQNlsbMnNNCGc4aOSMwmjZV5nU");
-            Log.d("frontUrl", "...." + frontUrl);
+                    frontUrl = ossClientUtil.getImgUrl("",objectKey);
+                    Log.d("frontUrl", "...." + frontUrl);
 
-        } else if (state == 2) {
+                } else if (state == 2) {
 //                               反面
-            reverseUrl = ossClientUtil.getUrl("XyVjFQNlsbMnNNCGc4aOSMwmjZV5nU");
-            Log.d("reverseUrl", "...." + reverseUrl);
-        }
+                    reverseUrl =ossClientUtil.getImgUrl("",objectKey);
+                    Log.d("reverseUrl", "...." + reverseUrl);
+                }
+                ToastUtils.show("上传成功");
+            }
+
+            @Override
+            public void onFailure(PutObjectRequest request, ClientException clientException, ServiceException serviceException) {
+                ToastUtils.show("上传失败");
+                if (clientException != null) {
+                    // Local exception, such as a network exception
+                    clientException.printStackTrace();
+                }
+                if (serviceException != null) {
+                    // Service exception
+                    Log.e("ErrorCode", serviceException.getErrorCode());
+                    Log.e("RequestId", serviceException.getRequestId());
+                    Log.e("HostId", serviceException.getHostId());
+                    Log.e("RawMessage", serviceException.getRawMessage());
+                }
+            }
+        });
+
+//
+
+
 
 
     }

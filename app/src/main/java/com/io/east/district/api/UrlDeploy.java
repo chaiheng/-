@@ -62,7 +62,7 @@ public interface UrlDeploy {
     /**
      * 取消充值  和查看充值
      */
-    String cancelRecharge = "api/recharge/:id";
+    String cancelRecharge = "api/recharge/";
 
     /**
      * 我的
@@ -100,4 +100,6 @@ public interface UrlDeploy {
      * 修改身份证
      */
     String ChangeVerify = "api/verify/:id";
+
+
 }

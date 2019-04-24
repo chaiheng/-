@@ -83,7 +83,7 @@ public class MarginDepositActivity extends BaseActivity {
                 num = bigDecimal.setScale(0, BigDecimal.ROUND_DOWN).toPlainString();
                 Integer valueOf = Integer.valueOf(num);
                 int figure = valueOf * 10000;
-                int practical  = figure + 1000;
+                int practical  = figure + 1000*valueOf;
                 money  = String.valueOf(valueOf * 10000);
                 tvActualAmount.setText(""+practical );
                 tvRechargeAmount.setText(money);
@@ -126,7 +126,11 @@ public class MarginDepositActivity extends BaseActivity {
 
                                         int code = rechargeBean.getCode();
                                         if (code==1){
-                                            startActivity(new Intent(MarginDepositActivity.this,PrepaidActivity.class));
+                                            int recharge_id = rechargeBean.getData().getRecharge_id();
+                                            startActivity(new Intent(MarginDepositActivity.this,PrepaidActivity.class)
+                                                    .putExtra("recharge_id",""+recharge_id));
+                                            SPUtils.getInstance("login").put("recharge_id",""+recharge_id);
+                                            finish();
                                         }else {
                                             ToastUtils.show(rechargeBean.getMsg());
                                         }

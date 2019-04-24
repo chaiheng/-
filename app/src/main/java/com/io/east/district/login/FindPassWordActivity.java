@@ -89,14 +89,14 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
 
     @Override
     public void onFindSucc() {
-        showtoast("找回密码成功");
+       ToastUtils.show("找回密码成功");
         hideLoading();
         startActivity(new Intent(this, LoginActivity.class));
     }
 
     @Override
     public void onSendSucc() {
-        showtoast("验证码发送成功");
+       ToastUtils.show("验证码发送成功");
     }
 
     @Override
@@ -108,14 +108,17 @@ public class FindPassWordActivity extends BaseActivity<FindPassPresenter> implem
 
 
     public boolean Check() {
-        if (!CheckUtils.validatePhone(etPhone.getText().toString())) {
-            showtoast("请输入正确的手机号码");
+        if (TextUtils.isEmpty(etPhone.getText().toString())){
+            ToastUtils.show("请输入手机号码");
+            return false;
+        }else if (!CheckUtils.validatePhone(etPhone.getText().toString())) {
+           ToastUtils.show("请输入正确的手机号码");
             return false;
         } else if (!CheckUtils.validatePhonePass(password.getText().toString())) {
-            showtoast("密码必须是6-18位字母加数字组合");
+           ToastUtils.show("密码必须是6-18位字母加数字组合");
             return false;
         } else if (authcode.getText().toString().trim().length() < 6) {
-            showtoast("请输入6位验证码");
+           ToastUtils.show("请输入6位验证码");
             return false;
         }
         return true;

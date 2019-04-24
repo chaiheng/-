@@ -60,6 +60,7 @@ public class ConfirmPrepaidActivity extends BaseActivity {
     private Disposable interval;
     private int is_partner;
     private int pay_status;
+    private String recharge_id;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -106,15 +107,16 @@ public class ConfirmPrepaidActivity extends BaseActivity {
     public void initData() {
         super.initData();
         getData();
-
+        recharge_id = getIntent().getStringExtra("recharge_id");
 
     }
 
     private void getData() {
         String token = SPUtils.getInstance("login").getString("token");
-        EasyHttp.get(UrlDeploy.cancelRecharge)
+        EasyHttp.get(UrlDeploy.cancelRecharge+recharge_id)
                 .headers("XX-Token", token)
                 .headers("XX-Device-Type", "android")
+
                 .params("is_address", "")
                 .execute(new SimpleCallBack<String>() {
                     @Override
@@ -150,7 +152,7 @@ public class ConfirmPrepaidActivity extends BaseActivity {
                             int total_money = prepaidBean.getData().getTotal_money();
                             int gift = prepaidBean.getData().getGift();
                             tvGive.setText("¥" + money);
-                            if (pay_status == 1) {
+                        /*    if (pay_status == 1) {
                                 startActivity(new Intent(ConfirmPrepaidActivity.
                                         this, RechargeStatusActivity.class)
                                         .putExtra("succeed",true)
@@ -175,7 +177,7 @@ public class ConfirmPrepaidActivity extends BaseActivity {
                                         .putExtra("gift", gift)
                                         .putExtra("time", time)
                                         .putExtra("is_partner",is_partner));
-                            }
+                            }*/
                          tvTotal.setText("合计："+total_money);
                         }
                     }

@@ -2,25 +2,27 @@ package com.io.east.district.me;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.SPUtils;
-
 import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
+import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
 import com.io.east.district.base.BasePresenter;
+import com.io.east.district.bean.BaseEntity;
 import com.io.east.district.login.LoginActivity;
 import com.io.east.district.utils.DataCleanManager;
 import com.io.east.district.utils.LoginUtils;
 import com.io.east.district.utils.SharedPreferencesUtil;
 import com.io.east.district.view.dialog.QuitDialog;
-
-import java.time.Instant;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -72,11 +74,27 @@ public class SettingActivity extends BaseActivity {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.tv_quit:
+                        String token = SPUtils.getInstance("login").getString("token");
+                        EasyHttp.get(UrlDeploy.logout)
+                                .headers("XX-Token", token)
+                                .headers("XX-Device-Type", "android")
+                                .execute(new SimpleCallBack<String>() {
+                                    @Override
+                                    public void onError(ApiException e) {
 
-//                        SharedPreferencesTool.loginOut(mContext);
-                        SPUtils.getInstance("login").clear();
-                        LoginUtils.exitLogin(SettingActivity.this);
-                        finish();
+                                    }
+
+                                    @Override
+                                    public void onSuccess(String s) {
+                                        BaseEntity baseEntity = GsonUtils.fromJson(s, BaseEntity.class);
+                                        if (baseEntity.getCode()==1){
+                                            SPUtils.getInstance("login").clear();
+                                            LoginUtils.exitLogin(SettingActivity.this);
+                                            finish();
+                                        }
+                                    }
+                                });
+
                         break;
                     case R.id.bt_cancel:
                         quitDialog.dismiss();

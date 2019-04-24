@@ -15,6 +15,7 @@ import com.io.east.district.R;
 import com.io.east.district.adapter.StatisticsAdapter;
 import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
+import com.io.east.district.base.BaseEmptyView;
 import com.io.east.district.base.BasePresenter;
 import com.io.east.district.bean.GroupManageBean;
 import com.io.east.district.view.CircleImageView;
@@ -107,7 +108,7 @@ public class TeamManagementActivity extends BaseActivity {
         rvStatistics.setLayoutManager(layoutManager);
         statisticsAdapter = new StatisticsAdapter(R.layout.item_team,mData);
         rvStatistics.setAdapter(statisticsAdapter);
-
+        statisticsAdapter.setEmptyView(new BaseEmptyView(this));
     }
 
 

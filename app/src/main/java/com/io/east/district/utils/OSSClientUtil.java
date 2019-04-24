@@ -1,70 +1,54 @@
 package com.io.east.district.utils;
 
-import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.model.ObjectMetadata;
-import com.aliyun.oss.model.PutObjectResult;
-import com.blankj.utilcode.util.StringUtils;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import android.content.Context;
+
+import com.alibaba.sdk.android.oss.ClientConfiguration;
+import com.alibaba.sdk.android.oss.OSSClient;
+import com.alibaba.sdk.android.oss.common.OSSLog;
+import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
+import com.alibaba.sdk.android.oss.model.ObjectMetadata;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.Date;
 
 public class OSSClientUtil {
 
-    Log log = LogFactory.getLog(OSSClientUtil.class);
+    //    Log log = LogFactory.getLog(OSSClientUtil.class);
     // endpoint以杭州为例，其它region请按实际情况填写
-    private String endpoint = "https://qudongdong.oss-cn-hongkong.aliyuncs.com";
+    public String endpoint = "https://qudongdong.oss-cn-hongkong.aliyuncs.com";
     // accessKey
-    private String accessKeyId = "LTAIXwJMdZr3T7op";
-    private String accessKeySecret = "XyVjFQNlsbMnNNCGc4aOSMwmjZV5nU";
+    public String accessKeyId = "LTAIXwJMdZr3T7op";
+    public String accessKeySecret = "XyVjFQNlsbMnNNCGc4aOSMwmjZV5nU";
     //空间
-    private String bucketName = "https://qudongdong.oss-cn-hongkong.aliyuncs.com";
+    public String bucketName = "https://qudongdong.oss-cn-hongkong.aliyuncs.com";
     //文件存储目录
-    private String filedir = "qdd/";
+    public String filedir = "qdd/";
 
-    private OSSClient ossClient;
+    public OSSClient ossClient;
+    String securityToken  ="";
+    public OSSClientUtil(Context context) {
+        OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(accessKeyId, accessKeySecret,securityToken);
+        ClientConfiguration conf = new ClientConfiguration();
+        conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
+        conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
+        conf.setMaxConcurrentRequest(5); // 最大并发请求数，默认5个
+        conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+        OSSLog.enableLog(); //这个开启会支持写入手机sd卡中的一份日志文件位置在SDCard_path\OSSLog\logs.csv
 
-    public OSSClientUtil() {
-        ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+
+        ossClient = new OSSClient(context, endpoint, credentialProvider, conf);
     }
 
     /**
      * 初始化
      */
-    public void init() {
-        ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
-    }
-
-    /**
-     * 销毁
-     */
-    public void destory() {
-        ossClient.shutdown();
-    }
 
 
-
-
-    /**
-     * 获得图片路径
-     *
-     * @param fileUrl
-     * @return
-     */
-    public String getImgUrl(String fileUrl) {
-        if (!StringUtils.isEmpty(fileUrl)) {
-            String[] split = fileUrl.split("/");
-            return this.getUrl(this.filedir + split[split.length - 1]);
-        }
-        return null;
-    }
     /**
      * 上传图片
      *
@@ -81,7 +65,6 @@ public class OSSClientUtil {
             throw new Exception("图片上传失败");
         }
     }
-
 
 
     /**
@@ -103,8 +86,9 @@ public class OSSClientUtil {
             objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
             objectMetadata.setContentDisposition("inline;filename=" + fileName);
             //上传文件
-            PutObjectResult putResult = ossClient.putObject(bucketName, filedir + fileName, instream, objectMetadata);
-            ret = putResult.getETag();
+//            PutObjectRequest put = new PutObjectRequest("<bucketName>", "<objectKey>", "<uploadFilePath>");
+//            PutObjectResult putResult = ossClient.putObject(bucketName, filedir + fileName, instream, objectMetadata);
+//            ret = putResult.getETag();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -126,6 +110,7 @@ public class OSSClientUtil {
      * @return String
      */
     public static String getcontentType(String FilenameExtension) {
+
         if (FilenameExtension.equalsIgnoreCase(".bmp")) {
             return "image/bmp";
         }
@@ -163,18 +148,13 @@ public class OSSClientUtil {
     /**
      * 获得url链接
      *
-     * @param key
+     * @param
      * @return
      */
-    public String getUrl(String key) {
-        // 设置URL过期时间为10年  3600l* 1000*24*365*10
-        Date expiration = new Date(new Date().getTime() + 3600l * 1000 * 24 * 365 * 10);
-        // 生成URL
-        URL url = ossClient.generatePresignedUrl(bucketName, key, expiration);
-        if (url != null) {
-            return url.toString();
-        }
-        return null;
+    public String getImgUrl(String bucketName, String objectKey) {
+        String url = ossClient.presignPublicObjectURL(bucketName, objectKey);
+
+        return url;
     }
 
 
