@@ -2,6 +2,7 @@ package com.io.east.district.money;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.ScreenUtils;
 import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
 import com.io.east.district.adapter.AssetAdapter;
@@ -169,14 +169,14 @@ public class AssetsManagementActivity extends BaseActivity {
                 break;
             case R.id.bt_select_time:
 
-                int screenWidth = ScreenUtils.getScreenWidth();
-
+                DisplayMetrics metrics = cn.qqtheme.framework.util.ScreenUtils.displayMetrics(this);
+             int    screenWidthPixels = metrics.widthPixels;
                 DatePicker picker = new DatePicker(this, DatePicker.YEAR_MONTH);
                 picker.setGravity(Gravity.BOTTOM);
                 picker.setRangeStart(2019, 3, 14);
                 picker.setLabel("", "", "");
-                picker.setWidth(screenWidth);
-                picker.setUseWeight(true);
+//                picker.setWidth(screenWidthPixels);
+               picker.setUseWeight(true);
 
                 picker.setBackgroundColor(getResources().getColor(R.color.white));
                 picker.setCancelText("取消");

@@ -11,7 +11,7 @@ import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseFragment;
 import com.io.east.district.bean.VerificationBean;
 import com.io.east.district.certification.CertificationActivity;
-import com.io.east.district.money.MyDepositActivity;
+import com.io.east.district.money.MarginDepositActivity;
 import com.io.east.district.view.dialog.IdentificationDialog;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
@@ -75,7 +75,7 @@ public class PartnerFragment extends BaseFragment {
                                     }
                                 });
                             }else {
-                                startActivity(new Intent(getActivity(), MyDepositActivity.class));
+                                startActivity(new Intent(getActivity(), MarginDepositActivity.class));
                             }
                         }
                     }

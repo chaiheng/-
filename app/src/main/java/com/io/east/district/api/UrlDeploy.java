@@ -101,5 +101,9 @@ public interface UrlDeploy {
      */
     String ChangeVerify = "api/verify/:id";
 
+    /**
+     * 版本升级
+     */
 
+    String version = "api/version";
 }

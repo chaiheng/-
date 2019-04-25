@@ -10,8 +10,9 @@
     </style>
 
     <style name="StartTheme" parent="AppTheme">
-        <item name="android:windowBackground">@mipmap/ic_start</item>
-    </style>
+    <item name="android:windowBackground">@color/white</item>
+        <item name="android:src">@mipmap/ic_start</item>
+</style>
 
     <style name="appAnimation">
         <item name="android:activityOpenEnterAnimation">@anim/anim_slide_in</item>

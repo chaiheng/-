@@ -108,7 +108,7 @@ public class MyDepositActivity extends BaseActivity {
                 startActivity(new Intent(this,MyDepositActivity.class));
                 break;
             case  R.id.tv_recharge_record:
-                startActivity(new Intent(this,RechargeRecordActivity.class));
+                startActivity(new Intent(this,MarginDepositActivity.class));
                 break;
         }
     }

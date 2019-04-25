@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.io.east.district.Constant;
 import com.io.east.district.R;
 import com.io.east.district.activity.MainActivity;
@@ -24,13 +26,13 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UtilsStyle.setStatusBarMode(this, true);
+        setContentView(R.layout.start);
+        String token = SPUtils.getInstance("login").getString("token");
         if (SharedPreferencesUtil.getInstance().getInfo(Constant.IS_FIRST, false)) {
-            if (SharedPreferencesUtil.getInstance().getInfo(Constant.IS_LOGIN, false)) {
-//                if (SharedPreferencesUtil.getInstance().getInfo(Constant.IS_SETUSER, false)) {
+
+            if (!TextUtils.isEmpty(token)) {
                 mIntent = new Intent(StartActivity.this, MainActivity.class);
-//                } else {
-//                    mIntent = new Intent(StartActivity.this, PersonalDataActivity.class);
-//                }
+
             } else {
                 mIntent = new Intent(StartActivity.this, LoginAndRegsterActivity.class);
             }

@@ -3,6 +3,7 @@ package com.io.east.district.me;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -79,10 +80,10 @@ public class ShareActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-
+        mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         invitation_code = SPUtils.getInstance("login").getString("invitation_code");
         tvInvitationCode.setText(invitation_code);
-        String url = "https://h5.qdd.world/#/Register?code=" + invitation_code;
+       url = "https://h5.qdd.world/#/Register?code=" + invitation_code;
         qrBitmap = CodeUtils.createImage(url, 160, 160, null);
         ivQrCode.setImageBitmap(qrBitmap);
     }

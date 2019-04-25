@@ -3,16 +3,33 @@ package com.io.east.district.base;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.blankj.utilcode.util.GsonUtils;
+import com.io.east.district.MyApplication;
+import com.io.east.district.api.UrlDeploy;
+import com.io.east.district.bean.UpdateBean;
+import com.io.east.district.event.LogoutEvent;
+import com.io.east.district.login.LoginActivity;
 import com.io.east.district.statusbar.UtilsStatusBar;
 import com.io.east.district.statusbar.UtilsStyle;
+import com.io.east.district.utils.PackageUtils;
 import com.io.east.district.utils.ToastUtil;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 
@@ -38,10 +55,22 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         setContentView(getLayoutId());
         presenter = createPresenter();
         ButterKnife.bind(this);
+        MyApplication.getInstance().addActivity(this);
         initView();
         initData();
+        EventBus.getDefault().register(this);
     }
 
+
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void goLogin(LogoutEvent event) {
+        if (event.isLogout) {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+
+    }
     public void initData() {
     }
 
@@ -52,6 +81,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         if (presenter != null) {
             presenter.detachView();
         }
@@ -138,5 +168,84 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        updateApp();
+    }
+
+    /**
+     * 版本更新
+     */
+    private void updateApp() {
+
+
+        EasyHttp.get(UrlDeploy.version)
+
+                .execute(new SimpleCallBack<String>() {
+
+
+                    @Override
+                    public void onError(ApiException e) {
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        Log.d("up", "...." + s);
+                        try {
+                            UpdateBean updateBean = GsonUtils.fromJson(s, UpdateBean.class);
+                            String versionName = PackageUtils.packageName(BaseActivity.this);
+                            String replace = versionName.replace(".", "");
+                            Integer localVersion = Integer.valueOf(replace);
+                            if (updateBean.getData()!=null) {
+                                String version = updateBean.getData().getNewversion();
+                                int isUpdate = updateBean.getData().getEnforce();
+                                String downloadUrl = updateBean.getData().getDownloadurl();
+                                String content = updateBean.getData().getContent();
+                                String replace2 = version.replace(".", "");
+                                Integer serverVersion = Integer.valueOf(replace2);
+                                if (1==isUpdate && localVersion < serverVersion) {
+                                    //                     强制更新
+                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(BaseActivity.this);
+                                    builder1.setTitle("更新提示");
+                                    builder1.setCancelable(false);
+                                    builder1.setMessage(content);
+                                    builder1.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent intent = new Intent();
+                                            intent.setAction("android.intent.action.VIEW");
+                                            Uri content_url = Uri.parse(downloadUrl);
+                                            intent.setData(content_url);
+                                            startActivity(intent);
+                                          builder1.create().dismiss();
+                                        }
+                                    });
+                                    builder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+//                                            Application.getInstance().finishActivities();
+                                            builder1.create().dismiss();
+                                            finish();
+                                            System.exit(0);
+
+                                        }
+                                    });
+                                    builder1.create().show();
+
+
+                                }
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+                });
+    }
 
 }

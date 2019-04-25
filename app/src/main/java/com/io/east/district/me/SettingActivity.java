@@ -17,8 +17,6 @@ import com.io.east.district.base.BasePresenter;
 import com.io.east.district.bean.BaseEntity;
 import com.io.east.district.login.LoginActivity;
 import com.io.east.district.utils.DataCleanManager;
-import com.io.east.district.utils.LoginUtils;
-import com.io.east.district.utils.SharedPreferencesUtil;
 import com.io.east.district.view.dialog.QuitDialog;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
@@ -88,9 +86,8 @@ public class SettingActivity extends BaseActivity {
                                     public void onSuccess(String s) {
                                         BaseEntity baseEntity = GsonUtils.fromJson(s, BaseEntity.class);
                                         if (baseEntity.getCode()==1){
-                                            SPUtils.getInstance("login").clear();
-                                            LoginUtils.exitLogin(SettingActivity.this);
-                                            finish();
+                                            logout (SettingActivity.this);
+
                                         }
                                     }
                                 });
@@ -106,18 +103,16 @@ public class SettingActivity extends BaseActivity {
 
     }
 
-    public static void exitLoging(Activity context) {
-        try {
-            String ftelephone = SharedPreferencesUtil.getInstance().getInfo("fphone");
+    public static void logout (Activity context) {
+
+            String phone = SPUtils.getInstance("login").getString("phone");
             context.startActivity(new Intent(context, LoginActivity.class)
-                    .putExtra("phone", ftelephone));
+                    .putExtra("phone", phone));
 //            SharedPreferencesTool.loginOut(context);
             SPUtils.getInstance("login").clear();
             context.finish();
 
-        } catch (Exception e) {
 
-        }
     }
 
 

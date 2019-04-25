@@ -30,7 +30,6 @@ import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -64,10 +63,10 @@ public class MainActivity extends BaseActivity {
 
 
     public void initView() {
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
         getIntent().getBooleanExtra("isNo", false);
 
-        MyApplication.getInstance().exit();
+
         mFragments.add(ProjectFragment.newInstance());
         mFragments.add(ConnectionFragment.newInstance());
         mFragments.add(ConfirmPrepaidFragment.newInstance());
@@ -145,22 +144,28 @@ public class MainActivity extends BaseActivity {
                                 Log.d("renmai", "...." + s);
 
                                 PeopleBean peopleBean = JSON.parseObject(s, PeopleBean.class);
-                                if (peopleBean.getData() == null) {
-//                               为空不是合伙人
-                                    mainViewpager.setCurrentItem(3, false);
-                                } else {
+
                                     if (peopleBean.getCode() == 1) {
+
                                         is_partner = peopleBean.getData().getIs_partner();
-                                        if (is_partner == 0 && isNo) {
+                                        int is_already = peopleBean.getData().getIs_already();
+                                        if (is_already==1){
+//                                               是有订单
                                             mainViewpager.setCurrentItem(2, false);
-                                        } else {
-                                            mainViewpager.setCurrentItem(1, false);
+                                        }else {
+                                            if (is_partner==0){
+                                                mainViewpager.setCurrentItem(3, false);
+                                            }else {
+                                                mainViewpager.setCurrentItem(1, false);
+                                            }
                                         }
+
+
 
 
                                     }
 
-                                }
+
 
                             }
                         });
@@ -186,8 +191,17 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
     }
 
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();   finish();
+//
+//        finish();
+//        System.exit(0);
+        MyApplication.getInstance().exit();
+        finish();
+    }
 }

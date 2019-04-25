@@ -33,6 +33,8 @@ import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -183,7 +185,7 @@ public class RegisterActivity extends BaseActivity {
                 break;
             case R.id.tv_register:
                 if (Check()) {
-//                    showLoading();
+
                     EasyHttp.post(UrlDeploy.register)
                             .params("mobile", etPhone.getText().toString())
                             .params("password", Objects.requireNonNull(password.getText()).toString())
@@ -206,12 +208,23 @@ public class RegisterActivity extends BaseActivity {
                                         String msg = jsonObject.getString("msg");
 
                                         if (code == 1) {
-                                            RegisterBean registerBean = JSON.parseObject(s, RegisterBean.class);
                                             ToastUtils.show("注册成功");
+                                            RegisterBean registerBean = JSON.parseObject(s, RegisterBean.class);
+
                                             SPUtils.getInstance("login").put("token", registerBean.getData().getToken());
                                             SPUtils.getInstance("login").put("invitation_code", registerBean.getData().getInvitation_code());
                                             SPUtils.getInstance("login").put("phone", registerBean.getData().getMobile());
-                                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+
+                                            TimerTask task = new TimerTask() {
+                                                @Override
+                                                public void run() {
+                                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+
+                                                }
+                                            };
+                                            Timer timer = new Timer();
+                                            timer.schedule(task,1000);
+
                                         } else {
                                             ToastUtils.show(msg);
                                         }

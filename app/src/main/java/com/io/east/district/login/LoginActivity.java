@@ -14,8 +14,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.blankj.utilcode.util.SPUtils;
 import com.hjq.toast.ToastUtils;
-import com.io.east.district.Constant;
-import com.io.east.district.MyApplication;
 import com.io.east.district.R;
 import com.io.east.district.activity.MainActivity;
 import com.io.east.district.api.UrlDeploy;
@@ -23,12 +21,14 @@ import com.io.east.district.base.BaseActivity;
 import com.io.east.district.bean.RegisterBean;
 import com.io.east.district.utils.CheckUtils;
 import com.io.east.district.utils.EmojiInputFilter;
-import com.io.east.district.utils.SharedPreferencesUtil;
 import com.io.east.district.view.ClearEditText;
 import com.io.east.district.view.PasswdEditText;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -73,14 +73,18 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        MyApplication.getInstance().addActivity(this);
+
         headerTvText.setText("登录");
-        etPhone.setFilters(new InputFilter[]{new EmojiInputFilter(), new InputFilter.LengthFilter(11)});
-        password.setFilters(new InputFilter[]{new EmojiInputFilter(), new InputFilter.LengthFilter(18)});
-        if (!TextUtils.isEmpty(SharedPreferencesUtil.getInstance().getInfo(Constant.LOGIN_PHONE))) {
-            etPhone.setText(SharedPreferencesUtil.getInstance().getInfo(Constant.LOGIN_PHONE));
+        String phone = getIntent().getStringExtra("phone");
+        if (!TextUtils.isEmpty(phone)){
+            etPhone.setText(phone);
             etPhone.setSelection(etPhone.getText().length());
         }
+
+
+        etPhone.setFilters(new InputFilter[]{new EmojiInputFilter(), new InputFilter.LengthFilter(11)});
+        password.setFilters(new InputFilter[]{new EmojiInputFilter(), new InputFilter.LengthFilter(18)});
+
     }
 
 
@@ -118,22 +122,31 @@ public class LoginActivity extends BaseActivity {
                                         int code = jsonObject.getIntValue("code");
                                         String msg = jsonObject.getString("msg");
                                         if (code==1){
-
+                                            ToastUtils.show("登录成功");
                                             RegisterBean registerBean = JSON.parseObject(s, RegisterBean.class);
                                             SPUtils.getInstance("login").put("token", registerBean.getData().getToken());
                                             SPUtils.getInstance("login").put("invitation_code", registerBean.getData().getInvitation_code());
                                             SPUtils.getInstance("login").put("phone", registerBean.getData().getMobile());
-                                            ToastUtils.show("登录成功");
-                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                            finish();
+                                            TimerTask task = new TimerTask() {
+                                                @Override
+                                                public void run() {
+                                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                                                }
+                                            };
+                                            Timer timer = new Timer();
+                                            timer.schedule(task,1000);
                                         }else {
                                             ToastUtils.show(msg);
+                                        }
+
+
                                         }
                                     }
 
 
 
-                                }
+
 
 
                             });

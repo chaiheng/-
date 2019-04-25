@@ -3,16 +3,20 @@ package com.io.east.district.me;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.sdk.android.oss.ClientException;
@@ -92,6 +96,42 @@ public class MeActivity extends BaseActivity {
 
         InputFilter[] filters = {getInputFilterProhibitEmoji(), getInputFilterProhibitSP()};
         nameTextView.setFilters(filters);
+
+    }
+
+    @Override
+    public void initView() {
+        super.initView();
+
+        int selectionStart = nameTextView.getSelectionStart();
+        int selectionEnd = nameTextView.getSelectionEnd();
+        nameTextView.setSelection(nameTextView.getText().length());
+        nameTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                nameTextView.setSelection(nameTextView.getText().length());
+                if (selectionStart < start) {
+                    tvSave.setEnabled(true);
+                    tvSave.setTextColor(AppCompatResources.getColorStateList(MeActivity.this, R.color.black));
+                }
+                if (selectionEnd < before) {
+                    tvSave.setEnabled(true);
+                    tvSave.setTextColor(AppCompatResources.getColorStateList(MeActivity.this, R.color.black));
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                nameTextView.setSelection(nameTextView.getText().length());
+
+            }
+        });
     }
 
     @Override
