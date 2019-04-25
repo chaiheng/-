@@ -11,6 +11,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
     }
     signingConfigs {
         release {
@@ -27,6 +32,7 @@ android {
         }
 
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -49,7 +55,14 @@ android {
     applicationVariants.all { variant ->
         def date = new Date().format("YYYY_MM_dd_HH_mm")
         variant.outputs.all { output ->
-            outputFileName = "BitView-release-${variant.versionName}-" + date + ".apk"
+            outputFileName = "qdd-release-${variant.versionName}-" + date + ".apk"
+        }
+    }
+
+    sourceSets {
+        main {
+
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -64,7 +77,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0-alpha04'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha04'
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
+//    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
@@ -119,7 +132,7 @@ dependencies {
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     implementation 'me.jessyan:autosize:1.1.2'
     implementation 'cat.ereza:customactivityoncrash:2.2.0'
-  implementation 'com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.6.20181018'
+    implementation 'com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.6.20181018'
 //        exclude group: 'com.android.support'
 
 

@@ -6,10 +6,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 
 import com.io.east.district.view.StateView;
 
@@ -39,13 +40,14 @@ public abstract class BaseFragment extends LazyLoadFragment {
             rootView = inflater.inflate(provideContentViewId(), container, false);
             ButterKnife.bind(this, rootView);
 
-            mStateView = StateView.inject(getStateViewRoot());
-        } else {
-            ViewGroup parent = (ViewGroup) rootView.getParent();
-            if (parent != null) {
-                parent.removeView(rootView);
-            }
+         mStateView = StateView.inject(getStateViewRoot());
         }
+//        else {
+//            ViewGroup parent = (ViewGroup) rootView.getParent();
+//            if (parent != null) {
+//                parent.removeView(rootView);
+//            }
+//        }
         return rootView;
     }
 

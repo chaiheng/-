@@ -157,11 +157,11 @@
         <!--预览界面返回箭头-->
         <item name="picture.preview.leftBack.icon">@mipmap/go_back</item>
         <!--裁剪页面标题背景色-->
-        <item name="picture.crop.toolbar.bg">@color/white</item>
+        <item name="picture.crop.toolbar.bg">@color/blue</item>
         <!--裁剪页面状态栏颜色-->
-        <item name="picture.crop.status.color">@color/white</item>
+        <item name="picture.crop.status.color">@color/blue</item>
         <!--裁剪页面标题文字颜色-->
-        <item name="picture.crop.title.color">@color/black</item>
+        <item name="picture.crop.title.color">@color/white</item>
         <!--相册文件夹列表选中图标-->
         <item name="picture.folder_checked_dot">@drawable/orange_oval</item>
     </style>

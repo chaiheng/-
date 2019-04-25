@@ -80,6 +80,7 @@ public class MyApplication extends MultiDexApplication {
         MyToast.init(this, true, true);
         UMConfigure.init(this, "5c8a143d2036571202000a83"
                 , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+
         UMConfigure.setLogEnabled(true);//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         PlatformConfig.setWeixin("wx1b131319c64b4c0d", "775d0cbc9145ff7e801e5b8be40ea191");
@@ -124,10 +125,10 @@ public class MyApplication extends MultiDexApplication {
                 .setCacheVersion(1)//缓存版本为1
                 //.setHttpCache(new Cache())//设置Okhttp缓存，在缓存模式为DEFAULT才起作用
 
-                .addConverterFactory(GsonConverterFactory.create())//本框架没有采用Retrofit的Gson转化，所以不用配置
+                .addConverterFactory(GsonConverterFactory.create());//本框架没有采用Retrofit的Gson转化，所以不用配置
                 //可以设置https的证书,以下几种方案根据需要自己设置
-                .setCertificates();                                  //方法一：信任所有证书,不安全有风险
-        //.setCertificates(new SafeTrustManager())            //方法二：自定义信任规则，校验服务端证书
+//                .setCertificates();                                  //方法一：信任所有证书,不安全有风险
+//     .setCertificates(new SafeTrustManager())            //方法二：自定义信任规则，校验服务端证书
         //配置https的域名匹配规则，不需要就不要加入，使用不当会导致https握手失败
 
 //                .addCommonHeaders(headers)//设置全局公共头

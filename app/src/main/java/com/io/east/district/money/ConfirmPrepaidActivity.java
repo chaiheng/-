@@ -61,6 +61,14 @@ public class ConfirmPrepaidActivity extends BaseActivity {
     private int is_partner;
     private int pay_status;
     private String recharge_id;
+    private String money;
+    private String trans_sn;
+    private String time;
+    private int num;
+    private String amount;
+    private int total_money;
+    private int gift;
+    private int status;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -85,12 +93,38 @@ public class ConfirmPrepaidActivity extends BaseActivity {
             @Override
             public void onEnd(CountdownView cv) {
 //                   倒计时结束 如果状态成功跳转成功    如果失败取消跳转失败
-                if (pay_status == 1) {
+                if (status == 1 && pay_status == 0) {
+//                                    交易确认中
+                    tvStatus.setText("确认中");
+                } else if (status == 0 && pay_status == 0) {
+//                                  交易取消
+                    tvStatus.setText("取消交易");
+                    startActivity(new Intent(ConfirmPrepaidActivity.this, RechargeStatusActivity.class)
+                            .putExtra("succeed", false)
+                            .putExtra("money", money)
+                            .putExtra("Trans_sn", trans_sn)
+                            .putExtra("total_money", total_money)
+                            .putExtra("amount", amount)
+                            .putExtra("num", "x" + num)
+                            .putExtra("gift", gift)
+                            .putExtra("time", time)
+                            .putExtra("is_partner", is_partner));
+                } else if (status == 1 && pay_status == 1) {
+                    tvStatus.setText("交易成功");
+//                                    交易成功
                     startActivity(new Intent(ConfirmPrepaidActivity.
                             this, RechargeStatusActivity.class)
+                            .putExtra("succeed", true)
+                            .putExtra("money", money)
+                            .putExtra("Trans_sn", trans_sn)
+                            .putExtra("total_money", total_money)
+                            .putExtra("num", "x" + num)
+                            .putExtra("gift", gift)
+                            .putExtra("amount", amount)
+                            .putExtra("time", time)
+                            .putExtra("is_partner", is_partner)
+
                     );
-                } else {
-                    startActivity(new Intent(ConfirmPrepaidActivity.this, RechargeStatusActivity.class));
                 }
 
             }
@@ -113,7 +147,7 @@ public class ConfirmPrepaidActivity extends BaseActivity {
 
     private void getData() {
         String token = SPUtils.getInstance("login").getString("token");
-        EasyHttp.get(UrlDeploy.cancelRecharge+recharge_id)
+        EasyHttp.get(UrlDeploy.cancelRecharge + recharge_id)
                 .headers("XX-Token", token)
                 .headers("XX-Device-Type", "android")
 
@@ -131,54 +165,58 @@ public class ConfirmPrepaidActivity extends BaseActivity {
                         int code = prepaidBean.getCode();
                         if (code == 1) {
 
-                            int status = prepaidBean.getData().getStatus();
+                            status = prepaidBean.getData().getStatus();
                             pay_status = prepaidBean.getData().getPay_status();
                             is_partner = prepaidBean.getData().getIs_partner();
-                            if (status == 1) {
-                                tvStatus.setText("确认中");
-                            } else {
-                                tvStatus.setText("取消交易");
-                            }
                             countdownTime = prepaidBean.getData().getCountdown();
-                            String money = prepaidBean.getData().getMoney();
-                            String Trans_sn = prepaidBean.getData().getTrans_sn();
+                            money = prepaidBean.getData().getMoney();
+                            trans_sn = prepaidBean.getData().getTrans_sn();
                             tvMoney.setText(money);
-                            String amount = prepaidBean.getData().getAmount();
-                            tvConvert.setText("≈"  + amount +"BTA");
+                            amount = prepaidBean.getData().getAmount();
+                            tvConvert.setText("≈" + amount + "BTA");
 
-                            String time = prepaidBean.getData().getCreate_time_text();
-                            int num = prepaidBean.getData().getNum();
+                            time = prepaidBean.getData().getCreate_time_text();
+                            num = prepaidBean.getData().getNum();
                             tvNum.setText("x" + num);
-                            int total_money = prepaidBean.getData().getTotal_money();
-                            int gift = prepaidBean.getData().getGift();
+                            total_money = prepaidBean.getData().getTotal_money();
+                            gift = prepaidBean.getData().getGift();
                             tvGive.setText("¥" + money);
-                        /*    if (pay_status == 1) {
+                            if (status == 1 && pay_status == 0) {
+//                                    交易确认中
+                                tvStatus.setText("确认中");
+                            } else if (status == 0 && pay_status == 0) {
+//                                  交易取消
+                                tvStatus.setText("取消交易");
+                                startActivity(new Intent(ConfirmPrepaidActivity.this, RechargeStatusActivity.class)
+                                        .putExtra("succeed", false)
+                                        .putExtra("money", money)
+                                        .putExtra("Trans_sn", trans_sn)
+                                        .putExtra("total_money", total_money)
+                                        .putExtra("amount", amount)
+                                        .putExtra("num", "x" + num)
+                                        .putExtra("gift", gift)
+                                        .putExtra("time", time)
+                                        .putExtra("is_partner", is_partner));
+                            } else if (status == 1 && pay_status == 1) {
+                                tvStatus.setText("交易成功");
+//                                    交易成功
                                 startActivity(new Intent(ConfirmPrepaidActivity.
                                         this, RechargeStatusActivity.class)
-                                        .putExtra("succeed",true)
+                                        .putExtra("succeed", true)
                                         .putExtra("money", money)
-                                        .putExtra("Trans_sn", Trans_sn)
+                                        .putExtra("Trans_sn", trans_sn)
                                         .putExtra("total_money", total_money)
                                         .putExtra("num", "x" + num)
                                         .putExtra("gift", gift)
-                                        .putExtra("amount",amount)
+                                        .putExtra("amount", amount)
                                         .putExtra("time", time)
-                                        .putExtra("is_partner",is_partner)
+                                        .putExtra("is_partner", is_partner)
 
                                 );
-                            } else {
-                                startActivity(new Intent(ConfirmPrepaidActivity.this, RechargeStatusActivity.class)
-                                        .putExtra("succeed",false)
-                                        .putExtra("money", money)
-                                        .putExtra("Trans_sn", Trans_sn)
-                                        .putExtra("total_money", total_money)
-                                        .putExtra("amount",amount)
-                                        .putExtra("num", "x" + num)
-                                        .putExtra("gift", gift)
-                                        .putExtra("time", time)
-                                        .putExtra("is_partner",is_partner));
-                            }*/
-                         tvTotal.setText("合计："+total_money);
+                            }
+
+
+                            tvTotal.setText("合计：" + total_money);
                         }
                     }
                 });

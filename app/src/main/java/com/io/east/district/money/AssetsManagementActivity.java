@@ -169,20 +169,20 @@ public class AssetsManagementActivity extends BaseActivity {
                 break;
             case R.id.bt_select_time:
 
-               int screenWidth = ScreenUtils.getScreenWidth();
+                int screenWidth = ScreenUtils.getScreenWidth();
 
                 DatePicker picker = new DatePicker(this, DatePicker.YEAR_MONTH);
                 picker.setGravity(Gravity.BOTTOM);
                 picker.setRangeStart(2019, 3, 14);
                 picker.setLabel("", "", "");
                 picker.setWidth(screenWidth);
-//               picker.setUseWeight(true);
+                picker.setUseWeight(true);
 
                 picker.setBackgroundColor(getResources().getColor(R.color.white));
                 picker.setCancelText("取消");
                 picker.setCancelTextColor(getResources().getColor(R.color.hint_color));
                 picker.setCancelTextSize(16);
-                picker.setTopPadding(20);
+                picker.setTopPadding(30);
                 picker.setSubmitText("确定");
                 picker.setTextSize(20);
                 picker.setSubmitTextSize(16);

@@ -13,15 +13,16 @@ import com.io.east.district.R;
 import com.io.east.district.adapter.ViewPagerAdapter;
 import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.base.BaseActivity;
+import com.io.east.district.base.BaseFragmentAdapter;
+import com.io.east.district.base.BasePresenter;
 import com.io.east.district.bean.PeopleBean;
-import com.io.east.district.downfile.FilePresenter;
 import com.io.east.district.event.ConnectionEvent;
 import com.io.east.district.home.ConfirmPrepaidFragment;
 import com.io.east.district.home.ConnectionFragment;
 import com.io.east.district.home.MyFragment;
 import com.io.east.district.home.PartnerFragment;
 import com.io.east.district.home.ProjectFragment;
-import com.io.east.district.view.NoScrollViewPager;
+import com.io.east.district.view.NoTouchViewPager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -40,18 +41,19 @@ import butterknife.BindView;
 public class MainActivity extends BaseActivity {
 
 
-    @BindView(R.id.main_viewpager)
-    NoScrollViewPager mainViewpager;
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
+    @BindView(R.id.main_viewpager)
+    NoTouchViewPager mainViewpager;
 
     private ViewPagerAdapter mViewPagerAdapter;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     public int is_partner;
     private boolean isNo;
 
+
     @Override
-    protected FilePresenter createPresenter() {
+    protected BasePresenter createPresenter() {
         return null;
     }
 
@@ -63,16 +65,17 @@ public class MainActivity extends BaseActivity {
 
     public void initView() {
         EventBus.getDefault().register(this);
-     getIntent().getBooleanExtra("isNo", false);
-//        else isNo = false;
+        getIntent().getBooleanExtra("isNo", false);
+
         MyApplication.getInstance().exit();
         mFragments.add(ProjectFragment.newInstance());
         mFragments.add(ConnectionFragment.newInstance());
         mFragments.add(ConfirmPrepaidFragment.newInstance());
         mFragments.add(PartnerFragment.newInstance());
         mFragments.add(MyFragment.newInstance());
-        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments, null);
-        mainViewpager.setAdapter(mViewPagerAdapter);
+
+        BaseFragmentAdapter baseFragmentAdapter    =  new BaseFragmentAdapter(getSupportFragmentManager(),mFragments);
+        mainViewpager.setAdapter(baseFragmentAdapter);
         mainViewpager.setOffscreenPageLimit(mFragments.size());
         mainViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -154,7 +157,7 @@ public class MainActivity extends BaseActivity {
                                             mainViewpager.setCurrentItem(1, false);
                                         }
 
-//                            clpProgress.setProgress();
+
                                     }
 
                                 }
@@ -167,7 +170,7 @@ public class MainActivity extends BaseActivity {
 
             case R.id.tab_my:
 
-                mainViewpager.setCurrentItem(5, false);
+                mainViewpager.setCurrentItem(4, false);
                 break;
         }
     }
@@ -185,4 +188,6 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+
 }

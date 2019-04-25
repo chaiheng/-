@@ -138,12 +138,12 @@ public class PrepaidActivity extends BaseActivity {
         for (int i = 0; i < 1000; i++) {
             cvCountDown.updateShow(i);
         }
-//        cvCountDown.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-//            @Override
-//            public void onEnd(CountdownView cv) {
-////                   倒计时结束 如果状态成功跳转成功    如果失败取消跳转失败
-//            }
-//        });
+        cvCountDown.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+            @Override
+            public void onEnd(CountdownView cv) {
+//                   倒计时结束 如果状态成功跳转成功    如果失败取消跳转失败
+            }
+        });
     }
 
 
