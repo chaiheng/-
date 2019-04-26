@@ -12,6 +12,7 @@ import com.io.east.district.base.BaseFragment;
 import com.io.east.district.bean.VerificationBean;
 import com.io.east.district.certification.CertificationActivity;
 import com.io.east.district.money.MarginDepositActivity;
+import com.io.east.district.utils.NoFastClickUtils;
 import com.io.east.district.view.dialog.IdentificationDialog;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
@@ -47,39 +48,43 @@ public class PartnerFragment extends BaseFragment {
 
     @OnClick(R.id.bt_recharge)
     public void onViewClicked() {
-        String token = SPUtils.getInstance("login").getString("token");
-        EasyHttp.get(UrlDeploy.verification)
-                .headers("XX-Token", token)
-                .headers("XX-Device-Type", "android")
-                .execute(new SimpleCallBack<String>() {
-                    @Override
-                    public void onError(ApiException e) {
+        boolean fastClick = NoFastClickUtils.isFastClick();
+        if (!fastClick){
+            String token = SPUtils.getInstance("login").getString("token");
+            EasyHttp.get(UrlDeploy.verification)
+                    .headers("XX-Token", token)
+                    .headers("XX-Device-Type", "android")
+                    .execute(new SimpleCallBack<String>() {
+                        @Override
+                        public void onError(ApiException e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onSuccess(String s) {
-                        VerificationBean verificationBean = JSON.parseObject(s, VerificationBean.class);
-                        String msg = verificationBean.getMsg();
-                        int code = verificationBean.getCode();
-                        if (code==1){
-                            int is_verify = verificationBean.getData().getIs_verify();
-                            if (is_verify==0){
+                        @Override
+                        public void onSuccess(String s) {
+                            VerificationBean verificationBean = JSON.parseObject(s, VerificationBean.class);
+                            String msg = verificationBean.getMsg();
+                            int code = verificationBean.getCode();
+                            if (code==1){
+                                int is_verify = verificationBean.getData().getIs_verify();
+                                if (is_verify==0){
 //                                   没有认证
-                                IdentificationDialog  dialog  = new IdentificationDialog(Objects.requireNonNull(getActivity()));
-                                dialog.show();
-                                dialog.setIdentificationLister(new IdentificationDialog.Identification() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        startActivity(new Intent(getActivity(), CertificationActivity.class));
-                                    }
-                                });
-                            }else {
-                                startActivity(new Intent(getActivity(), MarginDepositActivity.class));
+                                    IdentificationDialog  dialog  = new IdentificationDialog(Objects.requireNonNull(getActivity()));
+                                    dialog.show();
+                                    dialog.setIdentificationLister(new IdentificationDialog.Identification() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            startActivity(new Intent(getActivity(), CertificationActivity.class));
+                                        }
+                                    });
+                                }else {
+                                    startActivity(new Intent(getActivity(), MarginDepositActivity.class));
+                                }
                             }
                         }
-                    }
-                });
+                    });
+        }
+
 
     }
 }

@@ -2,6 +2,7 @@ package com.io.east.district.money;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -47,8 +48,7 @@ import cn.iwgang.countdownview.CountdownView;
  */
 public class PrepaidActivity extends BaseActivity {
 
-    @BindView(R.id.tv_count_down)
-    TextView tvCountDown;
+
     @BindView(R.id.tv_figure)
     TextView tvFigure;
     @BindView(R.id.iv_qr_code)
@@ -134,7 +134,13 @@ public class PrepaidActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        cvCountDown.start(1800000);
+        mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        if (countdownTime==0){
+            cvCountDown.start(1800000);
+        }else {
+            cvCountDown.start(countdownTime*10000);
+        }
+
         for (int i = 0; i < 1000; i++) {
             cvCountDown.updateShow(i);
         }
@@ -194,7 +200,7 @@ public class PrepaidActivity extends BaseActivity {
                                 intent.setData(uri);
                                 sendBroadcast(intent);
 
-                                ToastUtils.show("图片保存成功");
+                                ToastUtils.show("保存成功");
 
 //                                ImgUtils.saveBmp2Gallery(ShareActivity.this, saveImage(),"share");
                             }
@@ -241,6 +247,7 @@ public class PrepaidActivity extends BaseActivity {
                                         int code = cancelRechargeBean.getCode();
                                         if (code == 1) {
                                             ToastUtils.show("取消成功");
+                                            finish();
                                         } else {
                                             ToastUtils.show(cancelRechargeBean.getMsg());
                                         }
@@ -274,15 +281,9 @@ public class PrepaidActivity extends BaseActivity {
                                         int code = prepaidBean.getCode();
                                         if (code == 1) {
 
-                                            int status = prepaidBean.getData().getStatus();
-                                            address = prepaidBean.getData().getUser_bta().getAddress();
-                                            tvPrepaidAddress.setText(address);
-                                            qrBitmap = CodeUtils.createImage(address, 130, 130, null);
-                                            ivQrCode.setImageBitmap(qrBitmap);
-
-                                            startActivity(new Intent(PrepaidActivity.this, ConfirmPrepaidActivity.class)
-                                                    .putExtra("recharge_id", "" + recharge_id)
-                                            );
+                                            startActivity(new Intent(PrepaidActivity.this,
+                                                    ConfirmPrepaidActivity.class)
+                                                    .putExtra("recharge_id", "" + recharge_id));
                                             finish();
                                         }
                                     }

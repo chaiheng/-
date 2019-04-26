@@ -1,5 +1,6 @@
 package com.io.east.district.activity;
 
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.IdRes;
@@ -17,11 +18,11 @@ import com.io.east.district.base.BaseFragmentAdapter;
 import com.io.east.district.base.BasePresenter;
 import com.io.east.district.bean.PeopleBean;
 import com.io.east.district.event.ConnectionEvent;
-import com.io.east.district.home.ConfirmPrepaidFragment;
 import com.io.east.district.home.ConnectionFragment;
 import com.io.east.district.home.MyFragment;
 import com.io.east.district.home.PartnerFragment;
 import com.io.east.district.home.ProjectFragment;
+import com.io.east.district.money.ConfirmPrepaidActivity;
 import com.io.east.district.view.NoTouchViewPager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
@@ -30,6 +31,7 @@ import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -63,17 +65,19 @@ public class MainActivity extends BaseActivity {
 
 
     public void initView() {
-//        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
         getIntent().getBooleanExtra("isNo", false);
 
 
         mFragments.add(ProjectFragment.newInstance());
         mFragments.add(ConnectionFragment.newInstance());
-        mFragments.add(ConfirmPrepaidFragment.newInstance());
+
         mFragments.add(PartnerFragment.newInstance());
         mFragments.add(MyFragment.newInstance());
-
-        BaseFragmentAdapter baseFragmentAdapter    =  new BaseFragmentAdapter(getSupportFragmentManager(),mFragments);
+        Log.d("size", "...." + mFragments.size());
+        int currentItem = mainViewpager.getCurrentItem();
+        Log.d("currentItem", "...cu1" + currentItem);
+        BaseFragmentAdapter baseFragmentAdapter = new BaseFragmentAdapter(getSupportFragmentManager(), mFragments);
         mainViewpager.setAdapter(baseFragmentAdapter);
         mainViewpager.setOffscreenPageLimit(mFragments.size());
         mainViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -89,9 +93,10 @@ public class MainActivity extends BaseActivity {
                         bottomBar.selectTabWithId(R.id.tab_hot);
                         break;
                     case 1:
+                    case 2:
                         bottomBar.selectTabWithId(R.id.tab_dynamic);
                         break;
-                    case 2:
+                    case 3:
                         bottomBar.selectTabWithId(R.id.tab_my);
                         break;
                 }
@@ -115,7 +120,6 @@ public class MainActivity extends BaseActivity {
                 selectTab(tabId);
             }
         });
-
 
     }
 
@@ -145,26 +149,25 @@ public class MainActivity extends BaseActivity {
 
                                 PeopleBean peopleBean = JSON.parseObject(s, PeopleBean.class);
 
-                                    if (peopleBean.getCode() == 1) {
+                                if (peopleBean.getCode() == 1) {
 
-                                        is_partner = peopleBean.getData().getIs_partner();
-                                        int is_already = peopleBean.getData().getIs_already();
-                                        if (is_already==1){
+                                    is_partner = peopleBean.getData().getIs_partner();
+                                    int recharge_id = peopleBean.getData().getRecharge_id();
+                                    int is_already = peopleBean.getData().getIs_already();
+                                    if (is_already == 1) {
 //                                               是有订单
+                                        startActivity(new Intent(MainActivity.this, ConfirmPrepaidActivity.class)
+                                                .putExtra("recharge_id", "" + recharge_id));
+                                    } else {
+                                        if (is_partner == 0) {
                                             mainViewpager.setCurrentItem(2, false);
-                                        }else {
-                                            if (is_partner==0){
-                                                mainViewpager.setCurrentItem(3, false);
-                                            }else {
-                                                mainViewpager.setCurrentItem(1, false);
-                                            }
+                                        } else {
+                                            mainViewpager.setCurrentItem(1, false);
                                         }
-
-
-
-
                                     }
 
+
+                                }
 
 
                             }
@@ -174,8 +177,10 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.tab_my:
-
-                mainViewpager.setCurrentItem(4, false);
+                int currentItem = mainViewpager.getCurrentItem();
+                Log.d("currentItem", "...currentItem1" + currentItem);
+                mainViewpager.setCurrentItem(3, false);
+                Log.d("currentItem", "...currentItem" + currentItem);
                 break;
         }
     }
@@ -191,7 +196,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
 

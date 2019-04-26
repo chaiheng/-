@@ -13,10 +13,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.hjq.toast.ToastUtils;
 import com.io.east.district.MyApplication;
 import com.io.east.district.api.UrlDeploy;
 import com.io.east.district.bean.UpdateBean;
+import com.io.east.district.bean.VerificationBean;
 import com.io.east.district.event.LogoutEvent;
 import com.io.east.district.login.LoginActivity;
 import com.io.east.district.statusbar.UtilsStatusBar;
@@ -27,9 +31,11 @@ import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 
@@ -58,10 +64,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         MyApplication.getInstance().addActivity(this);
         initView();
         initData();
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
     }
-
-
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -71,6 +75,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
 
     }
+
     public void initData() {
     }
 
@@ -81,7 +86,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
         if (presenter != null) {
             presenter.detachView();
         }
@@ -173,6 +178,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onStart() {
         super.onStart();
 //        updateApp();
+//        isLoginOut();
     }
 
     /**
@@ -198,14 +204,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                             String versionName = PackageUtils.packageName(BaseActivity.this);
                             String replace = versionName.replace(".", "");
                             Integer localVersion = Integer.valueOf(replace);
-                            if (updateBean.getData()!=null) {
+                            if (updateBean.getData() != null) {
                                 String version = updateBean.getData().getNewversion();
                                 int isUpdate = updateBean.getData().getEnforce();
                                 String downloadUrl = updateBean.getData().getDownloadurl();
                                 String content = updateBean.getData().getContent();
                                 String replace2 = version.replace(".", "");
                                 Integer serverVersion = Integer.valueOf(replace2);
-                                if (1==isUpdate && localVersion < serverVersion) {
+                                if (1 == isUpdate && localVersion < serverVersion) {
                                     //                     强制更新
                                     AlertDialog.Builder builder1 = new AlertDialog.Builder(BaseActivity.this);
                                     builder1.setTitle("更新提示");
@@ -219,7 +225,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                                             Uri content_url = Uri.parse(downloadUrl);
                                             intent.setData(content_url);
                                             startActivity(intent);
-                                          builder1.create().dismiss();
+                                            builder1.create().dismiss();
                                         }
                                     });
                                     builder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -247,5 +253,41 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
                 });
     }
+/**   判断是否登录过期
+ *
+ * */
+    private void isLoginOut() {
+        String token = SPUtils.getInstance("login").getString("token");
+        EasyHttp.get(UrlDeploy.verification)
+                .headers("XX-Token", token)
+                .headers("XX-Device-Type", "android")
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        VerificationBean verificationBean = JSON.parseObject(s, VerificationBean.class);
+                        String msg = verificationBean.getMsg();
+                        int code = verificationBean.getCode();
+                        if (code == 10001) {
+                            ToastUtils.show("登录已经失效，请重新登录");
+                            TimerTask task = new TimerTask() {
+                                @Override
+                                public void run() {
+                                    startActivity(new Intent(BaseActivity.this,LoginActivity.class));
+
+                                }
+                            };
+                            Timer timer = new Timer();
+                            timer.schedule(task,1000);
+
+                        }
+                    }
+                });
+    }
+
 
 }

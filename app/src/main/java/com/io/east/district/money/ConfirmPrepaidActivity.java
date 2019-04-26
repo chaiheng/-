@@ -1,13 +1,16 @@
 package com.io.east.district.money;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.SPUtils;
+import com.hjq.toast.ToastUtils;
 import com.io.east.district.R;
 import com.io.east.district.activity.MainActivity;
 import com.io.east.district.api.UrlDeploy;
@@ -15,9 +18,6 @@ import com.io.east.district.base.BaseActivity;
 import com.io.east.district.base.BasePresenter;
 import com.io.east.district.bean.PrepaidBean;
 import com.io.east.district.event.ConnectionEvent;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
@@ -27,6 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.iwgang.countdownview.CountdownView;
 import io.reactivex.Flowable;
@@ -52,10 +53,11 @@ public class ConfirmPrepaidActivity extends BaseActivity {
     TextView tvTotal;
     @BindView(R.id.tv_convert)
     TextView tvConvert;
-    @BindView(R.id.srl_deposit)
-    SmartRefreshLayout srlDeposit;
+
     @BindView(R.id.tv_give)
     TextView tvGive;
+    @BindView(R.id.srl_deposit)
+    SwipeRefreshLayout srlDeposit;
     private int countdownTime;
     private Disposable interval;
     private int is_partner;
@@ -84,57 +86,43 @@ public class ConfirmPrepaidActivity extends BaseActivity {
     public void initView() {
         super.initView();
         interval = interval();
-        srlDeposit.autoRefresh();
-        cvCountDown.start(countdownTime * 1000);
+
+        if (countdownTime == 0) {
+            cvCountDown.start(1800000);
+        } else {
+            cvCountDown.start(countdownTime * 10000);
+        }
         for (int i = 0; i < 1000; i++) {
             cvCountDown.updateShow(i);
         }
         cvCountDown.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
             @Override
             public void onEnd(CountdownView cv) {
-//                   倒计时结束 如果状态成功跳转成功    如果失败取消跳转失败
-                if (status == 1 && pay_status == 0) {
-//                                    交易确认中
-                    tvStatus.setText("确认中");
-                } else if (status == 0 && pay_status == 0) {
-//                                  交易取消
-                    tvStatus.setText("取消交易");
-                    startActivity(new Intent(ConfirmPrepaidActivity.this, RechargeStatusActivity.class)
-                            .putExtra("succeed", false)
-                            .putExtra("money", money)
-                            .putExtra("Trans_sn", trans_sn)
-                            .putExtra("total_money", total_money)
-                            .putExtra("amount", amount)
-                            .putExtra("num", "x" + num)
-                            .putExtra("gift", gift)
-                            .putExtra("time", time)
-                            .putExtra("is_partner", is_partner));
-                } else if (status == 1 && pay_status == 1) {
-                    tvStatus.setText("交易成功");
-//                                    交易成功
-                    startActivity(new Intent(ConfirmPrepaidActivity.
-                            this, RechargeStatusActivity.class)
-                            .putExtra("succeed", true)
-                            .putExtra("money", money)
-                            .putExtra("Trans_sn", trans_sn)
-                            .putExtra("total_money", total_money)
-                            .putExtra("num", "x" + num)
-                            .putExtra("gift", gift)
-                            .putExtra("amount", amount)
-                            .putExtra("time", time)
-                            .putExtra("is_partner", is_partner)
 
-                    );
-                }
-
-            }
-        });
-        srlDeposit.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 getData();
             }
         });
+        srlDeposit.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //模拟网络请求需要3000毫秒，请求完成，设置setRefreshing 为false
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        srlDeposit.setRefreshing(false);
+                        ToastUtils.show("刷新成功");
+                        getData();
+                    }
+                }, 3000);
+
+            }
+        });
+//        srlDeposit.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+//                getData();
+//            }
+//        });
     }
 
     @Override
@@ -173,14 +161,16 @@ public class ConfirmPrepaidActivity extends BaseActivity {
                             trans_sn = prepaidBean.getData().getTrans_sn();
                             tvMoney.setText(money);
                             amount = prepaidBean.getData().getAmount();
-                            tvConvert.setText("≈" + amount + "BTA");
+
 
                             time = prepaidBean.getData().getCreate_time_text();
                             num = prepaidBean.getData().getNum();
                             tvNum.setText("x" + num);
                             total_money = prepaidBean.getData().getTotal_money();
+                            tvConvert.setText("¥" + total_money);
                             gift = prepaidBean.getData().getGift();
                             tvGive.setText("¥" + money);
+                            tvTotal.setText("合计：" + amount + " " + "BTA");
                             if (status == 1 && pay_status == 0) {
 //                                    交易确认中
                                 tvStatus.setText("确认中");
@@ -216,7 +206,6 @@ public class ConfirmPrepaidActivity extends BaseActivity {
                             }
 
 
-                            tvTotal.setText("合计：" + total_money);
                         }
                     }
                 });
@@ -256,5 +245,12 @@ public class ConfirmPrepaidActivity extends BaseActivity {
         if (interval != null) {
             interval.dispose();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

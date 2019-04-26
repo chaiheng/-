@@ -85,14 +85,14 @@ public class RechargeStatusActivity extends BaseActivity {
             tvMarkedWords.setText("平台赠送" +gift +"元已放入保证金");
             tvMoney.setText(money);
             tvNum.setText(num);
-            tvCNY.setText("≈"+amount+"BTA");
+            tvCNY.setText("¥"+ " "+total_money);
             tvOrderTime.setText(time);
             if (is_partner == 1) {
                 tvPartnership.setText("恭喜你成功续费合伙人");
             } else {
                 tvPartnership.setText("恭喜你成为合伙人");
             }
-            tvTotal.setText(total_money);
+            tvTotal.setText("合计:"+" "+amount+"  BTA");
             tvCondition.setText("充值成功");
             tvTransactionNumber.setText(Trans_sn);
 
@@ -104,8 +104,9 @@ public class RechargeStatusActivity extends BaseActivity {
             tvMarkedWords.setText("充值金额不足");
             tvMoney.setText(money);
             tvNum.setText(num);
-            tvCNY.setText("≈"+amount+"BTA");
+            tvCNY.setText("¥"+ " "+total_money);
             tvOrderTime.setText(time);
+            tvTotal.setText("合计:"+" "+amount+"  BTA");
             if (is_partner == 1) {
                 tvPartnership.setText("恭喜你成功续费合伙人");
             } else {

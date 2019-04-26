@@ -1,5 +1,6 @@
 package com.io.east.district.base;
 
+import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ public class BaseFragmentAdapter extends FragmentStatePagerAdapter {
         super(fm);
         mFragmentList = fragmentList;
         this.mFm = fm;
+        Log.d("size","adapter...."+mFragmentList.size());
     }
 
     public BaseFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> titleList) {
@@ -34,6 +36,9 @@ public class BaseFragmentAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+       Log.d("position", "...p" + position);
+        int size = mFragmentList.size();
+        Log.d("size","....ba"+size);
         return mFragmentList.get(position);
     }
 

@@ -85,8 +85,8 @@ public class MarginDepositActivity extends BaseActivity {
                 int figure = valueOf * 10000;
                 int practical  = figure + 1000*valueOf;
                 money  = String.valueOf(valueOf * 10000);
-                tvActualAmount.setText(""+practical );
-                tvRechargeAmount.setText(money);
+                tvActualAmount.setText(practical+".00" );
+                tvRechargeAmount.setText(money+".00");
 
             }
         });
@@ -111,7 +111,7 @@ public class MarginDepositActivity extends BaseActivity {
                         EasyHttp.post(UrlDeploy.recharge)
                                 .headers("XX-Token", token)
                                 .headers("XX-Device-Type", "android")
-                                .params("money",money)
+                                .params("money","10000")
                                 .params("num",num)
                                 .execute(new SimpleCallBack<String>() {
                                     @Override
